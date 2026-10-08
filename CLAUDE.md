@@ -86,10 +86,11 @@ src/
   app/
     layout.tsx          root layout
     (site)/             public pages + layout (MainNav, Footer, MusicPlayer, cursor)
-    admin/              CMS
+    admin/              CMS routes (layout = AdminShell)
     api/
   components/{site,home,work,gallery,about,notfound,admin}/
     <ComponentName>/<ComponentName>.tsx + <ComponentName>.module.css
+  components/admin/ui/  shared admin controls (AdminUI: Panel, Field, TextInput, Toggle, Chip…; Sortable: dnd-kit)
   styles/tokens.css     design tokens
   db/index.ts           Drizzle client (DATABASE_URL, pooled)
   db/schema.ts          Drizzle schema
@@ -135,4 +136,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Hero scroll vars (`--p`, `--w`, `--hide`) live on `<html>`; pages without `[data-home]` show the finished state (nav in, player hidden).
 - 2026-10-08 — Yurix's change: HeroIntro on desktop: heading 122px (design 172px), intro paragraph 19px (design 22px). Mobile stays as designed (80px / 18px).
 - 2026-10-08 — Yurix's change: footer Wordmark on desktop 254px (design 260px). Mobile stays 120px.
+- 2026-10-08 — Admin design built before database/login/R2 (Phase 2). Placeholder data in `src/lib/placeholder/admin.ts`; client-side state in `AdminProvider`. Real URLs per screen; `[slug]` editors read params inside `<Suspense>` (Next 16 instant-navigation rule).
+- 2026-10-08 — Hidden shortcut: 3 clicks on the footer Wordmark within 600 ms → `/admin`.
+- 2026-10-08 — Next 16 + Cache Components: no `new Date()` / `Math.random()` during prerender in client components; wrap in `<Suspense>` or move to an event/effect.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

@@ -1,0 +1,12 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 900px;
+}
+
+.intro {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--text-body);
+}

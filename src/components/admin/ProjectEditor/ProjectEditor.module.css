@@ -1,0 +1,293 @@
+.editor {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  max-width: 1140px;
+}
+
+/* Sticky outline */
+.outline {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.outlineTitle {
+  padding: 0 10px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.outlineItem,
+.outlineItem:hover {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.outlineItem[data-off] {
+  color: var(--text-disabled);
+}
+
+.outlineNote {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-disabled);
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sections > * {
+  scroll-margin-top: 8px;
+}
+
+/* Basics */
+.basics1 {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 110px;
+  gap: 14px;
+}
+
+.basics2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* Cover */
+.cover {
+  position: relative;
+  aspect-ratio: 21 / 8;
+  border-radius: var(--radius-card);
+  background-position: center;
+}
+
+.coverReplace {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dashedTile {
+  border: 1.5px dashed var(--border-dashed);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.plus {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* Story */
+.storyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.storyRow {
+  display: flex;
+  gap: 10px;
+}
+
+.storyHandle {
+  flex: none;
+  padding-top: 14px;
+  font-size: 13px;
+}
+
+.storyText {
+  flex: 1;
+  min-height: 72px;
+  line-height: 1.55;
+  field-sizing: content;
+}
+
+.addPill {
+  align-self: flex-start;
+  margin-left: 24px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1px dashed var(--border-dashed);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Process */
+.processGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contents {
+  display: contents;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stepImage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  background-position: center;
+}
+
+.stepN {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.smallInput {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line-14);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+}
+
+.smallInput:focus {
+  border-color: var(--accent);
+}
+
+.stepAdd {
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+}
+
+/* YouTube */
+.youtube {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: 14px;
+  align-items: start;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.ytPreview {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-input);
+  background-color: var(--ink);
+  background-position: center;
+}
+
+.ytPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+}
+
+/* Final pieces */
+.finals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* The first piece spans the row; its sortable wrapper must span too. */
+.finals .contents > div:first-child {
+  grid-column: span 3;
+}
+
+.final {
+  position: relative;
+  border-radius: 14px;
+  background-position: center;
+}
+
+.finalGrab {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.wideTag {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.finalAdd {
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+}
+
+/* Behance */
+.behance {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+}

@@ -89,3 +89,25 @@ Tiptap: the admin design only has plain text fields (descriptions, story paragra
 - [ ] Every admin screen matches `Admin.dc.html`
 - [ ] Changes saved in the admin show on the Home page
 - [ ] `npm run lint` + `npm run build` pass; no secrets in git
+
+---
+
+## Progress — admin design (2026-10-08)
+
+Built with placeholder data (`src/lib/placeholder/admin.ts`), no database / login / uploads yet.
+
+- [x] Footer wordmark: 3 clicks within 600 ms → `/admin`
+- [x] AdminShell, AdminSidebar, header (draft/live, view site, save + toast)
+- [x] Dashboard, ArtworkList, ArtworkEditor (+ new), ProjectList, ProjectEditor (+ new), CategoryManager,
+      HomeEditor, AboutEditor, NavEditor, MusicPlaylist, FooterEditor, MicrocopyEditor, SlugSeoFields
+- [x] Drag-and-drop (dnd-kit) + ↑ ↓ buttons: projects, categories, nav, tracks, artwork images, story, process, final pieces
+- [x] Fields are real inputs; state is kept client-side in `AdminProvider` while you move between screens (resets on reload)
+
+Notes:
+- URLs: `/admin`, `/admin/artworks`, `/admin/artworks/{slug}`, `/admin/artworks/new`, `/admin/projects`, `/admin/projects/{slug}`,
+  `/admin/projects/new`, `/admin/categories`, `/admin/home`, `/admin/about`, `/admin/nav`, `/admin/music`, `/admin/footer`, `/admin/microcopy`.
+- "+ new artwork / project" open an empty editor (the design's prototype opened an existing draft).
+- HomeEditor shows the live Home content; other screens use the design's placeholder content.
+- Upload buttons (add image, replace, add track) are visual only until Cloudflare R2.
+- Admin is desktop-only (question 5 still open).
+- Not done here: React Hook Form + Zod (comes with saving to the database), login.

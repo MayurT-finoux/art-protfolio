@@ -11,6 +11,8 @@
   letter-spacing: -0.06em;
   color: var(--wordmark);
   white-space: nowrap;
+  /* 3 clicks open /admin; don't select the text. */
+  user-select: none;
 }
 
 @media (max-width: 767px) {
