@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-43ce451f-6669-46b5-80b2-9b8e89af9599/styles.css">
+<script src="_ds/nocturne-43ce451f-6669-46b5-80b2-9b8e89af9599/_ds_bundle.js"></script>
+<script src="image-slot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@400;500;700&amp;family=Cormorant+Garamond:wght@300;400;500&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    --color-bg: #ffffff;
+    --color-text: #131316;
+    --color-surface: #f5f5f7;
+    --color-section: #efeef6;
+    --color-neutral-100: #131316;
+    --color-neutral-200: #24242a;
+    --color-neutral-300: #2f2f36;
+    --color-neutral-400: #4b4b54;
+    --color-neutral-500: #63636d;
+    --color-neutral-600: #86868f;
+    --color-neutral-700: #d9d9df;
+    --color-neutral-800: #ebebef;
+    --color-neutral-900: #f4f4f7;
+    --color-accent: #5a4bc4;
+    --color-accent-300: #443a97;
+    --color-accent-400: #5a4bc4;
+    --color-accent-600: #7a6fd6;
+    --color-accent-2: #3f3a8f;
+    --shadow-sm: 0 1px 2px rgba(19,19,22,0.06), 0 2px 8px rgba(19,19,22,0.05);
+    --shadow-md: 0 4px 14px rgba(19,19,22,0.09), 0 12px 32px rgba(19,19,22,0.07);
+    --shadow-lg: 0 10px 30px rgba(19,19,22,0.12), 0 24px 60px rgba(19,19,22,0.10);
+    background: var(--color-bg);
+  }
+  a { color: var(--pf-accent, var(--color-accent)); text-decoration: none; }
+  a:hover { color: var(--color-accent-300); }
+  .lighten { mix-blend-mode: normal; }
+  image-slot { display: block; width: 100%; height: 100%; }
+  ::selection { background: color-mix(in srgb, var(--color-accent) 35%, transparent); }
+  input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--pf-accent, var(--color-accent)); outline-offset: 2px; }
+  @keyframes pf-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes pf-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  @keyframes pf-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes pf-spin { to { transform: rotate(360deg); } }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="font-family: var(--pf-body, 'Inter', system-ui, sans-serif); background: var(--color-bg); color: var(--color-text); min-height: 100vh; font-weight: 300; overflow-x: hidden;">
+
+  <nav style="position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 40px; background: color-mix(in srgb, var(--color-bg) 84%, transparent); backdrop-filter: blur(16px); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+    <button onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 12px; background: transparent; border: 0; padding: 0; cursor: pointer; color: var(--color-text);">
+      
+      <span style="font-family: 'Bricolage Grotesque', var(--pf-head, 'Space Grotesk'), system-ui, sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase;">{{ site.artistName }}</span>
+    </button>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 12px; border-radius: 999px; background: color-mix(in srgb, var(--color-accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--color-accent) 38%, transparent); font-family: 'DM Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent-300);">
+        <span style="width: 6px; height: 6px; border-radius: 999px; background: var(--pf-accent, var(--color-accent)); animation: pf-blink 1.6s ease-in-out infinite;"></span>open for work
+      </span>
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <button onClick="{{ n.onGo }}" style="{{ n.style }}">{{ n.label }}</button>
+      </sc-for>
+      <button onClick="{{ toggleAdmin }}" style="margin-left: 12px; height: 34px; padding: 0 15px; border: 1px solid color-mix(in srgb, var(--color-text) 16%, transparent); border-radius: 999px; background: transparent; color: var(--color-neutral-400); font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.02em; cursor: pointer;">Customize</button>
+    </div>
+  </nav>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="padding: 18px 18px 0;">
+        <div style="position: relative; height: 620px; border-radius: 22px; overflow: hidden; background: var(--color-neutral-900); box-shadow: var(--shadow-md);">
+          <sc-for list="{{ banners }}" as="b" hint-placeholder-count="3">
+            <div style="{{ b.style }}">
+              <div style="{{ b.mediaStyle }}"></div>
+            </div>
+          </sc-for>
+          <div style="position: absolute; z-index: 3; bottom: 26px; right: 30px; display: flex; align-items: center; gap: 10px;">
+            <sc-for list="{{ bannerDots }}" as="d" hint-placeholder-count="3">
+              <button onClick="{{ d.onGo }}" title="{{ d.label }}" style="{{ d.style }}"></button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <sc-if value="{{ showTicker }}" hint-placeholder-val="{{ true }}">
+      <section style="overflow: hidden; margin-top: 18px; padding: 15px 0; background: var(--color-text); color: var(--color-bg);">
+        <div style="display: flex; width: max-content; animation: pf-marquee 32s linear infinite;" ref="{{ tickerRef }}">
+          <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="12">
+            <span style="display: flex; align-items: center; gap: 34px; padding-right: 34px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.035em; text-transform: lowercase; white-space: nowrap;">{{ m.label }}<span style="display: block; width: 9px; height: 9px; border-radius: 999px; background: var(--pf-accent, var(--color-accent));"></span></span>
+          </sc-for>
+        </div>
+      </section>
+      </sc-if>
+
+      <section style="padding: 60px 40px 72px;">
+        <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 26px; flex-wrap: wrap;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px;">
+              <h2 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 76px; line-height: 0.92; margin: 0; letter-spacing: -0.05em; text-transform: lowercase;">the work</h2>
+              <span style="transform: rotate(-7deg); padding: 6px 12px; border-radius: 8px; background: var(--pf-accent, var(--color-accent)); color: var(--color-bg); font-family: 'DM Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;">scroll it</span>
+            </div>
+            <div style="font-family: 'DM Mono', ui-monospace, monospace; font-size: 13px; color: var(--color-neutral-600);">{{ galleryCount }} — tap any piece to open it</div>
+          </div>
+          <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+            <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.onSelect }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="{{ masonryStyle }}">
+          <sc-for list="{{ works }}" as="w" hint-placeholder-count="12">
+            <figure style="margin: 0 0 16px; break-inside: avoid;">
+              <button onClick="{{ w.onOpen }}" style="display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in;">
+                <div class="lighten" style="position: relative; width: 100%; aspect-ratio: {{ w.ratio }}; border-radius: 14px; overflow: hidden; background: var(--color-neutral-900); box-shadow: var(--shadow-sm);">
+                  <div style="{{ w.mediaStyle }}"></div>
+                </div>
+              </button>
+              <figcaption style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 3px 0;">
+                <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; color: var(--color-text);">{{ w.title }}</span>
+                <span style="flex: none; padding: 4px 9px; border-radius: 7px; background: color-mix(in srgb, var(--color-text) 7%, transparent); font-family: 'DM Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: lowercase; color: var(--color-neutral-500);">{{ w.tag }}</span>
+              </figcaption>
+            </figure>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; padding: 0 40px 84px;">
+        <sc-for list="{{ homeTeasers }}" as="t" hint-placeholder-count="3">
+          <button onClick="{{ t.onGo }}" style="text-align: left; display: flex; flex-direction: column; gap: 9px; padding: 26px; background: var(--color-surface); border: 1px solid transparent; border-radius: 20px; box-shadow: var(--shadow-sm); cursor: pointer; font-family: inherit; transition: transform 220ms cubic-bezier(.2,.8,.2,1), border-color 220ms ease;" style-hover="transform: translateY(-6px) rotate(-1deg); border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);">
+            <span style="font-family: 'DM Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pf-accent, var(--color-accent));">{{ t.kicker }}</span>
+            <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase; color: var(--color-text);">{{ t.title }}</span>
+            <span style="font-size: 14px; line-height: 1.6; color: var(--color-neutral-500);">{{ t.body }}</span>
+          </button>
+        </sc-for>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
+    <section style="padding: 48px 40px 88px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 26px; flex-wrap: wrap;">
+        <div>
+          <h1 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.05em; text-transform: lowercase; font-size: 72px; line-height: 0.95; margin: 0 0 8px;">the work</h1>
+          <div style="font-size: 14px; color: var(--color-neutral-600);">{{ galleryCount }} · click any piece to open it</div>
+        </div>
+        <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+            <button onClick="{{ f.onSelect }}" style="{{ f.style }}">{{ f.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="{{ masonryStyle }}">
+        <sc-for list="{{ works }}" as="w" hint-placeholder-count="12">
+          <figure style="margin: 0 0 16px; break-inside: avoid;">
+            <button onClick="{{ w.onOpen }}" style="display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in;">
+              <div class="lighten" style="position: relative; width: 100%; aspect-ratio: {{ w.ratio }}; border-radius: 14px; overflow: hidden; background: var(--color-neutral-900); box-shadow: var(--shadow-sm);">
+                <div style="{{ w.mediaStyle }}"></div>
+              </div>
+            </button>
+            <figcaption style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 3px 0;">
+              <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; color: var(--color-text);">{{ w.title }}</span>
+              <span style="flex: none; padding: 4px 9px; border-radius: 7px; background: color-mix(in srgb, var(--color-text) 7%, transparent); font-family: 'DM Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: lowercase; color: var(--color-neutral-500);">{{ w.tag }}</span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isShop }}" hint-placeholder-val="{{ false }}">
+    <section style="padding: 48px 40px 88px;">
+      <h1 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.05em; text-transform: lowercase; font-size: 72px; line-height: 0.95; margin: 0 0 12px;">the shop</h1>
+      <p style="font-size: 16px; color: var(--color-neutral-400); margin: 0 0 36px; max-width: 540px; line-height: 1.65;">{{ site.shopNote }}</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px;">
+        <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
+          <article style="position: relative; display: flex; flex-direction: column; background: var(--color-surface); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm);">
+            <div class="lighten" style="position: relative; aspect-ratio: 4/3; background: var(--color-neutral-900);">
+              <div style="{{ p.mediaStyle }}"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 9px; padding: 18px 18px 20px; flex: 1;">
+              <span style="align-self: flex-start; font-family: 'DM Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-300); background: color-mix(in srgb, var(--color-accent) 14%, transparent); border-radius: 7px; padding: 5px 9px;">{{ p.kicker }}</span>
+              <h3 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.03em; margin: 0;">{{ p.title }}</h3>
+              <p style="font-size: 14px; line-height: 1.6; color: var(--color-neutral-500); margin: 0; flex: 1;">{{ p.body }}</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--color-text) 9%, transparent);">
+                <span style="font-family: var(--pf-head, 'Space Grotesk', system-ui, sans-serif); font-size: 15px; color: var(--color-text);">{{ p.price }}</span>
+                <button onClick="{{ goContact }}" style="height: 32px; padding: 0 14px; border: 1px solid color-mix(in srgb, var(--color-accent) 50%, transparent); border-radius: 999px; background: transparent; color: var(--pf-accent, var(--color-accent)); font-family: inherit; font-size: 13px; cursor: pointer;">Enquire</button>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <section style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: start; padding: 48px 40px 72px;">
+        <div class="lighten" style="position: relative; aspect-ratio: 3/4; border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div style="{{ portraitStyle }}"></div>
+        </div>
+        <div style="max-width: 640px;">
+          <h1 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.05em; text-transform: lowercase; font-size: 72px; line-height: 0.95; margin: 0 0 24px;">about me</h1>
+          <p style="font-size: 17px; line-height: 1.7; color: var(--color-neutral-300); margin: 0 0 18px;">{{ site.aboutP1 }}</p>
+          <p style="font-size: 17px; line-height: 1.7; color: var(--color-neutral-400); margin: 0 0 30px;">{{ site.aboutP2 }}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;">
+            <sc-for list="{{ toolChips }}" as="c" hint-placeholder-count="6">
+              <span style="padding: 6px 12px; border-radius: 8px; background: color-mix(in srgb, var(--color-text) 6%, transparent); border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent); font-family: 'DM Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--color-neutral-400);">{{ c.label }}</span>
+            </sc-for>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; padding-top: 26px; border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);">
+            <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+              <div>
+                <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 46px; font-weight: 800; letter-spacing: -0.045em; color: var(--color-text);">{{ s.value }}</div>
+                <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-600); margin-top: 6px;">{{ s.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+      <section style="padding: 0 40px 88px;">
+        <h2 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -0.045em; text-transform: lowercase; margin: 0 0 24px;">receipts</h2>
+        <div style="display: flex; flex-direction: column;">
+          <sc-for list="{{ shows }}" as="s" hint-placeholder-count="5">
+            <div style="display: grid; grid-template-columns: 80px 1.4fr 1fr auto; gap: 20px; align-items: baseline; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--color-text) 9%, transparent);">
+              <span style="font-size: 13px; color: var(--color-neutral-600);">{{ s.year }}</span>
+              <span style="font-family: var(--pf-head, 'Space Grotesk', system-ui, sans-serif); font-size: 17px; font-weight: 500; letter-spacing: -0.01em; color: var(--color-text);">{{ s.title }}</span>
+              <span style="font-size: 14px; color: var(--color-neutral-500);">{{ s.venue }}</span>
+              <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-300);">{{ s.kind }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <section style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; padding: 48px 40px 88px;">
+      <div>
+        <h1 style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.05em; text-transform: lowercase; font-size: 72px; line-height: 0.95; margin: 0 0 20px;">let's make<br>something</h1>
+        <p style="font-size: 16px; line-height: 1.7; color: var(--color-neutral-400); margin: 0 0 26px;">{{ site.contactNote }}</p>
+        <div style="display: flex; flex-direction: column; gap: 9px; font-size: 15px; color: var(--color-neutral-500);">
+          <div>{{ site.city }}</div>
+        </div>
+        <div style="position: relative; height: 420px; margin-top: 44px;">
+          <div class="lighten" style="position: absolute; top: 0; right: 6%; width: 74%; aspect-ratio: 4/5; border-radius: 18px; overflow: hidden; background: var(--color-neutral-900); box-shadow: var(--shadow-md); animation: pf-float 9s ease-in-out infinite;">
+            <div style="position: absolute; inset: 0; background-image: url(https://commons.wikimedia.org/wiki/Special:FilePath/Gustav_Klimt_016.jpg?width=1000); background-size: cover; background-position: center;"></div>
+          </div>
+          <div class="lighten" style="position: absolute; bottom: -6px; left: 0; width: 46%; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: var(--color-neutral-900); box-shadow: var(--shadow-md); animation: pf-float 7s ease-in-out infinite 0.8s;">
+            <div style="position: absolute; inset: 0; background-image: url(https://commons.wikimedia.org/wiki/Special:FilePath/Red_Fuji_southern_wind_clear_morning.jpg?width=1000); background-size: cover; background-position: center;"></div>
+          </div>
+        </div>
+      </div>
+      <form onSubmit="{{ onSubmit }}" style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; align-content: start;">
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-neutral-500);">Name
+          <input class="input" placeholder="Your name" style="background: var(--color-neutral-900);">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-neutral-500);">Email
+          <input class="input" type="email" placeholder="you@email.com" style="background: var(--color-neutral-900);">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-neutral-500);">Phone
+          <input class="input" type="tel" placeholder="+91" style="background: var(--color-neutral-900);">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-neutral-500);">Project type
+          <select class="input" style="background: var(--color-neutral-900); color: var(--color-text);">
+            <option>Digital illustration</option>
+            <option>Character design</option>
+            <option>Editorial / cover art</option>
+            <option>Traditional painting</option>
+            <option>Print licence</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-neutral-500); grid-column: span 2;">Brief
+          <textarea class="input" rows="4" placeholder="What are we making? Size, format, where it'll be used…" style="background: var(--color-neutral-900); resize: vertical;"></textarea>
+        </label>
+        <div style="grid-column: span 2; display: flex; align-items: center; gap: 16px;">
+          <button type="submit" style="height: 46px; padding: 0 26px; border: 1px solid var(--pf-accent, var(--color-accent)); border-radius: 999px; background: color-mix(in srgb, var(--color-accent) 12%, transparent); color: var(--color-accent-300); font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer;">send it →</button>
+          <span style="font-size: 13px; color: var(--color-neutral-600);">{{ formNote }}</span>
+        </div>
+      </form>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ bigWordmark }}" hint-placeholder-val="{{ true }}">
+  <div style="padding: 70px 40px 0; overflow: hidden;">
+    <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: clamp(72px, 17vw, 260px); font-weight: 800; line-height: 0.82; letter-spacing: -0.06em; text-transform: lowercase; color: var(--color-neutral-800); white-space: nowrap;">{{ site.artistName }}</div>
+  </div>
+  </sc-if>
+
+  <footer style="display: flex; align-items: flex-end; justify-content: space-between; gap: 36px; padding: 34px 40px 48px; border-top: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+    <div>
+      <div style="font-family: 'DM Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-neutral-500); margin-bottom: 8px;">say hi</div>
+      <div style="font-size: 13px; color: var(--color-neutral-600);">{{ site.city }} · {{ site.email }}</div>
+    </div>
+    <div style="display: flex; gap: 18px;">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <button onClick="{{ n.onGo }}" style="background: transparent; border: 0; padding: 0; cursor: pointer; font-family: inherit; font-size: 13px; color: var(--pf-accent, var(--color-accent));">{{ n.label }}</button>
+      </sc-for>
+    </div>
+    <div style="font-size: 12px; color: var(--color-neutral-700);">© 2026 · all artwork mine, no tracing pls</div>
+  </footer>
+
+  <sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 60; display: flex; justify-content: flex-end;">
+      <div onClick="{{ toggleAdmin }}" style="position: absolute; inset: 0; background: color-mix(in srgb, var(--color-bg) 72%, transparent);"></div>
+      <aside style="position: relative; width: 430px; max-width: 92vw; height: 100%; overflow-y: auto; background: var(--color-neutral-900); box-shadow: var(--shadow-lg);">
+        <header style="position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; background: var(--color-neutral-900); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);">
+          <div>
+            <div style="font-family: var(--pf-head, 'Space Grotesk', system-ui, sans-serif); font-size: 16px; font-weight: 500;">Admin panel</div>
+            <div style="font-size: 11px; color: var(--color-neutral-600); margin-top: 3px;">{{ savedNote }}</div>
+          </div>
+          <button onClick="{{ toggleAdmin }}" style="height: 30px; width: 30px; border: 1px solid color-mix(in srgb, var(--color-text) 16%, transparent); border-radius: 9px; background: transparent; color: var(--color-neutral-400); cursor: pointer; font-size: 15px;">×</button>
+        </header>
+
+        <div style="display: flex; gap: 6px; padding: 14px 22px 0; flex-wrap: wrap;">
+          <sc-for list="{{ adminTabs }}" as="t" hint-placeholder-count="7">
+            <button onClick="{{ t.onGo }}" style="{{ t.style }}">{{ t.label }}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px 22px 40px;">
+          <sc-for list="{{ adminFields }}" as="f" hint-placeholder-count="6">
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-500);">{{ f.label }}
+              <sc-if value="{{ f.isText }}" hint-placeholder-val="{{ true }}">
+                <input class="input" value="{{ f.value }}" onChange="{{ f.onInput }}" style="background: var(--color-surface); text-transform: none; letter-spacing: 0;">
+              </sc-if>
+              <sc-if value="{{ f.isArea }}" hint-placeholder-val="{{ false }}">
+                <textarea class="input" rows="3" value="{{ f.value }}" onChange="{{ f.onInput }}" style="background: var(--color-surface); text-transform: none; letter-spacing: 0; resize: vertical;"></textarea>
+              </sc-if>
+              <sc-if value="{{ f.isChoice }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <sc-for list="{{ f.choices }}" as="c" hint-placeholder-count="3">
+                    <button onClick="{{ c.onPick }}" style="{{ c.style }}">{{ c.label }}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isColor }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; gap: 8px;">
+                  <sc-for list="{{ f.swatches }}" as="c" hint-placeholder-count="4">
+                    <button onClick="{{ c.onPick }}" title="{{ c.value }}" style="{{ c.style }}"></button>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </label>
+          </sc-for>
+
+          <sc-if value="{{ showWorksEditor }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <sc-for list="{{ workRows }}" as="w" hint-placeholder-count="3">
+                <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--color-surface); border-radius: 12px; box-shadow: var(--shadow-sm);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600);">{{ w.index }}</span>
+                    <div style="display: flex; gap: 10px;">
+                      <button onClick="{{ w.onUp }}" style="background: transparent; border: 0; padding: 0; cursor: pointer; color: var(--color-neutral-500); font-size: 13px;">↑</button>
+                      <button onClick="{{ w.onDown }}" style="background: transparent; border: 0; padding: 0; cursor: pointer; color: var(--color-neutral-500); font-size: 13px;">↓</button>
+                      <button onClick="{{ w.onRemove }}" style="background: transparent; border: 0; padding: 0; cursor: pointer; font-family: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400);">Remove</button>
+                    </div>
+                  </div>
+                  <input class="input" value="{{ w.title }}" onChange="{{ w.onTitle }}" placeholder="Title" style="background: var(--color-neutral-900);">
+                  <input class="input" value="{{ w.meta }}" onChange="{{ w.onMeta }}" placeholder="Tool / medium · year" style="background: var(--color-neutral-900);">
+                  <div style="display: flex; gap: 8px;">
+                    <select class="input" value="{{ w.tag }}" onChange="{{ w.onTag }}" style="background: var(--color-neutral-900); color: var(--color-text); flex: 1;">
+                      <option>Digital</option>
+                      <option>Traditional</option>
+                      <option>Client work</option>
+                      <option>Prints</option>
+                    </select>
+                    <select class="input" value="{{ w.ratio }}" onChange="{{ w.onRatio }}" style="background: var(--color-neutral-900); color: var(--color-text); flex: 1;">
+                      <option value="3/4">Portrait 3:4</option>
+                      <option value="2/3">Tall 2:3</option>
+                      <option value="9/16">Very tall 9:16</option>
+                      <option value="1/1">Square 1:1</option>
+                      <option value="4/3">Landscape 4:3</option>
+                      <option value="16/9">Wide 16:9</option>
+                    </select>
+                  </div>
+                </div>
+              </sc-for>
+              <button onClick="{{ addWork }}" style="height: 38px; border: 1px dashed color-mix(in srgb, var(--color-accent) 50%, transparent); border-radius: 12px; background: transparent; color: var(--pf-accent, var(--color-accent)); font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;">+ Add artwork</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showProductsEditor }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <sc-for list="{{ productRows }}" as="p" hint-placeholder-count="3">
+                <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--color-surface); border-radius: 12px; box-shadow: var(--shadow-sm);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600);">{{ p.index }}</span>
+                    <button onClick="{{ p.onRemove }}" style="background: transparent; border: 0; padding: 0; cursor: pointer; font-family: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400);">Remove</button>
+                  </div>
+                  <input class="input" value="{{ p.kicker }}" onChange="{{ p.onKicker }}" placeholder="Label" style="background: var(--color-neutral-900);">
+                  <input class="input" value="{{ p.title }}" onChange="{{ p.onTitle }}" placeholder="Product name" style="background: var(--color-neutral-900);">
+                  <textarea class="input" rows="2" value="{{ p.body }}" onChange="{{ p.onBody }}" placeholder="Description" style="background: var(--color-neutral-900); resize: vertical;"></textarea>
+                  <input class="input" value="{{ p.price }}" onChange="{{ p.onPrice }}" placeholder="Price" style="background: var(--color-neutral-900);">
+                </div>
+              </sc-for>
+              <button onClick="{{ addProduct }}" style="height: 38px; border: 1px dashed color-mix(in srgb, var(--color-accent) 50%, transparent); border-radius: 12px; background: transparent; color: var(--pf-accent, var(--color-accent)); font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;">+ Add product</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showShowsEditor }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <sc-for list="{{ showRows }}" as="s" hint-placeholder-count="3">
+                <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--color-surface); border-radius: 12px; box-shadow: var(--shadow-sm);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600);">{{ s.index }}</span>
+                    <button onClick="{{ s.onRemove }}" style="background: transparent; border: 0; padding: 0; cursor: pointer; font-family: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400);">Remove</button>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <input class="input" value="{{ s.year }}" onChange="{{ s.onYear }}" placeholder="Year" style="background: var(--color-neutral-900); width: 90px;">
+                    <input class="input" value="{{ s.kind }}" onChange="{{ s.onKind }}" placeholder="Client / Show / Feature" style="background: var(--color-neutral-900); flex: 1;">
+                  </div>
+                  <input class="input" value="{{ s.title }}" onChange="{{ s.onTitle }}" placeholder="Project or show title" style="background: var(--color-neutral-900);">
+                  <input class="input" value="{{ s.venue }}" onChange="{{ s.onVenue }}" placeholder="Client / venue" style="background: var(--color-neutral-900);">
+                </div>
+              </sc-for>
+              <button onClick="{{ addShow }}" style="height: 38px; border: 1px dashed color-mix(in srgb, var(--color-accent) 50%, transparent); border-radius: 12px; background: transparent; color: var(--pf-accent, var(--color-accent)); font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;">+ Add entry</button>
+            </div>
+          </sc-if>
+
+          <button onClick="{{ resetAll }}" style="margin-top: 10px; height: 36px; border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent); border-radius: 12px; background: transparent; color: var(--color-neutral-500); font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;">Reset everything</button>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ lightbox }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; padding: 44px; background: color-mix(in srgb, var(--color-bg) 92%, transparent); cursor: zoom-out;">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-height: 100%;">
+        <div class="lighten" style="position: relative; width: 58vw; max-width: 880px; aspect-ratio: {{ lightboxRatio }}; border-radius: 14px; overflow: hidden; background: var(--color-neutral-900); box-shadow: 0 0 0 1px var(--color-neutral-700);">
+          <div style="{{ lightboxStyle }}"></div>
+        </div>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px;">
+          <span style="font-family: var(--pf-head, 'Space Grotesk', system-ui, sans-serif); font-size: 19px; font-weight: 500;">{{ lightboxTitle }}</span>
+          <span style="font-size: 13px; color: var(--color-neutral-500);">{{ lightboxMeta }}</span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showTicker&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gen-Z touches&quot;},&quot;tickerSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:32,&quot;min&quot;:10,&quot;max&quot;:80,&quot;step&quot;:2,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Gen-Z touches&quot;},&quot;bigWordmark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gen-Z touches&quot;}}">
+const PF_KEY = "pf-site-v3";
+
+const DEFAULTS = {
+  artistName: "Yurix",
+  city: "Mumbai, IN",
+  email: "hey@aditi.art",
+  phone: "+91 00000 00000",
+  heroKicker: "Commissions open — 2 slots left",
+  heroLine: "Digital illustration with a paint-under-the-nails habit.",
+  heroBlurb: "I draw characters, covers and editorial pieces — mostly in Procreate, sometimes in oil when the screen gets boring. Prints and commissions below.",
+  heroCta: "See the work",
+  aboutP1: "I'm a 2000s-kid illustrator: raised on webcomics, trained on canvas. Most days I'm drawing characters and city scenes on an iPad; a few days a month I'm at an easel getting paint on everything.",
+  aboutP2: "I work with publishers, indie studios and musicians, and I keep a small print shop running for the pieces people ask about most. Commission slots open every quarter.",
+  shopNote: "Prints, originals and studio goods. No cart yet — send an enquiry and I'll reply with sizes, shipping and payment.",
+  contactNote: "Tell me what you need and roughly when. I usually reply in a day, and I'll send a quote before anything is confirmed.",
+  stat1: "6", stat1Label: "Years freelancing",
+  stat2: "180+", stat2Label: "Commissions done",
+  stat3: "24", stat3Label: "Covers & features",
+  accent: "var(--color-accent)",
+  fontPairing: "Space Grotesk / Inter",
+  columns: "4",
+  tools: "Procreate, Photoshop, Blender, Gouache, Oil, Risograph",
+  marquee: "Character design, Cover art, Editorial, Album artwork, Print editions, Live painting",
+  works: [
+    { id: "w1", title: "Neon Auto Ride", meta: "Procreate · 2026", ratio: "3/4", tag: "Digital" },
+    { id: "w2", title: "Ghost Roommate", meta: "Procreate · 2026", ratio: "1/1", tag: "Digital" },
+    { id: "w3", title: "Monsoon Interior", meta: "Oil on canvas · 48×60 in", ratio: "2/3", tag: "Traditional" },
+    { id: "w4", title: "Cover — Static Hearts", meta: "For Ink&Co · 2025", ratio: "9/16", tag: "Client work" },
+    { id: "w5", title: "Terrace, 6am", meta: "Procreate · 2025", ratio: "4/3", tag: "Digital" },
+    { id: "w6", title: "Paper Birds", meta: "Risograph · edition of 30", ratio: "1/1", tag: "Prints" },
+    { id: "w7", title: "Two Rooms", meta: "Oil on board · 24×30 in", ratio: "3/4", tag: "Traditional" },
+    { id: "w8", title: "Late Bus Crowd", meta: "Procreate · 2025", ratio: "16/9", tag: "Digital" },
+    { id: "w9", title: "Album art — Slow Static", meta: "For Hema V. · 2025", ratio: "1/1", tag: "Client work" },
+    { id: "w10", title: "Field Notes VII", meta: "Ink & gouache · 18×24 in", ratio: "2/3", tag: "Traditional" },
+    { id: "w11", title: "Commuters", meta: "Procreate · 2024", ratio: "3/4", tag: "Digital" },
+    { id: "w12", title: "Long Balcony", meta: "Giclée · edition of 25", ratio: "9/16", tag: "Prints" },
+    { id: "w13", title: "Kitchen, Sunday", meta: "Procreate · 2024", ratio: "4/3", tag: "Digital" },
+    { id: "w14", title: "Salt Study", meta: "Mixed media · 16×20 in", ratio: "1/1", tag: "Traditional" }
+  ],
+  products: [
+    { id: "p1", kicker: "Print", title: "Signed A3 prints", body: "Giclée on archival matte, signed and shipped in a tube.", price: "₹2,400" },
+    { id: "p2", kicker: "Limited", title: "Riso editions", body: "Two-colour risograph, editions of 30, hand-numbered.", price: "₹3,900" },
+    { id: "p3", kicker: "Original", title: "Original canvases", body: "One-of-one traditional pieces. Framing on request.", price: "₹45,000+" },
+    { id: "p4", kicker: "Goods", title: "Tees & totes", body: "Screenprinted in small runs on heavyweight cotton.", price: "₹1,200" },
+    { id: "p5", kicker: "Commission", title: "Character commission", body: "Half-body or full-body, 2 revisions, print-ready files.", price: "from ₹12,000" },
+    { id: "p6", kicker: "Workshop", title: "Digital painting class", body: "Two-hour online session, six seats, recording included.", price: "₹1,800 / seat" }
+  ],
+  shows: [
+    { id: "s1", year: "2026", title: "Static Hearts — book cover", venue: "Ink&Co Publishing", kind: "Client" },
+    { id: "s2", year: "2026", title: "Rooms Without Doors", venue: "Chatterjee Gallery, Mumbai", kind: "Solo" },
+    { id: "s3", year: "2025", title: "Illustrator to watch", venue: "Platform Review", kind: "Feature" },
+    { id: "s4", year: "2025", title: "Slow Static — album art", venue: "Hema V.", kind: "Client" },
+    { id: "s5", year: "2024", title: "New Contemporaries", venue: "Bangalore Art House", kind: "Group" }
+  ]
+};
+
+const FONTS = {
+  "Space Grotesk / Inter": ["'Space Grotesk', system-ui, sans-serif", "'Inter', system-ui, sans-serif"],
+  "Inter / Inter": ["'Inter', system-ui, sans-serif", "'Inter', system-ui, sans-serif"],
+  "Cormorant / Inter": ["'Cormorant Garamond', Georgia, serif", "'Inter', system-ui, sans-serif"]
+};
+
+const PAGES = ["Home", "Work", "Shop", "About", "Contact"];
+const TABS = ["Site", "Home", "About", "Work", "Shop", "Credits", "Theme"];
+const WM = (file, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + file + "?width=" + (w || 1200);
+
+const ART = [
+  WM("Tsunami_by_hokusai_19th_century.jpg"),
+  WM("Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"),
+  WM("The_Scream.jpg"),
+  WM("Piet_Mondriaan,_1930_-_Mondrian_Composition_II_in_Red,_Blue,_and_Yellow.jpg"),
+  WM("Vassily_Kandinsky,_1913_-_Composition_7.jpg"),
+  WM("Girl_with_a_Pearl_Earring.jpg"),
+  WM("Red_Fuji_southern_wind_clear_morning.jpg"),
+  WM("Claude_Monet,_Impression,_soleil_levant.jpg"),
+  WM("Gustav_Klimt_016.jpg"),
+  WM("Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg"),
+  WM("Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg"),
+  WM("Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg"),
+  WM("Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_--_1884_-_Google_Art_Project.jpg"),
+  WM("Kazimir_Malevich,_1915,_Black_Suprematic_Square,_oil_on_linen_canvas,_79.5_x_79.5_cm,_Tretyakov_Gallery,_Moscow.jpg")
+];
+
+const BANNERS = [
+  { id: "pf3-banner-1", placeholder: "Banner 1 — wide hero artwork", image: WM("Vassily_Kandinsky,_1913_-_Composition_7.jpg", 2000) },
+  { id: "pf3-banner-2", placeholder: "Banner 2 — wide hero artwork", image: WM("Tsunami_by_hokusai_19th_century.jpg", 2000) },
+  { id: "pf3-banner-3", placeholder: "Banner 3 — wide hero artwork", image: WM("Piet_Mondriaan,_1930_-_Mondrian_Composition_II_in_Red,_Blue,_and_Yellow.jpg", 2000) }
+];
+const SWATCHES = ["var(--color-accent)", "var(--color-accent-400)", "var(--color-accent-600)", "var(--color-accent-2)"];
+
+class Component extends DCLogic {
+  state = { page: "Home", admin: false, tab: "Site", filter: "All", site: this.load(), lightbox: null, saved: "", slide: 0 };
+
+  load() {
+    try {
+      const raw = localStorage.getItem(PF_KEY);
+      if (raw) {
+        const site = Object.assign({}, DEFAULTS, JSON.parse(raw));
+        if (SWATCHES.indexOf(site.accent) === -1) site.accent = DEFAULTS.accent;
+        if (!FONTS[site.fontPairing]) site.fontPairing = DEFAULTS.fontPairing;
+        return site;
+      }
+    } catch (e) {}
+    return Object.assign({}, DEFAULTS);
+  }
+
+  save(site) {
+    this.setState({ site, saved: "Saved" });
+    try { localStorage.setItem(PF_KEY, JSON.stringify(site)); } catch (e) {}
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ saved: "" }), 1600);
+  }
+
+  set(key, value) { this.save(Object.assign({}, this.state.site, { [key]: value })); }
+
+  setIn(listKey, id, key, value) {
+    this.set(listKey, this.state.site[listKey].map((r) => (r.id === id ? Object.assign({}, r, { [key]: value }) : r)));
+  }
+
+  removeIn(listKey, id) { this.set(listKey, this.state.site[listKey].filter((r) => r.id !== id)); }
+
+  addIn(listKey, row) {
+    this.set(listKey, this.state.site[listKey].concat([Object.assign({ id: listKey.charAt(0) + Date.now() }, row)]));
+  }
+
+  move(listKey, index, delta) {
+    const list = this.state.site[listKey].slice();
+    const to = index + delta;
+    if (to < 0 || to >= list.length) return;
+    const [row] = list.splice(index, 1);
+    list.splice(to, 0, row);
+    this.set(listKey, list);
+  }
+
+  componentDidMount() {
+    this.applyTheme();
+    this._slides = setInterval(() => {
+      if (this.state.page === "Home" && !this.state.lightbox) this.setState({ slide: (this.state.slide + 1) % BANNERS.length });
+    }, 5200);
+  }
+  componentWillUnmount() { clearInterval(this._slides); clearTimeout(this._t); }
+  componentDidUpdate() { this.applyTheme(); }
+
+  applyTheme() {
+    if (!this.el) return;
+    const pair = FONTS[this.state.site.fontPairing] || FONTS["Space Grotesk / Inter"];
+    this.el.style.setProperty("--pf-accent", this.state.site.accent);
+    this.el.style.setProperty("--pf-head", pair[0]);
+    this.el.style.setProperty("--pf-body", pair[1]);
+  }
+
+  pill(active) {
+    return "height: 32px; padding: 0 13px; border-radius: 9px; cursor: pointer; font-family: 'DM Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: lowercase; background: " +
+      (active ? "color-mix(in srgb, var(--color-accent) 16%, transparent)" : "transparent") + "; color: " +
+      (active ? "var(--color-accent-300)" : "var(--color-neutral-500)") + "; border: 1px solid " +
+      (active ? "color-mix(in srgb, var(--color-accent) 55%, transparent)" : "color-mix(in srgb, var(--color-text) 14%, transparent)") + ";";
+  }
+
+  navLink(active) {
+    return "padding: 6px 12px; border: 0; background: transparent; cursor: pointer; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 17px; letter-spacing: -0.02em; text-transform: lowercase; text-decoration: " +
+      (active ? "underline" : "none") + "; text-underline-offset: 6px; text-decoration-thickness: 2px; font-weight: " +
+      (active ? "800" : "600") + "; color: " + (active ? "var(--color-text)" : "var(--color-neutral-500)") + ";";
+  }
+
+  textField(key, label, area) {
+    return { label, value: this.state.site[key], isText: !area, isArea: !!area, isChoice: false, isColor: false,
+      onInput: (e) => this.set(key, e.target.value) };
+  }
+
+  choiceField(key, label, choices) {
+    return { label, isText: false, isArea: false, isChoice: true, isColor: false,
+      choices: choices.map((c) => ({ label: c, style: this.pill(this.state.site[key] === c), onPick: (e) => { e.preventDefault(); this.set(key, c); } })) };
+  }
+
+  renderVals() {
+    const s = this.state.site;
+    const tab = this.state.tab;
+    const filter = this.state.filter;
+    const cols = parseInt(s.columns, 10) || 4;
+
+    let fields = [];
+    if (tab === "Site") fields = [this.textField("artistName", "Name / studio"), this.textField("city", "Location"), this.textField("email", "Email"), this.textField("phone", "Phone")];
+    if (tab === "Home") fields = [this.textField("heroKicker", "Availability badge"), this.textField("heroLine", "Hero headline", true), this.textField("heroBlurb", "Hero paragraph", true), this.textField("heroCta", "Button label"), this.textField("marquee", "Ticker items (comma separated)", true)];
+    if (tab === "About") fields = [this.textField("aboutP1", "About — paragraph 1", true), this.textField("aboutP2", "About — paragraph 2", true), this.textField("tools", "Tools & media (comma separated)", true),
+      this.textField("stat1", "Stat 1 value"), this.textField("stat1Label", "Stat 1 label"), this.textField("stat2", "Stat 2 value"), this.textField("stat2Label", "Stat 2 label"), this.textField("stat3", "Stat 3 value"), this.textField("stat3Label", "Stat 3 label")];
+    if (tab === "Work") fields = [this.choiceField("columns", "Masonry columns", ["2", "3", "4", "5"])];
+    if (tab === "Shop") fields = [this.textField("shopNote", "Shop intro", true), this.textField("contactNote", "Contact intro", true)];
+    if (tab === "Theme") fields = [
+      this.choiceField("fontPairing", "Font pairing", Object.keys(FONTS)),
+      { label: "Accent color", isText: false, isArea: false, isChoice: false, isColor: true,
+        swatches: SWATCHES.map((v) => ({ value: v, onPick: (e) => { e.preventDefault(); this.set("accent", v); },
+          style: "width: 34px; height: 34px; border-radius: 10px; cursor: pointer; background: " + v + "; border: 1px solid " + (s.accent === v ? "var(--color-text)" : "color-mix(in srgb, var(--color-text) 20%, transparent)") + ";" })) }
+    ];
+
+    const lb = this.state.lightbox ? s.works.find((w) => w.id === this.state.lightbox) : null;
+    const visible = s.works.filter((w) => filter === "All" || w.tag === filter);
+    const artFor = (id) => ART[s.works.findIndex((w) => w.id === id) % ART.length];
+    const media = (url, fit) => "position: absolute; inset: 0; background-image: url(" + url + "); background-size: " + (fit || "cover") + "; background-position: center; background-repeat: no-repeat;";
+    const card = (w) => ({ title: w.title, meta: w.meta, tag: w.tag, ratio: w.ratio, slotId: "pf3-" + w.id,
+      image: artFor(w.id), mediaStyle: media(artFor(w.id)), placeholder: w.title, onOpen: () => this.setState({ lightbox: w.id }) });
+    const list = (str) => String(str || "").split(",").map((x) => x.trim()).filter(Boolean);
+    const ticker = list(s.marquee);
+
+    return {
+      rootRef: (n) => { this.el = n; this.applyTheme(); },
+      showTicker: this.props.showTicker !== false,
+      bigWordmark: this.props.bigWordmark !== false,
+      tickerRef: (n) => { if (n) n.style.animationDuration = (this.props.tickerSeconds || 32) + "s"; },
+      site: s,
+      monogram: (s.artistName || "A").trim().charAt(0).toUpperCase(),
+      isHome: this.state.page === "Home",
+      isGallery: this.state.page === "Work",
+      isShop: this.state.page === "Shop",
+      isAbout: this.state.page === "About",
+      isContact: this.state.page === "Contact",
+      navItems: PAGES.map((p) => ({ label: p, onGo: () => this.setState({ page: p, lightbox: null }), style: this.navLink(this.state.page === p) })),
+      goHome: () => this.setState({ page: "Home" }),
+      goGallery: () => this.setState({ page: "Work" }),
+      goContact: () => this.setState({ page: "Contact" }),
+      banners: BANNERS.map((b, i) => ({
+        slotId: b.id, placeholder: b.placeholder, image: b.image, mediaStyle: media(b.image),
+        style: "position: absolute; inset: 0; opacity: " + (i === this.state.slide ? "1" : "0") +
+          "; transform: scale(" + (i === this.state.slide ? "1" : "1.04") + "); transition: opacity 900ms ease, transform 6s ease;"
+      })),
+      bannerDots: BANNERS.map((b, i) => ({
+        label: "Slide " + (i + 1),
+        onGo: () => this.setState({ slide: i }),
+        style: "width: " + (i === this.state.slide ? "26px" : "9px") + "; height: 9px; padding: 0; border-radius: 999px; cursor: pointer; border: 1px solid color-mix(in srgb, var(--color-text) 22%, transparent); background: " + (i === this.state.slide ? "var(--pf-accent, var(--color-accent))" : "color-mix(in srgb, var(--color-text) 12%, transparent)") + "; transition: width 300ms ease, background 300ms ease;"
+      })),
+      bannerCounter: "0" + (this.state.slide + 1) + " / 0" + BANNERS.length,
+      marquee: ticker.concat(ticker).map((label, i) => ({ label })),
+      toolChips: list(s.tools).map((label) => ({ label })),
+      homeTeasers: [
+        { kicker: "Shop", title: "Prints & originals", body: "Riso editions, giclée prints and the odd canvas.", onGo: () => this.setState({ page: "Shop" }) },
+        { kicker: "About", title: "How I work", body: "iPad first, oils when the screen gets boring.", onGo: () => this.setState({ page: "About" }) },
+        { kicker: "Contact", title: "Commission me", body: "Characters, covers, editorial. Quote in a day.", onGo: () => this.setState({ page: "Contact" }) }
+      ],
+      featuredStyle: "column-count: 4; column-gap: 16px;",
+      featured: s.works.slice(0, 8).map(card),
+      workCount: s.works.length,
+      masonryStyle: "column-count: " + cols + "; column-gap: 16px;",
+      works: visible.map(card),
+      galleryCount: visible.length + (visible.length === 1 ? " piece" : " pieces"),
+      filters: ["All", "Digital", "Traditional", "Client work", "Prints"].map((t) => ({ label: t, style: this.pill(filter === t), onSelect: () => this.setState({ filter: t }) })),
+      products: s.products.map((p, i) => Object.assign({}, p, { slotId: "pf3-" + p.id, placeholder: p.title, image: ART[(i + 3) % ART.length], mediaStyle: media(ART[(i + 3) % ART.length]) })),
+      portraitStyle: media(ART[5]),
+      lightboxStyle: lb ? media(artFor(lb.id), "contain") + " background-color: var(--color-neutral-900);" : "",
+      shows: s.shows,
+      stats: [{ value: s.stat1, label: s.stat1Label }, { value: s.stat2, label: s.stat2Label }, { value: s.stat3, label: s.stat3Label }],
+      formNote: "No payment here — I'll quote first.",
+      onSubmit: (e) => e.preventDefault(),
+
+      adminOpen: this.state.admin,
+      toggleAdmin: () => this.setState({ admin: !this.state.admin }),
+      savedNote: this.state.saved || "Changes save in this browser",
+      adminTabs: TABS.map((t) => ({ label: t, style: this.pill(tab === t), onGo: () => this.setState({ tab: t }) })),
+      adminFields: fields,
+
+      showWorksEditor: tab === "Work",
+      workRows: s.works.map((w, i) => ({
+        index: "Artwork " + (i + 1), title: w.title, meta: w.meta, tag: w.tag, ratio: w.ratio,
+        onTitle: (e) => this.setIn("works", w.id, "title", e.target.value),
+        onMeta: (e) => this.setIn("works", w.id, "meta", e.target.value),
+        onTag: (e) => this.setIn("works", w.id, "tag", e.target.value),
+        onRatio: (e) => this.setIn("works", w.id, "ratio", e.target.value),
+        onUp: () => this.move("works", i, -1),
+        onDown: () => this.move("works", i, 1),
+        onRemove: () => this.removeIn("works", w.id)
+      })),
+      addWork: () => this.addIn("works", { title: "Untitled", meta: "Procreate · 2026", ratio: "3/4", tag: "Digital" }),
+
+      showProductsEditor: tab === "Shop",
+      productRows: s.products.map((p, i) => ({
+        index: "Product " + (i + 1), kicker: p.kicker, title: p.title, body: p.body, price: p.price,
+        onKicker: (e) => this.setIn("products", p.id, "kicker", e.target.value),
+        onTitle: (e) => this.setIn("products", p.id, "title", e.target.value),
+        onBody: (e) => this.setIn("products", p.id, "body", e.target.value),
+        onPrice: (e) => this.setIn("products", p.id, "price", e.target.value),
+        onRemove: () => this.removeIn("products", p.id)
+      })),
+      addProduct: () => this.addIn("products", { kicker: "Print", title: "New product", body: "Description", price: "₹" }),
+
+      showShowsEditor: tab === "Credits",
+      showRows: s.shows.map((r) => ({
+        index: r.year + " · " + r.kind, year: r.year, title: r.title, venue: r.venue, kind: r.kind,
+        onYear: (e) => this.setIn("shows", r.id, "year", e.target.value),
+        onTitle: (e) => this.setIn("shows", r.id, "title", e.target.value),
+        onVenue: (e) => this.setIn("shows", r.id, "venue", e.target.value),
+        onKind: (e) => this.setIn("shows", r.id, "kind", e.target.value),
+        onRemove: () => this.removeIn("shows", r.id)
+      })),
+      addShow: () => this.addIn("shows", { year: "2026", title: "New credit", venue: "Client / venue", kind: "Client" }),
+
+      resetAll: () => { try { localStorage.removeItem(PF_KEY); } catch (e) {} this.setState({ site: Object.assign({}, DEFAULTS), saved: "Reset" }); },
+
+      lightbox: !!lb,
+      lightboxSlot: lb ? "pf3-" + lb.id : "",
+      lightboxRatio: lb ? lb.ratio : "3/4",
+      lightboxTitle: lb ? lb.title : "",
+      lightboxMeta: lb ? lb.meta : "",
+      closeLightbox: () => this.setState({ lightbox: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

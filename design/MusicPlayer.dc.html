@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  @keyframes mp-eq { 0%,100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+</style>
+</helmet>
+<div data-component="MusicPlayer" style="display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 7px; border-radius: 999px; background: #ffffff; border: 1px solid rgba(19,19,22,0.12); box-shadow: 0 8px 24px rgba(19,19,22,0.10); font-family: 'DM Mono', ui-monospace, monospace; box-sizing: border-box;">
+  <button onClick="{{ toggle }}" data-cursor="{{ toggleLabel }}" aria-label="{{ toggleLabel }}" style="flex: none; width: 36px; height: 36px; border-radius: 999px; border: 0; padding: 0; background: #131316; color: #ffffff; display: grid; place-items: center; transition: transform 160ms ease;" style-active="transform: scale(0.92);">
+    <sc-if value="{{ isPlaying }}" hint-placeholder-val="{{ false }}">
+      <svg width="14" height="14" viewBox="0 0 14 14"><rect x="2.5" y="2" width="3" height="10" rx="1" fill="currentColor"></rect><rect x="8.5" y="2" width="3" height="10" rx="1" fill="currentColor"></rect></svg>
+    </sc-if>
+    <sc-if value="{{ notPlaying }}" hint-placeholder-val="{{ true }}">
+      <svg width="14" height="14" viewBox="0 0 14 14"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="currentColor"></path></svg>
+    </sc-if>
+  </button>
+  <div style="flex: none; display: flex; align-items: flex-end; gap: 3px; height: 18px; width: 24px;">
+    <sc-for list="{{ bars }}" as="b" hint-placeholder-count="4">
+      <span style="{{ b.style }}"></span>
+    </sc-for>
+  </div>
+  <sc-if value="{{ showTrack }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0; width: 132px; padding-right: 4px;">
+      <span style="font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868f;">{{ statusLabel }}</span>
+      <span style="font-size: 12px; color: #131316; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ trackName }}</span>
+    </div>
+  </sc-if>
+  <button onClick="{{ mute }}" data-cursor="{{ muteLabel }}" aria-label="{{ muteLabel }}" style="flex: none; width: 34px; height: 34px; border-radius: 999px; padding: 0; display: grid; place-items: center; border: 1px solid rgba(19,19,22,0.14); background: {{ muteBg }}; color: {{ muteColor }};">
+    <sc-if value="{{ isMuted }}" hint-placeholder-val="{{ false }}">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h2.2L8 3v10L4.7 10H2.5z"></path><path d="M11 6l3.5 4M14.5 6L11 10"></path></svg>
+    </sc-if>
+    <sc-if value="{{ notMuted }}" hint-placeholder-val="{{ true }}">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6h2.2L8 3v10L4.7 10H2.5z"></path><path d="M10.5 5.5a3.5 3.5 0 0 1 0 5M12.5 3.5a6.3 6.3 0 0 1 0 9"></path></svg>
+    </sc-if>
+  </button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:300,&quot;height&quot;:70},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;playing&quot;,&quot;paused&quot;,&quot;muted&quot;],&quot;default&quot;:&quot;paused&quot;,&quot;tsType&quot;:&quot;'playing'|'paused'|'muted'&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;track&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;lullaby for a cat (loop)&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onToggle&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onMute&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.props.state || "paused";
+    const playing = st === "playing", muted = st === "muted";
+    const bars = [0, 0.18, 0.36, 0.1].map((d, i) => ({
+      style: "display: block; width: 4px; height: 100%; border-radius: 2px; transform-origin: bottom; background: " + (muted ? "#d9d9df" : "#5a4bc4") +
+        "; " + (playing ? "animation: mp-eq " + (0.7 + i * 0.12) + "s ease-in-out " + d + "s infinite;" : "transform: scaleY(" + (muted ? 0.15 : [0.35, 0.6, 0.45, 0.25][i]) + ");")
+    }));
+    return {
+      isPlaying: playing, notPlaying: !playing, isMuted: muted, notMuted: !muted,
+      bars,
+      showTrack: !this.props.compact,
+      statusLabel: playing ? "now playing" : muted ? "muted" : "paused",
+      trackName: this.props.track || "lullaby for a cat (loop)",
+      toggleLabel: playing ? "pause" : "play",
+      muteLabel: muted ? "unmute" : "mute",
+      muteBg: muted ? "#efeef6" : "transparent",
+      muteColor: muted ? "#443a97" : "#131316",
+      toggle: () => this.props.onToggle && this.props.onToggle(),
+      mute: () => this.props.onMute && this.props.onMute()
+    };
+  }
+}
+</script>
+</body>
+</html>

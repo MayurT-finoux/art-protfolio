@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  @keyframes pf-boil { 0% { transform: scale(1.04) translate(0,0) rotate(0); } 33% { transform: scale(1.045) translate(-1.5px,1px) rotate(-0.5deg); } 66% { transform: scale(1.04) translate(1.5px,-1px) rotate(0.5deg); } 100% { transform: scale(1.045) translate(0,0) rotate(0); } }
+  @keyframes pf-float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-14px) rotate(1deg); } }
+  @keyframes pf-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes pf-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+  @keyframes pf-nudge { 0%,100% { transform: translateY(0); opacity: 1; } 60% { transform: translateY(9px); opacity: 0.2; } }
+  @keyframes pf-up { from { opacity: 0; transform: translateY(28px) rotate(-2deg); } to { opacity: 1; transform: none; } }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible { outline: 2px solid #5a4bc4; outline-offset: 2px; }
+  [data-artboard], [data-artboard] * { cursor: none !important; }
+  [data-annot="off"] [data-cname], [data-annot="off"] [data-admin] { display: none !important; }
+  [data-reduced="on"] [data-motion], [data-reduced="on"] [data-jitter], [data-reduced="on"] [data-jitter]:hover { animation: none !important; }
+  [data-scroller] { scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { width: 0; height: 0; }
+  @media (prefers-reduced-motion: reduce) { [data-motion], [data-jitter], [data-jitter]:hover { animation: none !important; } }
+</style>
+</helmet>
+<div data-artboard="" ref="{{ rootRef }}" data-annot="{{ annot }}" data-reduced="{{ reducedAttr }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; font-family: 'Inter', system-ui, sans-serif; color: #131316; font-weight: 300;">
+
+  <div data-component="HeroAnimation" style="position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #2a2838;">
+    <div style="position: absolute; inset: 0; filter: blur(calc(var(--p, 0) * var(--blur, 20px))); transform: scale(calc(1.04 + var(--p, 0) * 0.08));">
+      <div data-motion="" style="position: absolute; inset: -14px; background: url(https://commons.wikimedia.org/wiki/Special:FilePath/Claude_Monet,_Impression,_soleil_levant.jpg?width=1600) center / cover no-repeat; animation: pf-boil 0.5s steps(1) infinite;"></div>
+    </div>
+    <div style="position: absolute; inset: 0; background: #ffffff; opacity: calc(var(--p, 0) * var(--wash, 0.72) + var(--w, 0) * (1 - var(--wash, 0.72)));"></div>
+    <span data-cname="" style="position: absolute; top: 14px; left: 14px; z-index: 6; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">HeroAnimation · video autoplay muted loop playsinline</span>
+    <span data-admin="" style="position: absolute; top: 36px; left: 14px; z-index: 6; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · hero loop (.mp4 from Procreate Dreams) + still frame</span>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <div data-component="HeroIntro" style="position: absolute; inset: 0; z-index: 1; pointer-events: none;">
+      <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(19,19,22,0.62) 0%, rgba(19,19,22,0.28) 50%, rgba(19,19,22,0) 85%); opacity: calc(1 - var(--p, 0) * 1.4);"></div>
+      <div style="position: absolute; left: 72px; bottom: 108px; max-width: 760px; opacity: calc(1 - var(--p, 0) * 2.2); transform: translateY(calc(var(--p, 0) * var(--move, 1) * -140px)); filter: blur(calc(var(--p, 0) * var(--move, 1) * 8px));">
+        <span data-cname="" style="position: absolute; top: -30px; left: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">HeroIntro</span>
+        <div style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #ffffff;">2D animator &amp; illustrator · mumbai</div>
+        <h1 style="margin: 18px 0 26px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 172px; line-height: 0.84; letter-spacing: -0.06em; color: #ffffff;">Hi, I'm Yurix</h1>
+        <p style="margin: 0; max-width: 520px; font-size: 22px; line-height: 1.5; font-weight: 400; color: #ffffff; text-wrap: pretty;">I'm an animator and illustrator making hand-drawn loops, characters and music videos.</p>
+        <span data-admin="" style="display: inline-block; margin-top: 14px; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · intro text</span>
+      </div>
+      <div style="position: absolute; left: 72px; bottom: 40px; display: flex; align-items: center; gap: 14px; opacity: calc(1 - var(--p, 0) * 6);">
+        <span style="position: relative; width: 26px; height: 42px; border: 1.5px solid #ffffff; border-radius: 999px; box-sizing: border-box;"><span data-motion="" style="position: absolute; left: 50%; top: 8px; width: 4px; height: 9px; margin-left: -2px; border-radius: 999px; background: #ffffff; animation: pf-nudge 1.5s ease-in-out infinite;"></span></span>
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #ffffff;">scroll · it gets dreamy</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <div data-component="HeroIntro" style="position: absolute; inset: 0; z-index: 1; pointer-events: none;">
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(19,19,22,0.25) 0%, rgba(19,19,22,0.5) 45%, rgba(19,19,22,0.62) 100%); opacity: calc(1 - var(--p, 0) * 1.4);"></div>
+      <div style="position: absolute; left: 20px; right: 20px; bottom: 90px; opacity: calc(1 - var(--p, 0) * 2.2); transform: translateY(calc(var(--p, 0) * var(--move, 1) * -100px));">
+        <span data-cname="" style="position: absolute; top: -28px; left: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">HeroIntro</span>
+        <div style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #ffffff;">2D animator &amp; illustrator · mumbai</div>
+        <h1 style="margin: 14px 0 20px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 80px; line-height: 0.86; letter-spacing: -0.055em; color: #ffffff;">Hi, I'm Yurix</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.55; font-weight: 400; color: #ffffff; text-wrap: pretty;">I'm an animator and illustrator making hand-drawn loops, characters and music videos.</p>
+      </div>
+      <div style="position: absolute; left: 20px; bottom: 34px; display: flex; align-items: center; gap: 12px; opacity: calc(1 - var(--p, 0) * 6);">
+        <span style="position: relative; width: 22px; height: 36px; border: 1.5px solid #ffffff; border-radius: 999px; box-sizing: border-box;"><span data-motion="" style="position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 999px; background: #ffffff; animation: pf-nudge 1.5s ease-in-out infinite;"></span></span>
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #ffffff;">scroll</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <div data-scroller="" ref="{{ scrollRef }}" onScroll="{{ onScroll }}" onWheel="{{ cancelSnap }}" onTouchStart="{{ cancelSnap }}" style="position: absolute; inset: 0; z-index: 2; overflow-y: auto; overflow-x: hidden;">
+    <div style="position: relative;">
+
+      <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+        <div style="height: 900px;"></div>
+
+        <section data-component="SelectedWork" data-anchor="selected" style="position: relative; padding: 28px 56px 110px;">
+          <span data-cname="" style="position: absolute; top: 0; left: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">SelectedWork</span>
+          <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 44px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">08 pieces · the ones i'm proudest of</span>
+              <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 136px; line-height: 0.82; letter-spacing: -0.06em; color: #131316;">selected work</h2>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+              <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · artworks marked “Featured” (6–8), drag to reorder</span>
+              <button data-cursor="go" style="height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); background: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; color: #131316; transition: background 160ms ease;" style-hover="background: #131316; color: #ffffff;">all work →</button>
+            </div>
+          </header>
+          <div style="column-count: 4; column-gap: 16px;">
+            <sc-for list="{{ selected }}" as="f" hint-placeholder-count="8">
+              <article data-cursor="{{ f.cursor }}" style="break-inside: avoid; display: flex; flex-direction: column; gap: 10px; margin: 0 0 22px;">
+                <div style="position: relative; aspect-ratio: {{ f.pin }}; border-radius: 16px; overflow: hidden; background: #efeef6; transition: transform 260ms cubic-bezier(.2,.8,.2,1);" style-hover="transform: rotate(-0.6deg) scale(1.01);">
+                  <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                    <div data-jitter="" style="position: absolute; inset: -8px; background: url({{ f.img }}) {{ f.pos }} / cover no-repeat;" style-hover="animation: pf-boil 0.33s steps(1) infinite;"></div>
+                    <span style="position: absolute; top: 14px; left: 14px; padding: 5px 9px; border-radius: 8px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;">{{ f.kind }}</span>
+                    <sc-if value="{{ f.anim }}" hint-placeholder-val="{{ false }}">
+                      <span style="position: absolute; bottom: 14px; right: 14px; display: flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 8px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>loop</span>
+                    </sc-if>
+                  </sc-if>
+                  <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                    <div data-motion="" style="position: absolute; inset: 0; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                    <span style="position: absolute; left: 16px; bottom: 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #63636d;">inking frame {{ f.n }}…</span>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 0 4px;">
+                    <span style="display: flex; align-items: baseline; gap: 12px;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">{{ f.n }}</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em;">{{ f.title }}</span></span>
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #63636d;">{{ f.year }}</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; justify-content: space-between; padding: 6px 4px;"><span data-motion="" style="width: 45%; height: 22px; border-radius: 6px; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></span><span style="width: 40px; height: 12px; border-radius: 4px; background: #e8e7f0;"></span></div>
+                </sc-if>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+
+        <section data-component="FreshWork" data-anchor="fresh" style="position: relative; padding: 28px 56px 96px;">
+          <span data-cname="" style="position: absolute; top: 0; left: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">FreshWork</span>
+          <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">newest uploads</span>
+              <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 72px; line-height: 0.88; letter-spacing: -0.055em;">fresh</h2>
+            </div>
+            <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · latest 3 artworks + 3 Instagram posts</span>
+            <a href="#" data-cursor="follow" style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); background: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; color: #131316;">follow @yurix.draws ↗</a>
+          </header>
+          <div style="display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 16px;">
+            <sc-for list="{{ fresh }}" as="f" hint-placeholder-count="6">
+              <article data-cursor="{{ f.cursor }}" style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="position: relative; aspect-ratio: 1/1; border-radius: 14px; overflow: hidden; background: #efeef6;">
+                  <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                    <div data-jitter="" style="position: absolute; inset: -6px; background: url({{ f.img }}) {{ f.pos }} / cover no-repeat;" style-hover="animation: pf-boil 0.33s steps(1) infinite;"></div>
+                    <sc-if value="{{ f.isNew }}" hint-placeholder-val="{{ false }}">
+                      <span style="position: absolute; top: 10px; left: 10px; padding: 4px 8px; border-radius: 7px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;">new</span>
+                    </sc-if>
+                    <sc-if value="{{ f.ig }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; border-radius: 7px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; color: #131316;">instagram ↗</span></sc-if>
+                  </sc-if>
+                  <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                    <div data-motion="" style="position: absolute; inset: 0; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 2px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.03em;">{{ f.title }}</span><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: #63636d; white-space: nowrap;">{{ f.when }}</span></div>
+                </sc-if>
+                <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                  <span style="width: 60%; height: 16px; border-radius: 5px; background: #e8e7f0;"></span>
+                </sc-if>
+              </article>
+            </sc-for>
+          </div>
+
+        </section>
+
+        <section data-component="AboutSection" data-anchor="about" style="position: relative; display: grid; grid-template-columns: minmax(0,5fr) minmax(0,6fr); gap: 72px; align-items: center; padding: 56px 56px 110px;">
+          <span data-cname="" style="position: absolute; top: 0; left: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">AboutSection</span>
+          <div style="position: relative; padding: 24px 12px; transform: rotate(-2deg);">
+            <div data-motion="" style="position: relative; aspect-ratio: 1/1; border-radius: 24px; overflow: hidden; background: #efeef6; box-shadow: 0 2px 6px rgba(19,19,22,0.06), 0 24px 60px rgba(19,19,22,0.16); animation: pf-float 6s ease-in-out infinite;">
+              <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 2; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; background: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(19,19,22,0.08); font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;"><span>me_at_work.mp4</span><span style="display: flex; align-items: center; gap: 6px; color: #5a4bc4;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #5a4bc4; animation: pf-blink 1s steps(1) infinite;"></span>loop</span></div>
+              <div data-motion="" style="position: absolute; inset: 30px -10px -10px; background: url(https://commons.wikimedia.org/wiki/Special:FilePath/Girl_with_a_Pearl_Earring.jpg?width=900) center 30% / cover no-repeat; background-color: #d9d6e8; animation: pf-boil 0.5s steps(1) infinite;"></div>
+              <span data-admin="" style="position: absolute; left: 12px; bottom: 12px; z-index: 3; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · about video (.mp4, muted loop)</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">about me</span>
+            <p style="margin: 0; font-size: 18px; line-height: 1.65; font-weight: 400; color: #4b4b54; text-wrap: pretty;">I'm Yurix, a 2D animator and illustrator based in Mumbai. I draw everything by hand, frame by frame, mostly in Procreate Dreams, sometimes on paper when the screen gets boring.</p>
+            <p style="margin: 0; font-size: 18px; line-height: 1.65; font-weight: 400; color: #4b4b54; text-wrap: pretty;">I make music videos, looping characters, covers and the occasional sticker sheet, for musicians, studios and anyone with a weird idea that needs to move.</p>
+            <span data-admin="" style="align-self: flex-start; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · about text</span>
+            <div style="display: flex; gap: 10px; margin-top: 6px;">
+              <button data-cursor="about" style="height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">more about me →</button>
+              <button data-cursor="say hi" style="height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); background: #ffffff; color: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">say hi</button>
+            </div>
+          </div>
+        </section>
+
+        <section data-component="InfoCards" style="position: relative; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; padding: 0 56px 84px;">
+          <button data-cursor="shop" style="text-align: left; display: flex; flex-direction: column; gap: 9px; padding: 26px; background: #f5f5f7; border: 1px solid transparent; border-radius: 20px; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 2px 8px rgba(19,19,22,0.05); font-family: inherit; transition: transform 220ms cubic-bezier(.2,.8,.2,1), border-color 220ms ease;" style-hover="transform: translateY(-6px) rotate(-1deg); border-color: rgba(90,75,196,0.45);">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4;">Shop</span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase; color: #131316;">Prints &amp; originals</span>
+            <span style="font-size: 14px; line-height: 1.6; color: #63636d;">Riso editions, giclée prints and the odd canvas.</span>
+          </button>
+          <button data-cursor="about" style="text-align: left; display: flex; flex-direction: column; gap: 9px; padding: 26px; background: #f5f5f7; border: 1px solid transparent; border-radius: 20px; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 2px 8px rgba(19,19,22,0.05); font-family: inherit; transition: transform 220ms cubic-bezier(.2,.8,.2,1), border-color 220ms ease;" style-hover="transform: translateY(-6px) rotate(-1deg); border-color: rgba(90,75,196,0.45);">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4;">About</span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase; color: #131316;">How I work</span>
+            <span style="font-size: 14px; line-height: 1.6; color: #63636d;">iPad first, oils when the screen gets boring.</span>
+          </button>
+          <button data-cursor="say hi" style="text-align: left; display: flex; flex-direction: column; gap: 9px; padding: 26px; background: #f5f5f7; border: 1px solid transparent; border-radius: 20px; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 2px 8px rgba(19,19,22,0.05); font-family: inherit; transition: transform 220ms cubic-bezier(.2,.8,.2,1), border-color 220ms ease;" style-hover="transform: translateY(-6px) rotate(-1deg); border-color: rgba(90,75,196,0.45);">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4;">Contact</span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase; color: #131316;">Commission me</span>
+            <span style="font-size: 14px; line-height: 1.6; color: #63636d;">Characters, covers, editorial. Quote in a day.</span>
+          </button>
+        </section>
+
+        <dc-import name="SiteFooter" hint-size="100%,420px"></dc-import>
+      </sc-if>
+
+      <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+        <div style="height: 844px;"></div>
+
+        <section data-component="SelectedWork" data-anchor="selected" style="position: relative; padding: 24px 16px 64px;">
+          <span data-cname="" style="position: absolute; top: 0; left: 16px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">SelectedWork</span>
+          <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">08 pieces · proudest of</div>
+          <h2 style="margin: 8px 0 24px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 66px; line-height: 0.84; letter-spacing: -0.055em;">selected work</h2>
+          <div style="column-count: 2; column-gap: 10px;">
+            <sc-for list="{{ selected }}" as="f" hint-placeholder-count="8">
+              <article data-cursor="{{ f.cursor }}" style="break-inside: avoid; display: flex; flex-direction: column; gap: 7px; margin: 0 0 16px;">
+                <div style="position: relative; aspect-ratio: {{ f.pin }}; border-radius: 16px; overflow: hidden; background: #efeef6;">
+                  <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                    <div style="position: absolute; inset: 0; background: url({{ f.img }}) {{ f.pos }} / cover no-repeat;"></div>
+                    <span style="position: absolute; top: 9px; left: 9px; padding: 4px 7px; border-radius: 6px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;">{{ f.kind }}</span>
+                    <sc-if value="{{ f.anim }}" hint-placeholder-val="{{ false }}">
+                      <span style="position: absolute; bottom: 9px; right: 9px; display: flex; align-items: center; gap: 5px; padding: 4px 7px; border-radius: 6px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 5px; height: 5px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>loop</span>
+                    </sc-if>
+                  </sc-if>
+                  <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                    <div data-motion="" style="position: absolute; inset: 0; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 2px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.03em;">{{ f.title }}</span><span style="font-family: 'DM Mono', monospace; font-size: 10px; color: #63636d;">{{ f.year }}</span></div>
+                </sc-if>
+                <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                  <span style="width: 55%; height: 16px; border-radius: 5px; background: #e8e7f0;"></span>
+                </sc-if>
+              </article>
+            </sc-for>
+          </div>
+          <button style="width: 100%; height: 52px; margin-top: 30px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); background: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; color: #131316;">all work →</button>
+        </section>
+
+        <section data-component="FreshWork" data-anchor="fresh" style="position: relative; padding: 24px 0 56px;">
+          <span data-cname="" style="position: absolute; top: 0; left: 16px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">FreshWork · swipe</span>
+          <div style="padding: 0 16px 16px;">
+            <div style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">newest uploads</div>
+            <h2 style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 48px; line-height: 0.9; letter-spacing: -0.05em;">fresh</h2>
+          </div>
+          <div data-scroller="" style="display: flex; gap: 12px; overflow-x: auto; padding: 0 16px; scroll-snap-type: x mandatory; scroll-padding: 16px;">
+            <sc-for list="{{ fresh }}" as="f" hint-placeholder-count="5">
+              <article style="flex: none; width: 156px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px;">
+                <div style="position: relative; aspect-ratio: 1/1; border-radius: 14px; overflow: hidden; background: #efeef6;">
+                  <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                    <div style="position: absolute; inset: 0; background: url({{ f.img }}) {{ f.pos }} / cover no-repeat;"></div>
+                    <sc-if value="{{ f.isNew }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 8px; left: 8px; padding: 3px 7px; border-radius: 6px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;">new</span></sc-if>
+                    <sc-if value="{{ f.ig }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 8px; right: 8px; padding: 3px 7px; border-radius: 6px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 9px; color: #131316;">IG ↗</span></sc-if>
+                  </sc-if>
+                  <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}">
+                    <div data-motion="" style="position: absolute; inset: 0; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ f.ready }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: -0.03em;">{{ f.title }}</span><span style="font-family: 'DM Mono', monospace; font-size: 10px; color: #63636d;">{{ f.when }}</span></div>
+                </sc-if>
+                <sc-if value="{{ f.loading }}" hint-placeholder-val="{{ false }}"><span style="width: 70%; height: 14px; border-radius: 5px; background: #e8e7f0;"></span></sc-if>
+              </article>
+            </sc-for>
+          </div>
+
+        </section>
+
+        <section data-component="AboutSection" data-anchor="about" style="position: relative; display: flex; flex-direction: column; gap: 28px; padding: 32px 20px 56px;">
+          <span data-cname="" style="position: absolute; top: 0; left: 20px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">AboutSection</span>
+          <div style="position: relative; padding: 10px 6px; transform: rotate(-2deg);">
+            <div data-motion="" style="position: relative; aspect-ratio: 1/1; border-radius: 20px; overflow: hidden; background: #efeef6; box-shadow: 0 2px 6px rgba(19,19,22,0.06), 0 24px 60px rgba(19,19,22,0.16); animation: pf-float 6s ease-in-out infinite;">
+              <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 2; height: 36px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; background: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(19,19,22,0.08); font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;"><span>me_at_work.mp4</span><span style="display: flex; align-items: center; gap: 6px; color: #5a4bc4;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #5a4bc4; animation: pf-blink 1s steps(1) infinite;"></span>loop</span></div>
+              <div data-motion="" style="position: absolute; inset: 26px -10px -10px; background: url(https://commons.wikimedia.org/wiki/Special:FilePath/Girl_with_a_Pearl_Earring.jpg?width=900) center 30% / cover no-repeat; background-color: #d9d6e8; animation: pf-boil 0.5s steps(1) infinite;"></div>
+              <span data-admin="" style="position: absolute; left: 12px; bottom: 12px; z-index: 3; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · about video (.mp4, muted loop)</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">about me</span>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; font-weight: 400; color: #4b4b54; text-wrap: pretty;">I'm Yurix, a 2D animator and illustrator based in Mumbai. I draw everything by hand, frame by frame, mostly in Procreate Dreams, sometimes on paper when the screen gets boring.</p>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; font-weight: 400; color: #4b4b54; text-wrap: pretty;">I make music videos, looping characters, covers and the occasional sticker sheet, for musicians, studios and anyone with a weird idea that needs to move.</p>
+            <button style="height: 52px; margin-top: 6px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">more about me →</button>
+          </div>
+        </section>
+
+        <section data-component="InfoCards" style="display: flex; flex-direction: column; gap: 12px; padding: 0 20px 40px;">
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 20px; background: #f5f5f7; border-radius: 18px;"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4;">Shop</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase;">Prints &amp; originals</span><span style="font-size: 14px; line-height: 1.55; color: #63636d;">Riso editions, giclée prints and the odd canvas.</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 20px; background: #f5f5f7; border-radius: 18px;"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4;">About</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase;">How I work</span><span style="font-size: 14px; line-height: 1.55; color: #63636d;">iPad first, oils when the screen gets boring.</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 20px; background: #f5f5f7; border-radius: 18px;"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4;">Contact</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase;">Commission me</span><span style="font-size: 14px; line-height: 1.55; color: #63636d;">Characters, covers, editorial. Quote in a day.</span></div>
+        </section>
+        <dc-import name="SiteFooter" mobile="{{ true }}" hint-size="100%,380px"></dc-import>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 3; height: 84px; pointer-events: none;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); opacity: clamp(0, (var(--p, 0) - 0.85) * 8, 1);"></div>
+            <span data-cname="" style="position: absolute; top: 92px; right: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.4) * 3, 1);">MainNav · items drop in from p 0.40</span>
+      <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 0 56px;">
+        
+        <div style="display: flex; align-items: center; gap: 34px;">
+          <button data-cursor="go" style="pointer-events: auto; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.40) * 3, 1); transform: translateY(calc((1 - clamp(0, (var(--p, 0) - 0.40) * 3, 1)) * var(--move, 1) * -24px));" style-hover="color: #5a4bc4;">work</button>
+          <button data-cursor="go" style="pointer-events: auto; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.45) * 3, 1); transform: translateY(calc((1 - clamp(0, (var(--p, 0) - 0.45) * 3, 1)) * var(--move, 1) * -24px));" style-hover="color: #5a4bc4;">gallery</button>
+          <button data-cursor="go" style="pointer-events: auto; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.50) * 3, 1); transform: translateY(calc((1 - clamp(0, (var(--p, 0) - 0.50) * 3, 1)) * var(--move, 1) * -24px));" style-hover="color: #5a4bc4;">shop</button>
+          <button data-cursor="go" style="pointer-events: auto; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.55) * 3, 1); transform: translateY(calc((1 - clamp(0, (var(--p, 0) - 0.55) * 3, 1)) * var(--move, 1) * -24px));" style-hover="color: #5a4bc4;">about</button>
+          <button data-cursor="go" style="pointer-events: auto; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.60) * 3, 1); transform: translateY(calc((1 - clamp(0, (var(--p, 0) - 0.60) * 3, 1)) * var(--move, 1) * -24px));" style-hover="color: #5a4bc4;">contact</button>
+        </div>
+      </div>
+    </nav>
+    <div data-player="" style="position: absolute; right: 32px; bottom: 28px; z-index: 4; opacity: calc(1 - var(--hide, 0)); transform: translateY(calc(var(--hide, 0) * 24px)); transition: opacity 260ms ease, transform 260ms ease;">
+      <dc-import name="MusicPlayer" state="{{ music }}" on-toggle="{{ musicToggle }}" on-mute="{{ musicMute }}" hint-size="250px,50px"></dc-import>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 3; height: 68px; pointer-events: none;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); opacity: clamp(0, (var(--p, 0) - 0.85) * 8, 1);"></div>
+            <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px 0 20px;">
+        
+        <button onClick="{{ openMenu }}" aria-label="Open menu" style="pointer-events: auto; position: relative; width: 48px; height: 48px; border-radius: 999px; border: 0; padding: 0; background: #131316; opacity: clamp(0, (var(--p, 0) - 0.5) * 3, 1); transform: scale(calc(1 - (1 - clamp(0, (var(--p, 0) - 0.5) * 3, 1)) * var(--move, 1) * 0.4)) rotate(calc((1 - clamp(0, (var(--p, 0) - 0.5) * 3, 1)) * var(--move, 1) * -90deg));">
+          <span style="position: absolute; left: 14px; right: 14px; top: 19px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+          <span style="position: absolute; left: 14px; right: 19px; top: 27px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+        </button>
+      </div>
+      <span data-cname="" style="position: absolute; top: 74px; right: 12px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap; opacity: clamp(0, (var(--p, 0) - 0.5) * 3, 1);">MainNav · button from p 0.50</span>
+    </nav>
+    <div data-player="" style="position: absolute; right: 14px; bottom: 18px; z-index: 4; opacity: calc(1 - var(--hide, 0)); transform: translateY(calc(var(--hide, 0) * 24px)); transition: opacity 260ms ease, transform 260ms ease;">
+      <dc-import name="MusicPlayer" compact="{{ true }}" state="{{ music }}" on-toggle="{{ musicToggle }}" on-mute="{{ musicMute }}" hint-size="120px,50px"></dc-import>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-component="MobileMenu" style="position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; padding: 0 12px 24px 20px; box-sizing: border-box; background-color: #ffffff; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.14) 39px 40px);">
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 68px; flex: none;">
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.045em;">yurix</span>
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); padding: 0; background: #ffffff;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 4px; margin-top: 64px; padding-right: 8px;">
+          <sc-for list="{{ navM }}" as="n" hint-placeholder-count="4">
+            <button onClick="{{ closeMenu }}" data-motion="" style="display: flex; align-items: baseline; justify-content: space-between; min-height: 76px; padding: 0; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-size: 66px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: #131316; animation: pf-up 460ms cubic-bezier(.2,.8,.2,1) {{ n.delay }} both;">{{ n.label }}<span style="font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #86868f;">{{ n.num }}</span></button>
+          </sc-for>
+        </nav>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 14px; padding-right: 8px;">
+          <div style="display: flex; gap: 8px;">
+            <a href="#" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">instagram ↗</a>
+            <a href="#" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">hey@aditi.art</a>
+          </div>
+          <dc-import name="MusicPlayer" state="{{ music }}" on-toggle="{{ musicToggle }}" on-mute="{{ musicMute }}" hint-size="250px,50px"></dc-import>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <div ref="{{ cursorRef }}" style="position: absolute; left: 0; top: 0; z-index: 95; pointer-events: none; opacity: 0;"><div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; transform: translate(-50%,-50%); border-radius: 999px; background: #fff; mix-blend-mode: difference; display: grid; place-items: center; transition: width 220ms cubic-bezier(.2,.8,.2,1), height 220ms cubic-bezier(.2,.8,.2,1), background 220ms ease;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity 160ms ease;"></span></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;top&quot;,&quot;mid&quot;,&quot;settled&quot;,&quot;selected&quot;,&quot;fresh&quot;],&quot;default&quot;:&quot;top&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;reduced&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;imgState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;loaded&quot;,&quot;loading&quot;],&quot;default&quot;:&quot;loaded&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;igState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ok&quot;,&quot;loading&quot;,&quot;error&quot;],&quot;default&quot;:&quot;ok&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;menuOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;blurD&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:20,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;blurM&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:20,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;snap&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const WM = (f, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + f + "?width=" + (w || 900);
+const SELECTED = [
+  { title: "moth lullaby", kind: "music video", year: "2026", img: WM("Gustav_Klimt_016.jpg"), pos: "center", span: 7, ratio: "5/4", dy: 0, spanM: 2, ratioM: "4/5", anim: true, pin: "2/3" },
+  { title: "ghost roommate", kind: "character", year: "2026", img: WM("Girl_with_a_Pearl_Earring.jpg"), pos: "center 30%", span: 5, ratio: "4/5", dy: 0, spanM: 1, ratioM: "3/4", anim: false, pin: "1/1" },
+  { title: "neon auto ride", kind: "loop", year: "2026", img: WM("Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"), pos: "center", span: 4, ratio: "1/1", dy: 0, spanM: 1, ratioM: "3/4", anim: true, pin: "3/4" },
+  { title: "static hearts", kind: "cover", year: "2025", img: WM("The_Scream.jpg"), pos: "center 35%", span: 4, ratio: "3/4", dy: 56, spanM: 2, ratioM: "16/10", anim: false, pin: "9/14" },
+  { title: "sticker sheet 03", kind: "merch", year: "2025", img: WM("Vassily_Kandinsky,_1913_-_Composition_7.jpg"), pos: "center", span: 4, ratio: "1/1", dy: 20, spanM: 1, ratioM: "1/1", anim: false, pin: "4/5" },
+  { title: "slow static", kind: "music video", year: "2025", img: WM("Tsunami_by_hokusai_19th_century.jpg"), pos: "center", span: 5, ratio: "3/4", dy: 0, spanM: 1, ratioM: "1/1", anim: true, pin: "2/3" },
+  { title: "monsoon diary", kind: "illustration", year: "2025", img: WM("Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"), pos: "center", span: 7, ratio: "16/11", dy: 0, spanM: 2, ratioM: "4/3", anim: false, pin: "5/4" },
+  { title: "tiny gods", kind: "short film", year: "2024", img: WM("Claude_Monet,_Impression,_soleil_levant.jpg", 1400), pos: "center", span: 12, ratio: "21/9", dy: 0, spanM: 2, ratioM: "16/9", anim: true, pin: "3/4" }
+];
+const FRESH = [
+  { title: "frog choir", when: "2 days ago", img: WM("Vassily_Kandinsky,_1913_-_Composition_7.jpg", 500), pos: "left center", isNew: true },
+  { title: "@yurix.draws", when: "on instagram · 1d", img: WM("The_Scream.jpg", 500), pos: "center", ig: true },
+  { title: "bus stop sketch", when: "5 days ago", img: WM("Girl_with_a_Pearl_Earring.jpg", 500), pos: "center top" },
+  { title: "@yurix.draws", when: "on instagram · 3d", img: WM("Claude_Monet,_Impression,_soleil_levant.jpg", 500), pos: "left center", ig: true },
+  { title: "night shift", when: "1 week ago", img: WM("Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg", 500), pos: "right center" },
+  { title: "@yurix.draws", when: "on instagram · 6d", img: WM("Tsunami_by_hokusai_19th_century.jpg", 500), pos: "right center", ig: true }
+];
+const IG = [
+  { img: WM("The_Scream.jpg", 400), pos: "center", reel: true },
+  { img: WM("Claude_Monet,_Impression,_soleil_levant.jpg", 400), pos: "left center" },
+  { img: WM("Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg", 400), pos: "center", reel: true },
+  { img: WM("Gustav_Klimt_016.jpg", 400), pos: "center top" },
+  { img: WM("Vassily_Kandinsky,_1913_-_Composition_7.jpg", 400), pos: "right center" },
+  { img: WM("Tsunami_by_hokusai_19th_century.jpg", 400), pos: "right center", reel: true }
+];
+const NAV = ["work", "gallery", "shop", "about", "contact"];
+
+class Component extends DCLogic {
+  state = { menu: !!this.props.menuOpen, ig: null, playing: false, muted: false };
+
+  componentDidMount() {
+    this.applyVars();
+    this.userMoved = false;
+    this.tries = 0;
+    this.retryJump();
+  }
+  componentDidUpdate(prev) {
+    const p = this.props;
+    if (prev.blurD !== p.blurD || prev.blurM !== p.blurM || prev.reduced !== p.reduced || prev.mobile !== p.mobile) this.applyVars();
+    if (prev.start !== p.start) { this.userMoved = false; this.tries = 0; this.retryJump(); }
+    if (prev.menuOpen !== p.menuOpen) this.setState({ menu: !!p.menuOpen });
+  }
+  retryJump() {
+    clearTimeout(this.t);
+    if (this.userMoved) { this.jumping = false; return; }
+    const ok = this.jump();
+    this.jumping = !ok && this.tries++ < 40;
+    if (this.jumping) this.t = setTimeout(() => this.retryJump(), 150);
+  }
+  componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.rt); clearTimeout(this.st); cancelAnimationFrame(this.raf); cancelAnimationFrame(this.anim); }
+
+  doneY() {
+    const s = this.scroller, a = s && s.querySelector('[data-anchor="selected"]');
+    return a ? Math.max(this.range(), a.offsetTop - (this.isM() ? 68 : 84)) : this.range();
+  }
+  maybeSnap() {
+    if (this.props.snap === false || !this.scroller || this.jumping) return;
+    const s = this.scroller, R = this.range(), y = s.scrollTop;
+    if (y <= 1) { this.rest = "top"; return; }
+    if (y >= R - 1) { this.rest = "done"; return; }
+    const p = y / R;
+    const toDone = this.rest === "done" ? p >= 0.8 : p >= 0.2;
+    this.animateTo(toDone ? this.doneY() : 0);
+  }
+  animateTo(t) {
+    const s = this.scroller, from = s.scrollTop;
+    const finish = () => { this.animating = false; this.rest = t === 0 ? "top" : "done"; this.setP(); };
+    cancelAnimationFrame(this.anim);
+    if (this.isReduced()) { s.scrollTop = t; finish(); return; }
+    const dur = Math.min(800, Math.max(300, Math.abs(t - from) * 0.9));
+    const ease = (x) => 1 - Math.pow(1 - x, 3);
+    const t0 = performance.now();
+    this.animating = true;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      s.scrollTop = from + (t - from) * ease(k);
+      this.setP();
+      if (k < 1) this.anim = requestAnimationFrame(step); else finish();
+    };
+    this.anim = requestAnimationFrame(step);
+  }
+
+  isM() { return !!this.props.mobile; }
+  isReduced() {
+    if (this.props.reduced) return true;
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+  range() { return this.isM() ? 480 : 600; }
+  applyVars() {
+    const el = this.root; if (!el) return;
+    const red = this.isReduced();
+    const b = this.isM() ? (this.props.blurM ?? 8) : (this.props.blurD ?? 20);
+    el.style.setProperty("--blur", red ? "0px" : b + "px");
+    el.style.setProperty("--move", red ? "0" : "1");
+    el.style.setProperty("--wash", red ? "0.84" : "0.72");
+    this.setP();
+  }
+  setP() {
+    const s = this.scroller; if (!s || !this.root) return;
+    const R = this.range();
+    const p = Math.min(1, Math.max(0, s.scrollTop / R));
+    const rest = Math.max(1, (s.scrollHeight - s.clientHeight - R) * 0.6);
+    const w = Math.min(1, Math.max(0, (s.scrollTop - R) / rest));
+    this.root.style.setProperty("--p", p.toFixed(3));
+    this.root.style.setProperty("--w", w.toFixed(3));
+    const f = s.querySelector("footer");
+    const hide = p > 0.05 ? 1 : 0;
+    this.root.style.setProperty("--hide", String(hide));
+    const pl = this.root.querySelector("[data-player]");
+    if (pl) pl.style.pointerEvents = hide ? "none" : "";
+  }
+  jump() {
+    const s = this.scroller; if (!s) return false;
+    const st = this.props.start || "top";
+    let y = 0;
+    if (st === "mid") y = this.range() * 0.5;
+    else if (st === "settled") y = this.doneY();
+    else if (st !== "top") {
+      const a = s.querySelector('[data-anchor="' + st + '"]');
+      if (!a) return false;
+      y = a.offsetTop - (this.isM() ? 68 : 84);
+    }
+    if (st === "settled" && !s.querySelector('[data-anchor="selected"]')) return false;
+    s.scrollTop = y;
+    this.rest = y >= this.range() - 1 ? "done" : "top";
+    this.setP();
+    return Math.abs(s.scrollTop - y) < 2;
+  }
+
+  moveCursor(e) {
+    const ab = this.root, c = this.cursor;
+    if (!ab || !c) return;
+    const r = ab.getBoundingClientRect();
+    const sc = r.width / ab.offsetWidth || 1;
+    const x = (e.clientX - r.left) / sc, y = (e.clientY - r.top) / sc;
+    const t = e.target && e.target.closest ? e.target.closest("[data-cursor]") : null;
+    const label = t && ab.contains(t) ? t.getAttribute("data-cursor") : "";
+    c.style.opacity = "1";
+    c.style.transform = "translate(" + x + "px," + y + "px)";
+    const blob = c.firstElementChild, lab = blob.firstElementChild;
+    if (label) {
+      blob.style.width = blob.style.height = "84px";
+      blob.style.background = "#5a4bc4"; blob.style.mixBlendMode = "normal";
+      lab.textContent = label; lab.style.opacity = "1";
+    } else {
+      blob.style.width = blob.style.height = "16px";
+      blob.style.background = "#fff"; blob.style.mixBlendMode = "difference";
+      lab.style.opacity = "0";
+    }
+  }
+
+  renderVals() {
+    const loading = this.props.imgState === "loading";
+    const ig = this.state.ig || this.props.igState || "ok";
+    const pad = (n) => String(n).padStart(2, "0");
+    const { playing, muted } = this.state;
+    return {
+      rootRef: (n) => { this.root = n; },
+      scrollRef: (n) => { this.scroller = n; },
+      cursorRef: (n) => { this.cursor = n; },
+      onScroll: () => {
+        cancelAnimationFrame(this.raf); this.raf = requestAnimationFrame(() => this.setP());
+        if (this.animating) return;
+        clearTimeout(this.st); this.st = setTimeout(() => this.maybeSnap(), 140);
+      },
+      cancelSnap: () => { this.userMoved = true; clearTimeout(this.t); if (this.animating) { cancelAnimationFrame(this.anim); this.animating = false; } },
+      onMove: (e) => this.moveCursor(e),
+      onLeave: () => { if (this.cursor) this.cursor.style.opacity = "0"; },
+      annot: this.props.showAnnotations === false ? "off" : "on",
+      reducedAttr: this.props.reduced ? "on" : "off",
+      isD: !this.isM(), isM: this.isM(),
+      selected: SELECTED.map((f, i) => Object.assign({}, f, { n: pad(i + 1), cursor: f.anim ? "play" : "view", ready: !loading, loading })),
+      fresh: FRESH.map((f) => Object.assign({ isNew: false, ig: false }, f, { cursor: f.ig ? "open" : "view", ready: !loading, loading })),
+      igPosts: IG.map((g) => Object.assign({ reel: false }, g)),
+      igSkel: [1, 2, 3, 4, 5, 6],
+      igOk: ig === "ok", igLoading: ig === "loading", igError: ig === "error",
+      retryIg: () => { this.setState({ ig: "loading" }); clearTimeout(this.rt); this.rt = setTimeout(() => this.setState({ ig: "ok" }), 1400); },
+      menuOpen: this.state.menu,
+      openMenu: () => this.setState({ menu: true }),
+      closeMenu: () => this.setState({ menu: false }),
+      navM: NAV.map((l, i) => ({ label: l, num: pad(i + 1), delay: (60 + i * 60) + "ms" })),
+      music: muted ? "muted" : playing ? "playing" : "paused",
+      musicToggle: () => this.setState((s) => ({ playing: !s.playing })),
+      musicMute: () => this.setState((s) => ({ muted: !s.muted }))
+    };
+  }
+}
+</script>
+</body>
+</html>

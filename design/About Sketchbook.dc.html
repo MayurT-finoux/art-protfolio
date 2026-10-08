@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  @keyframes pf-boil { 0% { transform: scale(1.04) translate(0,0) rotate(0); } 33% { transform: scale(1.045) translate(-1.5px,1px) rotate(-0.5deg); } 66% { transform: scale(1.04) translate(1.5px,-1px) rotate(0.5deg); } 100% { transform: scale(1.045) translate(0,0) rotate(0); } }
+  @keyframes pf-float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1.5deg); } }
+  @keyframes pf-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes pf-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes pf-wiggle { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible { outline: 2px solid #5a4bc4; outline-offset: 3px; }
+  [data-artboard], [data-artboard] * { cursor: none !important; }
+  [data-annot="off"] [data-cname], [data-annot="off"] [data-admin] { display: none !important; }
+  [data-scroller] { scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { width: 0; height: 0; }
+  [data-ready="1"] [data-reveal] { opacity: 0; transform: translateY(32px); transition: opacity 640ms cubic-bezier(.2,.8,.2,1), transform 640ms cubic-bezier(.2,.8,.2,1); }
+  [data-ready="1"] [data-reveal][data-in="1"] { opacity: 1; transform: none; }
+  [data-ready="1"] [data-draw] path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1300ms cubic-bezier(.6,.1,.2,1) 250ms; }
+  [data-ready="1"] [data-in="1"] [data-draw] path { stroke-dashoffset: 0; }
+  [data-reduced="on"] [data-reveal] { transform: none !important; transition: opacity 400ms ease !important; }
+  [data-reduced="on"] [data-draw] path { stroke-dashoffset: 0 !important; transition: none !important; }
+  [data-reduced="on"] [data-motion], [data-reduced="on"] [data-jitter]:hover { animation: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { transform: none !important; transition: opacity 400ms ease !important; }
+    [data-draw] path { stroke-dashoffset: 0 !important; transition: none !important; }
+    [data-motion], [data-jitter]:hover { animation: none !important; }
+  }
+</style>
+</helmet>
+<div data-artboard="" ref="{{ rootRef }}" data-annot="{{ annot }}" data-reduced="{{ reducedAttr }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; font-family: 'Inter', system-ui, sans-serif; color: #131316; font-weight: 300;">
+  <div data-scroller="" ref="{{ scrollRef }}" style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;">
+    <div style="position: relative; container-type: inline-size; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.07) 39px 40px);">
+
+      <section data-component="AboutHero" data-guide="0" style="position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: clamp(40px, 5cqw, 80px); padding: clamp(104px, 9cqw, 140px) clamp(16px, 3.9cqw, 56px) clamp(56px, 7cqw, 110px);">
+        <span data-cname="" style="position: absolute; top: clamp(80px, 6.5cqw, 100px); left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">AboutHero</span>
+        <div data-reveal="" style="flex: 7 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 22px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">about · the person behind the wobbly lines</span>
+          <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(50px, 8.6cqw, 124px); line-height: 0.9; letter-spacing: -0.055em; text-wrap: balance;">Hi, I'm Yurix — I make drawings <span style="position: relative; display: inline-block; color: #5a4bc4;">move.<svg data-draw="" viewBox="0 0 300 26" preserveAspectRatio="none" style="position: absolute; left: -2%; bottom: -0.16em; width: 104%; height: 0.24em; fill: none; stroke: #5a4bc4; stroke-width: 5; stroke-linecap: round; overflow: visible;"><path pathLength="1" d="M4 16 C 40 4, 70 24, 110 12 S 180 2, 220 14 S 276 20, 296 8"></path></svg></span></h1>
+          <p style="margin: 0; max-width: 560px; font-size: clamp(17px, 1.35cqw, 20px); line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Animator and illustrator. I draw, paint, animate — and customise anything that holds still long enough: skateboards, headphones, metro cards, clay.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span style="display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.04em;"><span data-motion="" style="width: 8px; height: 8px; border-radius: 999px; background: #8be0a6; animation: pf-blink 1.6s steps(1) infinite;"></span>open for freelance</span>
+            <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.04em; color: #4b4b54;">Mumbai, IN</span>
+            <span data-admin="" style="align-self: center; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · status + city</span>
+          </div>
+        </div>
+        <div data-reveal="" style="flex: 5 1 340px; min-width: 0; display: flex; justify-content: center;">
+          <div style="position: relative; width: min(100%, 440px); padding: 14px 14px 58px; background: #ffffff; border-radius: 6px; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 26px 60px rgba(19,19,22,0.12); transform: rotate(3deg); box-sizing: border-box;">
+            <span style="position: absolute; z-index: 2; top: -12px; left: 50%; width: 110px; height: 26px; margin-left: -55px; background: rgba(90,75,196,0.24); transform: rotate(-4deg);"></span>
+            <div style="position: relative; aspect-ratio: 1/1; border-radius: 3px; overflow: hidden; background: #efeef6; color: #63636d;">
+              <image-slot id="about-a-portrait-{{ sfx }}" shape="rect" placeholder="Drop your self-portrait or character loop" style="position: absolute; inset: 0; width: 100%; height: 100%;"></image-slot>
+            </div>
+            <span style="position: absolute; left: 18px; bottom: 20px; font-family: 'DM Mono', monospace; font-size: 12px; color: #63636d;">me, roughly. (it loops)</span>
+            <svg data-draw="" viewBox="0 0 40 40" style="position: absolute; right: -10px; top: -30px; width: 52px; height: 52px; fill: none; stroke: #5a4bc4; stroke-width: 2.5; stroke-linejoin: round;"><path pathLength="1" d="M20 3 L24 15 L37 20 L24 25 L20 37 L16 25 L3 20 L16 15 Z"></path></svg>
+            <svg data-draw="" viewBox="0 0 100 60" style="position: absolute; left: -64px; bottom: 40px; width: 90px; height: 54px; fill: none; stroke: #131316; stroke-width: 2.5; stroke-linecap: round;"><path pathLength="1" d="M6 12 C 30 0, 56 40, 30 46 C 12 50, 14 26, 40 30 S 78 50, 92 42 M92 42 L80 40 M92 42 L88 30"></path></svg>
+          </div>
+        </div>
+      </section>
+
+      <section data-component="AboutStory" data-guide="1" style="position: relative; display: flex; flex-wrap: wrap; gap: clamp(32px, 5cqw, 80px); padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">AboutStory</span>
+        <div style="flex: 7 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 26px;">
+          <div data-reveal="" style="display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">02 · how it started</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">my story</h2>
+          </div>
+          <sc-for list="{{ story }}" as="p" hint-placeholder-count="4">
+            <div data-reveal="" style="display: flex; flex-direction: column; gap: 22px; max-width: 640px;">
+              <p style="margin: 0; font-size: clamp(18px, 1.45cqw, 21px); line-height: 1.65; color: #2b2b31; text-wrap: pretty;"><strong style="font-weight: 600; color: #131316;">{{ p.lead }}</strong> {{ p.text }}</p>
+              <sc-if value="{{ p.doodle }}" hint-placeholder-val="{{ false }}">
+                <svg data-draw="" viewBox="0 0 240 30" style="width: 180px; height: 24px; fill: none; stroke: #5a4bc4; stroke-width: 3; stroke-linecap: round;"><path pathLength="1" d="M4 15 C 24 2, 34 28, 54 15 S 84 2, 104 15 S 134 28, 154 15 S 184 2, 204 15 L 236 15"></path></svg>
+              </sc-if>
+            </div>
+          </sc-for>
+          <span data-admin="" style="align-self: flex-start; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · placeholder copy · paragraphs add / remove / reorder</span>
+        </div>
+        <div style="flex: 4 1 300px; min-width: 0; display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 28px 20px; padding-top: 24px;">
+          <sc-for list="{{ sketches }}" as="s" hint-placeholder-count="3">
+            <div data-reveal="" style="flex: 0 1 {{ s.w }}; transition-delay: {{ s.delay }};">
+              <div style="position: relative; padding: 10px 10px 40px; background: #ffffff; border-radius: 5px; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 16px 36px rgba(19,19,22,0.1); transform: rotate({{ s.rot }});">
+                <span style="position: absolute; z-index: 2; top: -9px; left: 50%; width: 70px; height: 20px; margin-left: -35px; background: rgba(90,75,196,0.22); transform: rotate(3deg);"></span>
+                <div style="position: relative; aspect-ratio: {{ s.ratio }}; border-radius: 3px; overflow: hidden; background: #efeef6; color: #63636d;">
+                  <image-slot id="about-a-sketch{{ s.i }}-{{ sfx }}" shape="rect" placeholder="{{ s.ph }}" style="position: absolute; inset: 0; width: 100%; height: 100%;"></image-slot>
+                </div>
+                <span style="position: absolute; left: 12px; bottom: 13px; font-family: 'DM Mono', monospace; font-size: 11px; color: #63636d;">{{ s.cap }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section data-component="MediumsShowcase" data-guide="2" style="position: relative; padding: clamp(56px, 7cqw, 110px) 0;">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">MediumsShowcase</span>
+        <header data-reveal="" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; padding: 0 clamp(16px, 3.9cqw, 56px); margin-bottom: clamp(28px, 3.5cqw, 52px);">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">03 · pick a medium</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">what I make</h2>
+          </div>
+          <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · cards add / remove / reorder · soon = no link</span>
+        </header>
+        <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 44px 32px; padding: 12px 56px 0;">
+            <sc-for list="{{ mediums }}" as="m" hint-placeholder-count="6">
+              <div data-reveal="" style="transition-delay: {{ m.delay }};">
+                <sc-if value="{{ m.isReal }}" hint-placeholder-val="{{ true }}">
+                  <a href="#" data-cursor="view" style="position: relative; display: flex; flex-direction: column; gap: 14px; padding: 14px 14px 22px; background: #ffffff; border-radius: 6px; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 20px 44px rgba(19,19,22,0.1); color: #131316; transform: rotate({{ m.rot }}); transition: transform 280ms cubic-bezier(.2,.8,.2,1);" style-hover="transform: rotate(0deg) translateY(-6px);">
+                    <span style="position: absolute; z-index: 2; top: -11px; left: 50%; width: 92px; height: 24px; margin-left: -46px; background: rgba(90,75,196,0.22); transform: rotate(-3deg);"></span>
+                    <div style="position: relative; aspect-ratio: 4/3; border-radius: 3px; overflow: hidden; background: #efeef6;">
+                      <div data-jitter="" style="position: absolute; inset: -8px; background: url({{ m.img }}) {{ m.pos }} / cover no-repeat;" style-hover="animation: pf-boil 0.33s steps(1) infinite;"></div>
+                      <sc-if value="{{ m.anim }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 7px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>loop</span></sc-if>
+                    </div>
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 4px;">
+                      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.04em; text-transform: lowercase;">{{ m.name }}</span>
+                      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;">{{ m.what }}</span>
+                    </div>
+                    <p style="margin: 0; padding: 0 4px; font-size: 15px; line-height: 1.55; color: #4b4b54; text-wrap: pretty;">{{ m.line }}</p>
+                    <span style="padding: 0 4px; font-family: 'DM Mono', monospace; font-size: 12px; color: #5a4bc4;">{{ m.count }} in the gallery →</span>
+                  </a>
+                </sc-if>
+                <sc-if value="{{ m.isSoon }}" hint-placeholder-val="{{ false }}">
+                  <div style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; width: 100%; height: 100%; min-height: 420px; padding: 24px; border: 2px dashed rgba(90,75,196,0.4); border-radius: 6px; box-sizing: border-box; transform: rotate({{ m.rot }});">
+                    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.04em; text-transform: lowercase; color: #86868f;">{{ m.name }}</span>
+                    <span style="padding: 8px 14px; border: 2px solid #5a4bc4; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4bc4; transform: rotate(-8deg);">coming soon</span>
+                    <span style="font-size: 14px; color: #63636d;">{{ m.line }}</span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+          <div data-scroller="" style="display: flex; gap: 18px; overflow-x: auto; padding: 14px 16px 26px; scroll-snap-type: x mandatory; scroll-padding: 16px;">
+            <sc-for list="{{ mediums }}" as="m" hint-placeholder-count="6">
+              <div data-reveal="" style="flex: none; width: 252px; scroll-snap-align: start; transition-delay: {{ m.delay }};">
+                <sc-if value="{{ m.isReal }}" hint-placeholder-val="{{ true }}">
+                  <a href="#" style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: 10px 10px 16px; background: #ffffff; border-radius: 6px; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 14px 30px rgba(19,19,22,0.1); color: #131316; transform: rotate({{ m.rotM }});">
+                    <span style="position: absolute; z-index: 2; top: -9px; left: 50%; width: 70px; height: 20px; margin-left: -35px; background: rgba(90,75,196,0.22); transform: rotate(-3deg);"></span>
+                    <div style="position: relative; aspect-ratio: 4/3; border-radius: 3px; overflow: hidden; background: url({{ m.img }}) {{ m.pos }} / cover no-repeat #efeef6;">
+                      <sc-if value="{{ m.anim }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 8px; left: 8px; padding: 3px 7px; border-radius: 6px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;">loop</span></sc-if>
+                    </div>
+                    <span style="padding: 0 2px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.04em; text-transform: lowercase;">{{ m.name }}</span>
+                    <p style="margin: 0; padding: 0 2px; font-size: 14px; line-height: 1.5; color: #4b4b54;">{{ m.line }}</p>
+                    <span style="display: flex; align-items: center; min-height: 32px; padding: 0 2px; font-family: 'DM Mono', monospace; font-size: 12px; color: #5a4bc4;">{{ m.count }} in the gallery →</span>
+                  </a>
+                </sc-if>
+                <sc-if value="{{ m.isSoon }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; height: 330px; padding: 20px; border: 2px dashed rgba(90,75,196,0.4); border-radius: 6px; box-sizing: border-box;">
+                    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.04em; text-transform: lowercase; color: #86868f;">{{ m.name }}</span>
+                    <span style="padding: 6px 12px; border: 2px solid #5a4bc4; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5a4bc4; transform: rotate(-8deg);">coming soon</span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <span style="display: block; padding: 0 16px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">swipe →</span>
+        </sc-if>
+      </section>
+
+      <section data-component="ProcessSteps" data-guide="3" style="position: relative; padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ProcessSteps</span>
+        <header data-reveal="" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: clamp(32px, 4cqw, 60px);">
+          <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">04 · sketch to screen</span>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">how I work</h2>
+        </header>
+        <div style="position: relative; display: flex; flex-wrap: wrap; gap: 36px 28px;">
+          <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+            <div data-reveal="" style="position: absolute; left: 4%; right: 4%; top: 46%; height: 60px; pointer-events: none;">
+              <svg data-draw="" viewBox="0 0 1200 60" preserveAspectRatio="none" style="width: 100%; height: 100%; fill: none; stroke: rgba(90,75,196,0.45); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 10;"><path pathLength="1" d="M0 30 C 150 0, 250 60, 400 30 S 650 0, 800 30 S 1050 60, 1200 30"></path></svg>
+            </div>
+          </sc-if>
+          <sc-for list="{{ process }}" as="p" hint-placeholder-count="4">
+            <div data-reveal="" style="position: relative; flex: 1 1 260px; min-width: 0; transition-delay: {{ p.delay }};">
+              <div style="position: relative; padding: 12px 12px 18px; background: #ffffff; border-radius: 6px; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 18px 40px rgba(19,19,22,0.1); transform: rotate({{ p.rot }});">
+                <span style="position: absolute; z-index: 2; top: -10px; left: 50%; width: 80px; height: 22px; margin-left: -40px; background: rgba(90,75,196,0.22); transform: rotate(-2deg);"></span>
+                <div style="position: relative; aspect-ratio: {{ p.ratio }}; border-radius: 3px; overflow: hidden; background: #efeef6; color: #63636d;">
+                  <image-slot id="about-a-step{{ p.i }}-{{ sfx }}" shape="rect" placeholder="{{ p.ph }}" style="position: absolute; inset: 0; width: 100%; height: 100%;"></image-slot>
+                </div>
+                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 14px; padding: 0 4px;">
+                  <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #5a4bc4;">{{ p.n }}</span>
+                  <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.04em;">{{ p.title }}</span>
+                </div>
+                <p style="margin: 6px 0 0; padding: 0 4px; font-size: 15px; line-height: 1.5; color: #4b4b54;">{{ p.line }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section data-component="ToolsSkills" data-guide="4" style="position: relative; padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ToolsSkills</span>
+        <div data-reveal="" style="position: relative; padding: clamp(28px, 4cqw, 60px) clamp(18px, 4cqw, 60px); background: #ffffff; border-radius: 28px; box-shadow: 0 2px 4px rgba(19,19,22,0.05), 0 30px 70px rgba(19,19,22,0.08);">
+          <div style="position: absolute; inset: 12px; border: 1.5px dashed rgba(19,19,22,0.14); border-radius: 20px; pointer-events: none;"></div>
+          <header style="position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: clamp(24px, 3.5cqw, 48px);">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">05 · sticker sheet</span>
+              <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">tools &amp; skills</h2>
+            </div>
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #63636d;">peel one off. (you can't.)</span>
+          </header>
+          <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+            <div style="position: relative; display: flex; flex-wrap: wrap; gap: 28px; margin-bottom: 44px;">
+              <sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
+                <div style="flex: none; width: 220px; height: 220px; border-radius: 999px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 26px; box-sizing: border-box; text-align: center; background: {{ t.bg }}; color: {{ t.fg }}; border: 5px solid #ffffff; box-shadow: 0 0 0 1.5px rgba(19,19,22,0.12), 0 12px 26px rgba(19,19,22,0.12); transform: rotate({{ t.rot }}); transition: transform 260ms cubic-bezier(.2,.8,.2,1);" style-hover="transform: rotate(0deg) scale(1.05);">
+                  <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; line-height: 0.95; letter-spacing: -0.04em;">{{ t.name }}</span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; opacity: 0.85;">{{ t.for }}</span>
+                </div>
+              </sc-for>
+              <div style="flex: none; width: 220px; height: 220px; border-radius: 999px; border: 2px dashed rgba(19,19,22,0.2); display: grid; place-items: center; font-family: 'DM Mono', monospace; font-size: 12px; color: #86868f;" data-admin="">+ add a tool</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+            <div data-scroller="" style="position: relative; display: flex; gap: 14px; overflow-x: auto; margin: 0 -18px 28px; padding: 10px 18px 14px; scroll-snap-type: x mandatory; scroll-padding: 18px;">
+              <sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
+                <div style="flex: none; scroll-snap-align: start; width: 168px; height: 168px; border-radius: 999px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 18px; box-sizing: border-box; text-align: center; background: {{ t.bg }}; color: {{ t.fg }}; border: 4px solid #ffffff; box-shadow: 0 0 0 1.5px rgba(19,19,22,0.12), 0 10px 20px rgba(19,19,22,0.1); transform: rotate({{ t.rot }});">
+                  <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 21px; line-height: 0.95; letter-spacing: -0.04em;">{{ t.name }}</span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; opacity: 0.85;">{{ t.for }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="position: relative; display: flex; flex-direction: column; gap: 14px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #63636d;">things I'm good at</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+              <sc-for list="{{ skills }}" as="k" hint-placeholder-count="5">
+                <span style="display: inline-flex; align-items: center; height: 50px; padding: 0 22px; border-radius: 999px; border: 2px solid #131316; background: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(16px, 1.3cqw, 19px); transform: rotate({{ k.rot }});">{{ k.name }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-component="JourneyTimeline" data-guide="5" style="position: relative; padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">JourneyTimeline</span>
+        <header data-reveal="" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: clamp(32px, 4cqw, 60px);">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">06 · the long way round</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">journey</h2>
+          </div>
+          <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · placeholder entries · year + title + line</span>
+        </header>
+        <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative; display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 22px;">
+            <div style="position: absolute; left: 0; right: 0; top: 77px; border-top: 2px dashed rgba(90,75,196,0.4);"></div>
+            <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="6">
+              <div data-reveal="" style="position: relative; display: flex; flex-direction: column; gap: 14px; transition-delay: {{ t.delay }};">
+                <span style="height: 56px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 50px; line-height: 56px; letter-spacing: -0.05em; color: #5a4bc4;">{{ t.y }}</span>
+                <span style="width: 16px; height: 16px; border-radius: 999px; background: #ffffff; border: 3px solid #5a4bc4; box-sizing: border-box;"></span>
+                <div style="position: relative; padding: 18px 16px; background: {{ t.bg }}; border-radius: 4px; box-shadow: 0 10px 24px rgba(19,19,22,0.07); transform: rotate({{ t.rot }});">
+                  <span style="position: absolute; top: -8px; left: 18px; width: 54px; height: 18px; background: rgba(90,75,196,0.2); transform: rotate(-4deg);"></span>
+                  <div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; line-height: 1.05; letter-spacing: -0.03em;">{{ t.t }}</div>
+                  <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: #4b4b54;">{{ t.d }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+          <div style="position: relative; display: flex; flex-direction: column; gap: 26px; padding-left: 40px;">
+            <div style="position: absolute; left: 11px; top: 8px; bottom: 8px; border-left: 2px dashed rgba(90,75,196,0.4);"></div>
+            <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="6">
+              <div data-reveal="" style="position: relative; display: flex; flex-direction: column; gap: 8px;">
+                <span style="position: absolute; left: -36px; top: 10px; width: 16px; height: 16px; border-radius: 999px; background: #ffffff; border: 3px solid #5a4bc4; box-sizing: border-box;"></span>
+                <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; letter-spacing: -0.05em; color: #5a4bc4;">{{ t.y }}</span>
+                <div style="padding: 14px 16px; background: {{ t.bg }}; border-radius: 4px; box-shadow: 0 8px 18px rgba(19,19,22,0.06); transform: rotate({{ t.rotM }});">
+                  <div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em;">{{ t.t }}</div>
+                  <p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #4b4b54;">{{ t.d }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </section>
+
+      <section data-component="ClientsList" data-guide="6" style="position: relative; padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ClientsList</span>
+        <header data-reveal="" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: clamp(28px, 3.5cqw, 52px);">
+          <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">07 · nice people</span>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">drawn for</h2>
+        </header>
+        <div data-reveal="" style="display: flex; flex-wrap: wrap; align-items: center; gap: clamp(12px, 1.4cqw, 20px);">
+          <sc-for list="{{ clients }}" as="c" hint-placeholder-count="5">
+            <a href="#" data-cursor="visit" style="display: inline-flex; align-items: baseline; gap: 12px; padding: clamp(12px, 1.2cqw, 18px) clamp(18px, 1.8cqw, 28px); border-radius: 999px; border: 2px solid #131316; background: #ffffff; color: #131316; transform: rotate({{ c.rot }}); transition: transform 240ms cubic-bezier(.2,.8,.2,1), background 200ms ease;" style-hover="transform: rotate(0deg) translateY(-3px); background: #efedfb;">
+              <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 2.5cqw, 36px); letter-spacing: -0.04em;">{{ c.n }} ↗</span>
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;">{{ c.k }}</span>
+            </a>
+          </sc-for>
+          <a href="#" data-cursor="say hi" style="display: inline-flex; align-items: center; padding: clamp(12px, 1.2cqw, 18px) clamp(18px, 1.8cqw, 28px); border-radius: 999px; border: 2px dashed #5a4bc4; color: #5a4bc4; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 2.5cqw, 36px); letter-spacing: -0.04em; transform: rotate(2deg);">your name here?</a>
+        </div>
+      </section>
+
+      <section data-component="FunFacts" data-guide="7" style="position: relative; padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">FunFacts</span>
+        <header data-reveal="" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: clamp(28px, 3.5cqw, 52px);">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">08 · behind the scenes</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">the messy desk</h2>
+          </div>
+          <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · placeholder answers · facts add / remove</span>
+        </header>
+        <div style="display: flex; flex-wrap: wrap; gap: clamp(28px, 3.5cqw, 48px); align-items: flex-start;">
+          <div data-reveal="" style="flex: 5 1 380px; min-width: 0;">
+            <div style="position: relative; padding: 14px 14px 52px; background: #ffffff; border-radius: 6px; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 24px 54px rgba(19,19,22,0.12); transform: rotate(-2deg);">
+              <span style="position: absolute; z-index: 2; top: -11px; left: 24px; width: 96px; height: 24px; background: rgba(90,75,196,0.24); transform: rotate(-6deg);"></span>
+              <span style="position: absolute; z-index: 2; top: -11px; right: 24px; width: 96px; height: 24px; background: rgba(90,75,196,0.24); transform: rotate(5deg);"></span>
+              <div style="position: relative; aspect-ratio: 4/3; border-radius: 3px; overflow: hidden; background: #efeef6; color: #63636d;">
+                <image-slot id="about-a-desk-{{ sfx }}" shape="rect" placeholder="Drop a photo of your workspace" style="position: absolute; inset: 0; width: 100%; height: 100%;"></image-slot>
+              </div>
+              <span style="position: absolute; left: 18px; bottom: 18px; font-family: 'DM Mono', monospace; font-size: 12px; color: #63636d;">where it all happens (tidied for the photo)</span>
+            </div>
+          </div>
+          <div style="flex: 6 1 420px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 22px;">
+            <sc-for list="{{ fun }}" as="f" hint-placeholder-count="4">
+              <div data-reveal="" style="transition-delay: {{ f.delay }};">
+                <div style="position: relative; display: flex; flex-direction: column; gap: 12px; min-height: 150px; padding: 24px 22px; background: {{ f.bg }}; border-radius: 4px; box-shadow: 0 10px 24px rgba(19,19,22,0.07); transform: rotate({{ f.rot }}); box-sizing: border-box;">
+                  <span style="position: absolute; top: -8px; left: 50%; width: 60px; height: 18px; margin-left: -30px; background: rgba(90,75,196,0.2); transform: rotate(3deg);"></span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">{{ f.q }}</span>
+                  <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 1.9cqw, 28px); line-height: 1.05; letter-spacing: -0.035em;">{{ f.a }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section data-component="SocialLinks" data-guide="8" style="position: relative; padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">SocialLinks</span>
+        <header data-reveal="" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: clamp(28px, 3.5cqw, 52px);">
+          <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">09 · find me elsewhere</span>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.4cqw, 92px); line-height: 0.9; letter-spacing: -0.055em;">out in the wild</h2>
+        </header>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 18px;">
+          <sc-for list="{{ social }}" as="s" hint-placeholder-count="4">
+            <div data-reveal="" style="transition-delay: {{ s.delay }};">
+              <a href="#" data-cursor="follow" style="position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 200px; padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid rgba(19,19,22,0.1); color: #131316; box-sizing: border-box; transition: transform 240ms cubic-bezier(.2,.8,.2,1), border-color 200ms ease;" style-hover="transform: translateY(-4px); border-color: #5a4bc4;">
+                <span style="position: absolute; top: 20px; right: 22px; font-size: 22px; color: #5a4bc4;">↗</span>
+                <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -0.045em; text-transform: lowercase;">{{ s.n }}</span>
+                <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #5a4bc4;">{{ s.h }}</span>
+                <p style="margin: auto 0 0; font-size: 15px; line-height: 1.55; color: #4b4b54; text-wrap: pretty;">{{ s.p }}</p>
+              </a>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section data-component="AboutCTA" data-guide="9" style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 26px; padding: clamp(72px, 9cqw, 140px) clamp(16px, 3.9cqw, 56px) clamp(64px, 7cqw, 110px); text-align: center;">
+        <span data-cname="" style="position: absolute; top: 20px; left: clamp(16px, 3.9cqw, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">AboutCTA</span>
+        <div data-reveal="" style="display: flex; flex-direction: column; align-items: center; gap: 26px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;">10 · your turn</span>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(56px, 10cqw, 150px); line-height: 0.86; letter-spacing: -0.06em; text-wrap: balance;">let's work <span style="position: relative; display: inline-block; color: #5a4bc4;">together<svg data-draw="" viewBox="0 0 300 26" preserveAspectRatio="none" style="position: absolute; left: 0; bottom: -0.12em; width: 100%; height: 0.2em; fill: none; stroke: #5a4bc4; stroke-width: 5; stroke-linecap: round; overflow: visible;"><path pathLength="1" d="M4 12 C 50 22, 90 2, 140 14 S 230 22, 296 8"></path></svg></span></h2>
+          <p style="margin: 0; max-width: 520px; font-size: clamp(17px, 1.35cqw, 20px); line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Characters, covers, music videos, editorial — or a pair of headphones that needs a face. Quote in a day.</p>
+          <a href="#" data-cursor="say hi" style="display: inline-flex; align-items: center; gap: 12px; height: 60px; padding: 0 32px; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; transition: background 200ms ease;" style-hover="background: #5a4bc4; color: #ffffff;">say hi →</a>
+          <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #86868f;">goes to the contact page</span>
+        </div>
+      </section>
+
+      <dc-import name="SiteFooter" mobile="{{ isM }}" hint-size="100%,400px"></dc-import>
+    </div>
+  </div>
+
+  <div data-component="GuideCharacter" style="position: absolute; z-index: 25; left: {{ guideL }}; bottom: {{ guideB }}; display: flex; align-items: flex-end; gap: 10px; pointer-events: none;">
+    <span data-cname="" style="position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">guide character · bubble follows the section</span>
+    <div data-motion="" style="flex: none; width: {{ guideSize }}; height: {{ guideSize }}; border-radius: 999px; overflow: hidden; background: #efedfb; border: 4px solid #ffffff; box-shadow: 0 0 0 1.5px rgba(19,19,22,0.12), 0 12px 26px rgba(19,19,22,0.16); color: #443a97; pointer-events: auto; animation: pf-float 3.2s ease-in-out infinite;">
+      <image-slot id="about-a-guide-{{ sfx }}" shape="circle" placeholder="your character" style="display: block; width: 100%; height: 100%;"></image-slot>
+    </div>
+    <div style="max-width: {{ bubbleW }}; margin-bottom: 18px; padding: 10px 14px; border-radius: 18px 18px 18px 4px; background: #ffffff; border: 1.5px solid #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: {{ bubbleF }}; line-height: 1.25; letter-spacing: -0.01em; box-shadow: 0 8px 20px rgba(19,19,22,0.1);">{{ guideText }}</div>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 84px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 34px; padding: 0 56px;">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+          <sc-if value="{{ n.on }}" hint-placeholder-val="{{ false }}">
+            <button style="position: relative; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: #5a4bc4;">{{ n.label }}<span style="position: absolute; left: 50%; bottom: -6px; width: 6px; height: 6px; margin-left: -3px; border-radius: 999px; background: #5a4bc4;"></span></button>
+          </sc-if>
+          <sc-if value="{{ n.off }}" hint-placeholder-val="{{ true }}">
+            <button data-cursor="go" style="padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316;" style-hover="color: #5a4bc4;">{{ n.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </nav>
+  </sc-if>
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 68px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -40px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 0; padding: 0; background: #131316;">
+        <span style="position: absolute; left: 14px; right: 14px; top: 19px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+        <span style="position: absolute; left: 14px; right: 19px; top: 27px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+      </button>
+    </nav>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-component="MobileMenu" style="position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; padding: 0 12px 28px 20px; box-sizing: border-box; background-color: #ffffff; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.14) 39px 40px);">
+        <div style="display: flex; justify-content: flex-end; align-items: center; height: 68px;">
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); padding: 0; background: #ffffff;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; margin-top: 48px; padding-right: 8px;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ closeMenu }}" data-motion="" style="display: flex; align-items: baseline; justify-content: space-between; min-height: 72px; padding: 0; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: {{ n.color }}; animation: pf-up 460ms cubic-bezier(.2,.8,.2,1) {{ n.delay }} both;">{{ n.label }}<span style="font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #86868f;">{{ n.num }}</span></button>
+          </sc-for>
+        </nav>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <div ref="{{ cursorRef }}" style="position: absolute; left: 0; top: 0; z-index: 95; pointer-events: none; opacity: 0;"><div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; transform: translate(-50%,-50%); border-radius: 999px; background: #fff; mix-blend-mode: difference; display: grid; place-items: center; transition: width 220ms cubic-bezier(.2,.8,.2,1), height 220ms cubic-bezier(.2,.8,.2,1), background 220ms ease;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity 160ms ease;"></span></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;reduced&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const WM = (f, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + f + "?width=" + (w || 800);
+const F = {
+  klimt: "Gustav_Klimt_016.jpg", pearl: "Girl_with_a_Pearl_Earring.jpg", kand: "Vassily_Kandinsky,_1913_-_Composition_7.jpg",
+  venus: "Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"
+};
+const NAV = ["work", "gallery", "shop", "about", "contact"];
+const ROT = ["-2deg", "1.5deg", "-1deg", "2.2deg", "-1.6deg", "1deg"];
+const STORY = [
+  { lead: "I started on the back of school notebooks.", text: "Mostly cats, sometimes teachers, always in the margins where nobody was supposed to look." },
+  { lead: "Then a flipbook changed everything.", text: "Forty pages of a ball bouncing badly — and the moment it moved, I was hooked on frame-by-frame for good.", doodle: true },
+  { lead: "Now I split my days", text: "between Procreate, a box of gouache, and whatever object I can get my hands on: skateboards, headphones, metro cards, lumps of clay." },
+  { lead: "What drives me:", text: "making small, slightly wonky things that make people smile — and proving that hand-drawn still beats perfect." }
+];
+const SKETCHES = [
+  { ph: "Drop an old sketchbook page", cap: "sketchbook, age 12", ratio: "4/5", w: "62%", rot: "-4deg" },
+  { ph: "Drop a flipbook frame", cap: "the famous ball", ratio: "1/1", w: "48%", rot: "3deg" },
+  { ph: "Drop a doodle", cap: "still doing this", ratio: "5/4", w: "56%", rot: "-2deg" }
+];
+const MEDIUMS = [
+  { name: "Traditional", what: "drawing & painting", line: "Watercolour, gouache, ink — and a lot of paper towels.", key: "venus", pos: "center", count: 4 },
+  { name: "Digital", what: "illustration", line: "Procreate on the iPad, mostly from the sofa.", key: "kand", pos: "left center", count: 4 },
+  { name: "Animation", what: "2D frame by frame", line: "Every frame drawn by hand. The wobble is on purpose.", key: "klimt", pos: "center", count: 4, anim: true },
+  { name: "Handmade", what: "custom objects", line: "Skateboards, headphones, metro cards, clay — if it holds still, I'll paint it.", key: "pearl", pos: "center 30%", count: 4 },
+  { name: "Graffiti", soon: true, line: "walls are on the list." },
+  { name: "Comics", soon: true, line: "panels are being inked." }
+];
+const PROCESS = [
+  { title: "sketch", line: "Loose, fast, lots of bad ones. That's the point.", ph: "Drop a rough sketch" },
+  { title: "line art", line: "Clean lines — still a little wonky, on purpose.", ph: "Drop the line art" },
+  { title: "colour", line: "Flat colours first, then light, then mood.", ph: "Drop the coloured frame" },
+  { title: "animation", line: "Frame by frame in Procreate Dreams until it breathes.", ph: "Drop a frame or GIF" }
+];
+const TOOLS = [
+  { name: "Procreate", for: "sketching & illustration", bg: "#5a4bc4", fg: "#ffffff" },
+  { name: "Procreate Dreams", for: "frame-by-frame animation", bg: "#131316", fg: "#ffffff" },
+  { name: "Watercolour & gouache", for: "paintings on paper", bg: "#efedfb", fg: "#131316" }
+];
+const SKILLS = ["character design", "frame-by-frame animation", "illustration", "customising objects", "video editing"];
+const TIMELINE = [
+  { y: "2016", t: "first sketchbook, filled", d: "Mostly cats. A few teachers." },
+  { y: "2019", t: "the flipbook", d: "Found out drawings could move. No going back." },
+  { y: "2023", t: "first paid commission", d: "An album cover for a friend's band." },
+  { y: "2024", t: "tiny gods", d: "My first festival short film." },
+  { y: "2025", t: "monsoon diary", d: "A month of rain for The Bombay Review." },
+  { y: "2026", t: "moth lullaby", d: "Music video for Lalit & The Lamps." }
+];
+const CLIENTS = [
+  { n: "Lalit & The Lamps", k: "music video" }, { n: "Mumbai Film Fest", k: "loop" }, { n: "Static Hearts", k: "album cover" },
+  { n: "Kavya", k: "music video" }, { n: "The Bombay Review", k: "editorial" }
+];
+const FUN = [
+  { q: "snack while drawing", a: "masala peanuts. too many." },
+  { q: "I animate to", a: "lo-fi, old Bollywood, rain sounds" },
+  { q: "on my desk", a: "one cat, nine brushes, zero clean mugs" },
+  { q: "inspired by", a: "Ghibli skies, rickshaw art, Mumbai in monsoon" }
+];
+const SOCIAL = [
+  { n: "Instagram", h: "@yurix.draws", p: "WIPs, doodles and the odd reel. Almost daily." },
+  { n: "Behance", h: "behance.net/yurix", p: "Full case studies, from first sketch to final." },
+  { n: "YouTube", h: "@yurix", p: "Finished animations and process timelapses." },
+  { n: "Patreon", h: "patreon.com/yurix", p: "Brushes, timelapses and early looks for supporters." }
+];
+const GUIDE = [
+  "hi! I'm the doodle version. scroll, I'll show you around ↓",
+  "this is where it all started.",
+  "pick a medium, any medium.",
+  "step 4 is my favourite. obviously.",
+  "everything in my bag.",
+  "how I got here (the long way).",
+  "these people were very nice.",
+  "please ignore the mugs.",
+  "come say hi online too.",
+  "ok — your turn!"
+];
+const BG = ["#ffffff", "#efedfb", "#f5f5f7"];
+
+class Component extends DCLogic {
+  state = { menu: false, guide: 0 };
+  componentDidMount() { this.setup(); }
+  componentWillUnmount() { if (this.io) this.io.disconnect(); if (this.gio) this.gio.disconnect(); }
+  setup() {
+    const root = this.root, sc = this.scroller;
+    if (!root || !sc || typeof IntersectionObserver === "undefined") return;
+    root.setAttribute("data-ready", "1");
+    this.io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.setAttribute("data-in", "1"); this.io.unobserve(e.target); }
+    }), { root: sc, threshold: 0.12 });
+    root.querySelectorAll("[data-reveal]").forEach((n) => this.io.observe(n));
+    this.gio = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const i = +e.target.getAttribute("data-guide");
+      if (i !== this.state.guide) this.setState({ guide: i });
+    }), { root: sc, rootMargin: "-45% 0px -45% 0px" });
+    root.querySelectorAll("[data-guide]").forEach((n) => this.gio.observe(n));
+  }
+  moveCursor(e) {
+    const ab = this.root, c = this.cursor;
+    if (!ab || !c) return;
+    const r = ab.getBoundingClientRect();
+    const sc = r.width / ab.offsetWidth || 1;
+    const x = (e.clientX - r.left) / sc, y = (e.clientY - r.top) / sc;
+    const t = e.target && e.target.closest ? e.target.closest("[data-cursor]") : null;
+    const label = t && ab.contains(t) ? t.getAttribute("data-cursor") : "";
+    c.style.opacity = "1";
+    c.style.transform = "translate(" + x + "px," + y + "px)";
+    const blob = c.firstElementChild, lab = blob.firstElementChild;
+    if (label) { blob.style.width = blob.style.height = "84px"; blob.style.background = "#5a4bc4"; blob.style.mixBlendMode = "normal"; lab.textContent = label; lab.style.opacity = "1"; }
+    else { blob.style.width = blob.style.height = "16px"; blob.style.background = "#fff"; blob.style.mixBlendMode = "difference"; lab.style.opacity = "0"; }
+  }
+  renderVals() {
+    const m = !!this.props.mobile;
+    const d = (i, step) => (i * (step || 80)) + "ms";
+    return {
+      rootRef: (n) => { this.root = n; }, scrollRef: (n) => { this.scroller = n; }, cursorRef: (n) => { this.cursor = n; },
+      onMove: (e) => this.moveCursor(e), onLeave: () => { if (this.cursor) this.cursor.style.opacity = "0"; },
+      annot: this.props.showAnnotations === false ? "off" : "on",
+      reducedAttr: this.props.reduced ? "on" : "off",
+      isD: !m, isM: m, sfx: m ? "m" : "d",
+      nav: NAV.map((l, i) => ({ label: l, on: l === "about", off: l !== "about", num: "0" + (i + 1), delay: (60 + i * 50) + "ms", color: l === "about" ? "#5a4bc4" : "#131316" })),
+      menuOpen: this.state.menu, openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false }),
+      guideText: GUIDE[this.state.guide] || GUIDE[0],
+      guideL: m ? "12px" : "28px", guideB: m ? "14px" : "26px", guideSize: m ? "58px" : "84px", bubbleW: m ? "190px" : "250px", bubbleF: m ? "14px" : "16px",
+      story: STORY.map((s) => ({ ...s, doodle: !!s.doodle })),
+      sketches: SKETCHES.map((s, i) => ({ ...s, i, w: m ? "80%" : s.w, delay: d(i, 120) })),
+      mediums: MEDIUMS.map((x, i) => ({
+        ...x, isSoon: !!x.soon, isReal: !x.soon, anim: !!x.anim, img: x.key ? WM(F[x.key], 700) : "", pos: x.pos || "center",
+        count: x.count + " pieces", rot: ROT[i % ROT.length], rotM: i % 2 ? "1.5deg" : "-1.5deg", delay: d(i % 3)
+      })),
+      process: PROCESS.map((p, i) => ({ ...p, i, n: "0" + (i + 1), rot: ROT[(i + 1) % ROT.length], ratio: "4/5", delay: d(i, 110) })),
+      tools: TOOLS.map((t, i) => ({ ...t, rot: ["-6deg", "4deg", "-2deg"][i % 3] })),
+      skills: SKILLS.map((name, i) => ({ name, rot: ["-1.5deg", "1deg", "-0.5deg", "2deg", "-1deg"][i % 5] })),
+      timeline: TIMELINE.map((t, i) => ({ ...t, bg: BG[i % 3], rot: i % 2 ? "1.4deg" : "-1.2deg", rotM: i % 2 ? "0.8deg" : "-0.8deg", delay: d(i, 90) })),
+      clients: CLIENTS.map((c, i) => ({ ...c, rot: ["-2deg", "1.5deg", "-1deg", "2.5deg", "-1.5deg"][i % 5] })),
+      fun: FUN.map((f, i) => ({ ...f, bg: ["#efedfb", "#ffffff", "#f5f5f7", "#efedfb"][i % 4], rot: ["-2deg", "1.5deg", "1deg", "-1.5deg"][i % 4], delay: d(i, 90) })),
+      social: SOCIAL.map((s, i) => ({ ...s, delay: d(i) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

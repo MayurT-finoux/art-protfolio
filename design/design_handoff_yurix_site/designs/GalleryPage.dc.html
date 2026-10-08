@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  @keyframes pf-boil { 0% { transform: scale(1.04) translate(0,0) rotate(0); } 33% { transform: scale(1.045) translate(-1.5px,1px) rotate(-0.5deg); } 66% { transform: scale(1.04) translate(1.5px,-1px) rotate(0.5deg); } 100% { transform: scale(1.045) translate(0,0) rotate(0); } }
+  @keyframes pf-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes pf-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes pf-pop { from { opacity: 0; transform: translate(-50%,-50%) scale(0.96); } to { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
+  @keyframes pf-fade { from { opacity: 0; } to { opacity: 1; } }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible { outline: 2px solid #5a4bc4; outline-offset: 2px; }
+  [data-artboard], [data-artboard] * { cursor: none !important; }
+  [data-annot="off"] [data-cname], [data-annot="off"] [data-admin] { display: none !important; }
+  [data-inview="1"] [data-preview], [data-preview]:hover { animation: pf-boil 0.33s steps(1) infinite; }
+  [data-scroller] { scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { width: 0; height: 0; }
+  @media (prefers-reduced-motion: reduce) { [data-motion], [data-jitter], [data-jitter]:hover, [data-preview] { animation: none !important; } }
+</style>
+</helmet>
+<div data-artboard="" ref="{{ rootRef }}" data-annot="{{ annot }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; font-family: 'Inter', system-ui, sans-serif; color: #131316; font-weight: 300;">
+  <div data-scroller="" ref="{{ scrollRef }}" style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;">
+
+    <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+      <section style="position: relative; padding: 130px 56px 100px;">
+        <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 40px;">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ totalLabel }} pieces · everything, unfiltered</span>
+            <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 200px; line-height: 0.8; letter-spacing: -0.065em;">gallery</h1>
+          </div>
+          <p style="margin: 0; max-width: 400px; font-size: 18px; line-height: 1.6; color: #4b4b54; text-align: right; text-wrap: pretty;">Paintings, pixels, loops and things made with glue. Tap anything to see it up close.</p>
+        </header>
+
+        <div data-component="GalleryFilters" style="position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 40px;">
+          <span data-cname="" style="position: absolute; top: -24px; left: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">GalleryFilters · wraps as categories grow</span>
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="5">
+            <sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ c.pick }}" aria-pressed="true" style="display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid #131316; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">{{ c.label }}<span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #c9c4f2;">{{ c.count }}</span></button>
+            </sc-if>
+            <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ c.pick }}" aria-pressed="false" style="display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; color: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; transition: border-color 160ms ease;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">{{ c.label }}<span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">{{ c.count }}</span></button>
+            </sc-if>
+          </sc-for>
+          <span data-admin="" style="margin-left: 8px; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · categories (Comics, Graffiti next)</span>
+        </div>
+
+        <div data-component="GalleryGrid" ref="{{ gridRef }}" style="position: relative; column-count: 4; column-gap: 20px;">
+          <sc-for list="{{ items }}" as="a" hint-placeholder-count="12">
+            <article data-component="ArtworkCard" data-anim-card="{{ a.animAttr }}" onClick="{{ a.open }}" data-cursor="{{ a.cursor }}" style="break-inside: avoid; margin: 0 0 28px; display: flex; flex-direction: column; gap: 10px; animation: pf-up 380ms cubic-bezier(.2,.8,.2,1) both;" data-motion="">
+              <div style="position: relative; aspect-ratio: {{ a.pin }}; border-radius: 16px; overflow: hidden; background: #efeef6; transition: transform 240ms cubic-bezier(.2,.8,.2,1);" style-hover="transform: translateY(-4px);">
+                <sc-if value="{{ a.isAnim }}" hint-placeholder-val="{{ false }}">
+                  <div data-preview="" style="position: absolute; inset: -8px; background: url({{ a.img }}) {{ a.pos }} / cover no-repeat;"></div>
+                  <span style="position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 7px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>preview</span>
+                </sc-if>
+                <sc-if value="{{ a.isStill }}" hint-placeholder-val="{{ true }}">
+                  <div data-jitter="" style="position: absolute; inset: -6px; background: url({{ a.img }}) {{ a.pos }} / cover no-repeat;" style-hover="animation: pf-boil 0.33s steps(1) infinite;"></div>
+                </sc-if>
+                <sc-if value="{{ a.multi }}" hint-placeholder-val="{{ false }}">
+                  <span style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; border-radius: 7px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; color: #131316;">1/{{ a.imgCount }}</span>
+                </sc-if>
+              </div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 0 2px;">
+                <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.03em;">{{ a.title }}</span>
+                <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d; white-space: nowrap;">{{ a.cat }}</span>
+              </div>
+            </article>
+          </sc-for>
+          <span data-cname="" style="position: absolute; top: -22px; right: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">GalleryGrid · ArtworkCard</span>
+        </div>
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 80px 0; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -0.04em; color: #86868f;">nothing here yet. soon.</div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+      <section style="position: relative; padding: 96px 0 64px;">
+        <div style="padding: 0 16px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ totalLabel }} pieces</span>
+          <h1 style="margin: 8px 0 24px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 96px; line-height: 0.82; letter-spacing: -0.06em;">gallery</h1>
+        </div>
+        <div data-component="GalleryFilters" data-scroller="" style="display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 4px; margin-bottom: 22px; scroll-snap-type: x proximity; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent);">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="5">
+            <sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ c.pick }}" aria-pressed="true" style="flex: none; scroll-snap-align: start; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #131316; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; white-space: nowrap;">{{ c.label }}<span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: #c9c4f2;">{{ c.count }}</span></button>
+            </sc-if>
+            <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ c.pick }}" aria-pressed="false" style="flex: none; scroll-snap-align: start; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; color: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; white-space: nowrap;">{{ c.label }}<span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: #86868f;">{{ c.count }}</span></button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <div data-component="GalleryGrid" ref="{{ gridRef }}" style="column-count: 2; column-gap: 12px; padding: 0 16px;">
+          <sc-for list="{{ items }}" as="a" hint-placeholder-count="8">
+            <article data-component="ArtworkCard" data-anim-card="{{ a.animAttr }}" onClick="{{ a.open }}" style="break-inside: avoid; margin: 0 0 20px; display: flex; flex-direction: column; gap: 7px;">
+              <div style="position: relative; aspect-ratio: {{ a.pin }}; border-radius: 14px; overflow: hidden; background: #efeef6;">
+                <sc-if value="{{ a.isAnim }}" hint-placeholder-val="{{ false }}">
+                  <div data-preview="" style="position: absolute; inset: -8px; background: url({{ a.img }}) {{ a.pos }} / cover no-repeat;"></div>
+                  <span style="position: absolute; top: 8px; left: 8px; display: flex; align-items: center; gap: 5px; padding: 3px 7px; border-radius: 6px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 5px; height: 5px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>preview</span>
+                </sc-if>
+                <sc-if value="{{ a.isStill }}" hint-placeholder-val="{{ true }}">
+                  <div style="position: absolute; inset: 0; background: url({{ a.img }}) {{ a.pos }} / cover no-repeat;"></div>
+                </sc-if>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px; padding: 0 2px;">
+                <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: -0.03em;">{{ a.title }}</span>
+                <span style="font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;">{{ a.cat }}</span>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 60px 16px; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; color: #86868f;">nothing here yet. soon.</div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <dc-import name="SiteFooter" mobile="{{ isM }}" hint-size="100%,400px"></dc-import>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 84px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 34px; padding: 0 56px;">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+          <sc-if value="{{ n.on }}" hint-placeholder-val="{{ false }}">
+            <button style="position: relative; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: #5a4bc4;">{{ n.label }}<span style="position: absolute; left: 50%; bottom: -6px; width: 6px; height: 6px; margin-left: -3px; border-radius: 999px; background: #5a4bc4;"></span></button>
+          </sc-if>
+          <sc-if value="{{ n.off }}" hint-placeholder-val="{{ true }}">
+            <button data-cursor="go" style="padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316;" style-hover="color: #5a4bc4;">{{ n.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </nav>
+  </sc-if>
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 68px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -40px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 0; padding: 0; background: #131316;">
+        <span style="position: absolute; left: 14px; right: 14px; top: 19px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+        <span style="position: absolute; left: 14px; right: 19px; top: 27px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+      </button>
+    </nav>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-component="MobileMenu" style="position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; padding: 0 12px 28px 20px; box-sizing: border-box; background-color: #ffffff; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.14) 39px 40px);">
+        <div style="display: flex; justify-content: flex-end; align-items: center; height: 68px;">
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); padding: 0; background: #ffffff;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; margin-top: 48px; padding-right: 8px;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ closeMenu }}" data-motion="" style="display: flex; align-items: baseline; justify-content: space-between; min-height: 72px; padding: 0; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: {{ n.color }}; animation: pf-up 460ms cubic-bezier(.2,.8,.2,1) {{ n.delay }} both;">{{ n.label }}<span style="font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #86868f;">{{ n.num }}</span></button>
+          </sc-for>
+        </nav>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+      <div data-component="ArtworkLightbox" style="position: absolute; inset: 0; z-index: 70;">
+        <div onClick="{{ closeLb }}" data-motion="" style="position: absolute; inset: 0; background: rgba(19,19,22,0.62); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: pf-fade 200ms ease both;"></div>
+        <div data-motion="" role="dialog" aria-label="{{ lb.title }}" style="position: absolute; left: 50%; top: 50%; width: 1240px; height: 780px; transform: translate(-50%,-50%); display: grid; grid-template-columns: minmax(0,1fr) 400px; border-radius: 24px; overflow: hidden; background: #ffffff; box-shadow: 0 30px 80px rgba(19,19,22,0.35); animation: pf-pop 260ms cubic-bezier(.2,.8,.2,1) both;">
+          <span data-cname="" style="position: absolute; top: 14px; left: 14px; z-index: 6; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ArtworkLightbox · Esc / ← →</span>
+          <div style="position: relative; display: flex; flex-direction: column; background: #f5f5f7;">
+            <div style="position: relative; flex: 1; margin: 24px 24px 0; overflow: hidden; border-radius: 16px;">
+              <sc-if value="{{ lb.isAnim }}" hint-placeholder-val="{{ false }}">
+                <div data-motion="" style="position: absolute; inset: -6px; background: url({{ lbImg.img }}) center / contain no-repeat; animation: pf-boil 0.33s steps(1) infinite;"></div>
+                <span style="position: absolute; bottom: 14px; left: 14px; display: flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 8px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>muted loop</span>
+              </sc-if>
+              <sc-if value="{{ lb.isStill }}" hint-placeholder-val="{{ true }}">
+                <div style="position: absolute; inset: 0; background: url({{ lbImg.img }}) center / contain no-repeat;"></div>
+              </sc-if>
+              <span style="position: absolute; top: 14px; left: 14px; padding: 5px 9px; border-radius: 8px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;">{{ lbImg.label }}</span>
+              <button onClick="{{ prevArt }}" data-cursor="prev" aria-label="Previous artwork" style="position: absolute; left: 14px; top: 50%; width: 48px; height: 48px; margin-top: -24px; border-radius: 999px; border: 0; background: #ffffff; font-size: 18px; color: #131316; box-shadow: 0 4px 14px rgba(19,19,22,0.12);">←</button>
+              <button onClick="{{ nextArt }}" data-cursor="next" aria-label="Next artwork" style="position: absolute; right: 14px; top: 50%; width: 48px; height: 48px; margin-top: -24px; border-radius: 999px; border: 0; background: #ffffff; font-size: 18px; color: #131316; box-shadow: 0 4px 14px rgba(19,19,22,0.12);">→</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; height: 104px; padding: 0 24px;">
+              <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" aria-label="{{ t.label }}" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; border: 0; background: transparent;">
+                  <span style="display: block; width: 64px; height: 64px; border-radius: 12px; background: url({{ t.img }}) {{ t.pos }} / cover no-repeat; box-shadow: {{ t.ring }};"></span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;">{{ t.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <aside style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 40px 36px 32px; overflow-y: auto;">
+            <button onClick="{{ closeLb }}" data-cursor="close" aria-label="Close" style="position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; padding: 0;">
+              <span style="position: absolute; left: 13px; right: 13px; top: 20px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+              <span style="position: absolute; left: 13px; right: 13px; top: 20px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+            </button>
+            <span style="align-self: flex-start; padding: 5px 10px; border-radius: 8px; background: #efeef6; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ lb.cat }} · {{ lb.year }}</span>
+            <h2 style="margin: 0; padding-right: 40px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 48px; line-height: 0.9; letter-spacing: -0.05em;">{{ lb.title }}</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">{{ lb.desc }}</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">materials</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <sc-for list="{{ lb.materials }}" as="m" hint-placeholder-count="3"><span style="padding: 6px 12px; border-radius: 999px; background: #f5f5f7; font-size: 13px; color: #131316;">{{ m }}</span></sc-for>
+              </div>
+            </div>
+            <sc-if value="{{ lb.hasLinks }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">also on</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <sc-for list="{{ lb.links }}" as="l" hint-placeholder-count="2">
+                    <a href="#" data-cursor="open" style="display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 14px; color: #131316;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">{{ l }} ↗</a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <span data-admin="" style="align-self: flex-start; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · images, materials, links shown only if filled</span>
+            <span style="margin-top: auto; font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">{{ lbPos }}</span>
+          </aside>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+      <div data-component="ArtworkLightbox" data-motion="" style="position: absolute; inset: 0; z-index: 70; display: flex; flex-direction: column; background: #ffffff; animation: pf-up 260ms cubic-bezier(.2,.8,.2,1) both;">
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 12px 0 16px; flex: none;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">{{ lbPos }}</span>
+          <button onClick="{{ closeLb }}" aria-label="Close" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; padding: 0;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <div data-scroller="" style="flex: 1; overflow-y: auto;">
+          <div style="position: relative; margin: 0 16px; aspect-ratio: 1/1; border-radius: 16px; overflow: hidden; background: #f5f5f7;">
+            <sc-if value="{{ lb.isAnim }}" hint-placeholder-val="{{ false }}"><div data-motion="" style="position: absolute; inset: -6px; background: url({{ lbImg.img }}) center / contain no-repeat; animation: pf-boil 0.33s steps(1) infinite;"></div></sc-if>
+            <sc-if value="{{ lb.isStill }}" hint-placeholder-val="{{ true }}"><div style="position: absolute; inset: 0; background: url({{ lbImg.img }}) center / contain no-repeat;"></div></sc-if>
+            <span style="position: absolute; top: 10px; left: 10px; padding: 4px 8px; border-radius: 7px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;">{{ lbImg.label }}</span>
+          </div>
+          <div style="display: flex; gap: 10px; padding: 12px 16px 0;">
+            <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="3">
+              <button onClick="{{ t.pick }}" aria-label="{{ t.label }}" style="width: 56px; height: 56px; padding: 0; border: 0; border-radius: 12px; background: url({{ t.img }}) {{ t.pos }} / cover no-repeat; box-shadow: {{ t.ring }};"></button>
+            </sc-for>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; padding: 22px 16px 40px;">
+            <span style="align-self: flex-start; padding: 4px 9px; border-radius: 7px; background: #efeef6; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ lb.cat }} · {{ lb.year }}</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.9; letter-spacing: -0.05em;">{{ lb.title }}</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #4b4b54;">{{ lb.desc }}</p>
+            <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">materials</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: -6px;">
+              <sc-for list="{{ lb.materials }}" as="m" hint-placeholder-count="3"><span style="padding: 6px 12px; border-radius: 999px; background: #f5f5f7; font-size: 13px;">{{ m }}</span></sc-for>
+            </div>
+            <sc-if value="{{ lb.hasLinks }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                <sc-for list="{{ lb.links }}" as="l" hint-placeholder-count="2">
+                  <a href="#" style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; color: #131316;">{{ l }} ↗</a>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <button onClick="{{ prevArt }}" style="flex: 1; height: 50px; border-radius: 999px; border: 0; background: #f5f5f7; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; color: #131316;">← prev</button>
+              <button onClick="{{ nextArt }}" style="flex: 1; height: 50px; border-radius: 999px; border: 0; background: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; color: #ffffff;">next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <div ref="{{ cursorRef }}" style="position: absolute; left: 0; top: 0; z-index: 95; pointer-events: none; opacity: 0;"><div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; transform: translate(-50%,-50%); border-radius: 999px; background: #fff; mix-blend-mode: difference; display: grid; place-items: center; transition: width 220ms cubic-bezier(.2,.8,.2,1), height 220ms cubic-bezier(.2,.8,.2,1), background 220ms ease;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity 160ms ease;"></span></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;filter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;All&quot;,&quot;Traditional&quot;,&quot;Digital&quot;,&quot;Animation&quot;,&quot;Handmade&quot;],&quot;default&quot;:&quot;All&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;open&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:-1,&quot;min&quot;:-1,&quot;max&quot;:15,&quot;tsType&quot;:&quot;number&quot;},&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const WM = (f, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + f + "?width=" + (w || 800);
+const F = {
+  klimt: "Gustav_Klimt_016.jpg", pearl: "Girl_with_a_Pearl_Earring.jpg", starry: "Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+  scream: "The_Scream.jpg", kand: "Vassily_Kandinsky,_1913_-_Composition_7.jpg", wave: "Tsunami_by_hokusai_19th_century.jpg",
+  venus: "Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg", monet: "Claude_Monet,_Impression,_soleil_levant.jpg"
+};
+const CATEGORIES = ["Traditional", "Digital", "Animation", "Handmade"];
+const A = (title, cat, year, key, pos, pin, materials, links, views) => ({ title, cat, year, key, pos, pin, materials, links, views });
+const ARTWORKS = [
+  A("monsoon window", "Traditional", "2026", "venus", "center", "4/5", ["Watercolour", "Cold-press paper"], ["Instagram"], ["front"]),
+  A("frog choir", "Digital", "2026", "kand", "left center", "1/1", ["Procreate", "iPad Pro"], ["Instagram", "Behance"], ["final"]),
+  A("moth lullaby loop", "Animation", "2026", "klimt", "center", "2/3", ["Procreate Dreams", "24 frames"], ["YouTube", "Instagram"], ["loop"]),
+  A("clay ghost", "Handmade", "2026", "pearl", "center 30%", "3/4", ["Air-dry clay", "Acrylic", "Varnish"], ["Instagram"], ["front", "side", "detail"]),
+  A("night shift", "Digital", "2025", "starry", "right center", "4/3", ["Procreate"], [], ["final"]),
+  A("static hearts", "Traditional", "2025", "scream", "center 35%", "9/14", ["Gouache", "Ink"], ["Behance"], ["before", "after"]),
+  A("neon auto ride", "Animation", "2025", "starry", "center", "1/1", ["Procreate Dreams", "After Effects"], ["YouTube"], ["loop"]),
+  A("sticker sheet 03", "Handmade", "2025", "kand", "center", "4/5", ["Risograph", "Vinyl", "Die-cut"], ["Instagram"], ["sheet", "close-up"]),
+  A("pigeon study", "Traditional", "2025", "wave", "left center", "3/4", ["Graphite", "Charcoal"], [], ["front"]),
+  A("slow static loop", "Animation", "2025", "wave", "center", "16/10", ["TVPaint", "8 fps"], ["YouTube", "Behance"], ["loop"]),
+  A("chai break", "Digital", "2025", "klimt", "center bottom", "2/3", ["Procreate"], ["Instagram"], ["final"]),
+  A("paper moon", "Handmade", "2024", "monet", "center", "1/1", ["Cut paper", "Glue", "Thread"], [], ["front", "angle"]),
+  A("bus stop", "Traditional", "2024", "pearl", "center top", "4/5", ["Oil on canvas"], ["Behance"], ["front"]),
+  A("tiny gods", "Animation", "2024", "monet", "center", "3/4", ["TVPaint"], ["YouTube"], ["loop"]),
+  A("rooftop", "Digital", "2024", "venus", "right center", "5/4", ["Procreate", "Photoshop"], [], ["final"]),
+  A("embroidered cat", "Handmade", "2024", "scream", "center", "1/1", ["Embroidery floss", "Linen"], ["Instagram"], ["before", "after"])
+];
+const POS = ["center", "left center", "right center", "center top"];
+
+class Component extends DCLogic {
+  state = { filter: this.props.filter || "All", open: this.props.open ?? -1, view: 0, menu: false };
+
+  componentDidMount() {
+    this.onKey = (e) => {
+      if (this.state.open < 0) return;
+      if (e.key === "Escape") this.setState({ open: -1 });
+      if (e.key === "ArrowRight") this.step(1);
+      if (e.key === "ArrowLeft") this.step(-1);
+    };
+    document.addEventListener("keydown", this.onKey);
+    this.observe();
+  }
+  componentDidUpdate(prev, prevState) {
+    if (prev.filter !== this.props.filter) this.setState({ filter: this.props.filter || "All" });
+    if (prev.open !== this.props.open) this.setState({ open: this.props.open ?? -1, view: 0 });
+    if (prevState.filter !== this.state.filter) this.observe();
+  }
+  componentWillUnmount() { document.removeEventListener("keydown", this.onKey); if (this.io) this.io.disconnect(); }
+
+  observe() {
+    if (this.io) this.io.disconnect();
+    if (!this.grid || !window.IntersectionObserver) return;
+    this.io = new IntersectionObserver((es) => es.forEach((en) => en.target.setAttribute("data-inview", en.isIntersecting ? "1" : "0")), { root: this.scroller, threshold: 0.4 });
+    setTimeout(() => { if (this.grid) this.grid.querySelectorAll('[data-anim-card="1"]').forEach((n) => this.io.observe(n)); }, 50);
+  }
+  list() { const f = this.state.filter; return ARTWORKS.map((a, i) => Object.assign({ i }, a)).filter((a) => f === "All" || a.cat === f); }
+  step(d) {
+    const l = this.list(); if (!l.length) return;
+    const at = Math.max(0, l.findIndex((a) => a.i === this.state.open));
+    this.setState({ open: l[(at + d + l.length) % l.length].i, view: 0 });
+  }
+  moveCursor(e) {
+    const ab = this.root, c = this.cursor;
+    if (!ab || !c) return;
+    const r = ab.getBoundingClientRect();
+    const sc = r.width / ab.offsetWidth || 1;
+    const x = (e.clientX - r.left) / sc, y = (e.clientY - r.top) / sc;
+    const t = e.target && e.target.closest ? e.target.closest("[data-cursor]") : null;
+    const label = t && ab.contains(t) ? t.getAttribute("data-cursor") : "";
+    c.style.opacity = "1";
+    c.style.transform = "translate(" + x + "px," + y + "px)";
+    const blob = c.firstElementChild, lab = blob.firstElementChild;
+    if (label) {
+      blob.style.width = blob.style.height = "84px"; blob.style.background = "#5a4bc4"; blob.style.mixBlendMode = "normal";
+      lab.textContent = label; lab.style.opacity = "1";
+    } else {
+      blob.style.width = blob.style.height = "16px"; blob.style.background = "#fff"; blob.style.mixBlendMode = "difference";
+      lab.style.opacity = "0";
+    }
+  }
+  renderVals() {
+    const m = !!this.props.mobile;
+    const { filter, open, view } = this.state;
+    const items = this.list();
+    const keys = Object.keys(F);
+    const art = open >= 0 ? ARTWORKS[open] : ARTWORKS[0];
+    const images = art.views.map((label, j) => ({ label, img: WM(F[j === 0 ? art.key : keys[(keys.indexOf(art.key) + j * 2) % keys.length]], 1400), pos: j === 0 ? art.pos : POS[j % POS.length] }));
+    const v = Math.min(view, images.length - 1);
+    const at = items.findIndex((a) => a.i === open);
+    const NAV = ["work", "gallery", "shop", "about", "contact"];
+    return {
+      rootRef: (n) => { this.root = n; },
+      scrollRef: (n) => { this.scroller = n; },
+      gridRef: (n) => { const was = this.grid; this.grid = n; if (n && n !== was) this.observe(); },
+      cursorRef: (n) => { this.cursor = n; },
+      onMove: (e) => this.moveCursor(e),
+      onLeave: () => { if (this.cursor) this.cursor.style.opacity = "0"; },
+      annot: this.props.showAnnotations === false ? "off" : "on",
+      isD: !m, isM: m,
+      totalLabel: String(ARTWORKS.length),
+      chips: ["All"].concat(CATEGORIES).map((c) => {
+        const on = c === filter;
+        return { label: c, on, off: !on, count: c === "All" ? ARTWORKS.length : ARTWORKS.filter((a) => a.cat === c).length, pick: () => this.setState({ filter: c }) };
+      }),
+      items: items.map((a) => {
+        const anim = a.cat === "Animation";
+        return { title: a.title, cat: a.cat, pin: a.pin, pos: a.pos, img: WM(F[a.key]), isAnim: anim, isStill: !anim, animAttr: anim ? "1" : "0",
+          cursor: anim ? "play" : "view", multi: a.views.length > 1, imgCount: a.views.length, open: () => this.setState({ open: a.i, view: 0 }) };
+      }),
+      isEmpty: items.length === 0,
+      lbOpen: open >= 0,
+      lb: { title: art.title, cat: art.cat, year: art.year, isAnim: art.cat === "Animation", isStill: art.cat !== "Animation",
+        desc: art.cat === "Handmade" ? "Made by hand, photographed from a few angles so you can see the texture and the wobbly bits." : art.cat === "Animation" ? "A short hand-drawn loop. The full version, with sound, lives on YouTube." : "Drawn for no one in particular, then finished because it wouldn't leave me alone.",
+        materials: art.materials, links: art.links, hasLinks: art.links.length > 0 },
+      lbImg: images[v],
+      thumbs: images.map((im, j) => ({ label: im.label, img: WM(F[j === 0 ? art.key : keys[(keys.indexOf(art.key) + j * 2) % keys.length]], 200), pos: im.pos,
+        ring: j === v ? "0 0 0 2px #ffffff, 0 0 0 4px #5a4bc4" : "0 0 0 1px rgba(19,19,22,0.12)", pick: () => this.setState({ view: j }) })),
+      lbPos: String((at < 0 ? 0 : at) + 1).padStart(2, "0") + " / " + String(items.length).padStart(2, "0"),
+      closeLb: () => this.setState({ open: -1 }),
+      prevArt: () => this.step(-1),
+      nextArt: () => this.step(1),
+      nav: NAV.map((l, i) => ({ label: l, on: l === "gallery", off: l !== "gallery", num: "0" + (i + 1), delay: (60 + i * 50) + "ms", color: l === "gallery" ? "#5a4bc4" : "#131316" })),
+      menuOpen: this.state.menu,
+      openMenu: () => this.setState({ menu: true }),
+      closeMenu: () => this.setState({ menu: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
