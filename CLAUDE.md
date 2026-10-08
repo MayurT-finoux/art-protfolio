@@ -98,6 +98,10 @@ src/
 
 Component folders and files are named exactly as the design's `data-component`.
 
+**CSS Modules + animations:** define `@keyframes` inside the `.module.css` that uses them. CSS Modules renames animation names per file, so keyframes in `globals.css` don't match (and `:global()` doesn't work inside `animation`). Exception: keyframes referenced from inline `style` (e.g. `mp-eq` in MusicPlayer) stay in `globals.css`.
+
+**Dev server:** after changing `src/app/layout.tsx`, restart `npm run dev` if the page doesn't pick it up.
+
 ## Commands
 
 - `npm run dev` — dev server
@@ -125,4 +129,10 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Neon setup: skipped `neon config init`, `neon.ts` and `neon deploy` (they manage Neon Functions / buckets, which the brief excludes, and add `@neon/config`).
 - 2026-10-08 — Neon agent skills in `.claude/skills/` include neon-auth, neon-functions and neon-object-storage. Ignore them: the brief excludes those products.
 - 2026-10-08 — Neon CLI uses the API-key profile `default`; run CLI commands with `--profile default`.
+- 2026-10-08 — Home built first, inside Phase 1 (Phase 1b), with placeholder data in `src/lib/placeholder/home.ts`.
+- 2026-10-08 — Responsive breakpoint: mobile ≤ 767px. Between 768 and 1440 the desktop values apply.
+- 2026-10-08 — Where the handoff README and the design code differ, follow the design code (e.g. hero range 600/480px, nav 600 weight).
+- 2026-10-08 — Hero scroll vars (`--p`, `--w`, `--hide`) live on `<html>`; pages without `[data-home]` show the finished state (nav in, player hidden).
+- 2026-10-08 — Yurix's change: HeroIntro on desktop: heading 122px (design 172px), intro paragraph 19px (design 22px). Mobile stays as designed (80px / 18px).
+- 2026-10-08 — Yurix's change: footer Wordmark on desktop 254px (design 260px). Mobile stays 120px.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

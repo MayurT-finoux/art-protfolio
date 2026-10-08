@@ -168,7 +168,7 @@ Connection strings: taken from the Neon CLI if it gives both pooled and direct; 
 
 # Phase 1b — Working Home page
 
-Status: **plan, waiting for approval**
+Status: **built** (2026-10-08) — waiting for visual review
 
 Requested 2026-10-08: see a working Home page in Phase 1. This pulls the Home-related parts of
 Phase 2 (tokens, shell), Phase 3 (Home only) and Phase 8 (hero scroll) forward. Other pages stay as they are.
@@ -189,7 +189,7 @@ Source: `design/design_handoff_yurix_site/designs/HomePage.dc.html` + `SiteFoote
 3. **Home sections** — `src/app/(site)/page.tsx`
    - HeroAnimation + HeroIntro (scrim, scroll hint).
    - SelectedWork (masonry, "loop" badge, boil on hover), FreshWork (6-col grid / mobile strip), AboutSection (floating window), InfoCards.
-   - Loading skeleton styles included; Instagram error state included.
+   - Loading skeletons (shown until each image loads). The Instagram error state has no markup in the design, so it is not built.
 4. **Hero scroll behaviour** — progress `p` over the first viewport: blur, scale, intro fade/translate, scrim, scroll hint, wash to white, nav drop-in, MusicPlayer hide; threshold snap (0.2 / 0.8, 140ms debounce, ease-out-cubic, 300–800ms, wheel/touch cancels).
    Built with **GSAP + ScrollTrigger** (in the stack). Lenis stays in Phase 8.
 5. **Reduced motion**: still frame, no blur/translate, instant snap.
@@ -214,4 +214,13 @@ Hero: the design's still image (no MP4 exists yet). Intro text: the design's pla
 - [ ] Home matches `HomePage.dc.html` at 1440 and 390 widths (side-by-side check)
 - [ ] Scroll: snap to start / finished works both ways, never rests half-blurred
 - [ ] Reduced motion works
-- [ ] `npm run lint` + `npm run build` pass
+- [x] `npm run lint` + `npm run build` pass
+
+## Build notes
+
+- Breakpoint: mobile layout at **≤ 767px**, desktop above. The design only has 1440 and 390 frames; widths between use the desktop values.
+- Values come from the design's code where it differs from the handoff README: hero range 600px desktop / 480px mobile; nav items Bricolage 600 20px; mobile menu items 66px with 60ms stagger.
+- Hero and intro are `position: fixed` behind the page (as in the design); GSAP ScrollTrigger tracks progress, GSAP ScrollToPlugin runs the snap.
+- Design `<button>`s that navigate are links (`<a>`), styled the same.
+- Selected Work cards don't link anywhere yet (artwork pages / lightbox come with Gallery).
+- Behance and YouTube footer links are `#` until the URLs are known.

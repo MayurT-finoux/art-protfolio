@@ -1,0 +1,21 @@
+.dock {
+  position: fixed;
+  right: 32px;
+  bottom: 28px;
+  z-index: 40;
+  pointer-events: none;
+  opacity: calc(1 - var(--hide));
+  transform: translateY(calc(var(--hide) * 24px));
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+:global(html[data-player="show"]) .dock {
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  .dock {
+    right: 14px;
+    bottom: 18px;
+  }
+}

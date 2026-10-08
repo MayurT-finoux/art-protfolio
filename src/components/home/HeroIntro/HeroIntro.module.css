@@ -1,0 +1,151 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  color: var(--white);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(19, 19, 22, 0.62) 0%, rgba(19, 19, 22, 0.28) 50%, rgba(19, 19, 22, 0) 85%);
+  opacity: calc(1 - var(--p) * 1.4);
+}
+
+.text {
+  position: absolute;
+  left: 72px;
+  bottom: 108px;
+  max-width: 760px;
+  opacity: calc(1 - var(--p) * 2.2);
+  transform: translateY(calc(var(--p) * var(--move) * -140px));
+  filter: blur(calc(var(--p) * var(--move) * 8px));
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 18px 0 26px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 122px;
+  line-height: 0.84;
+  letter-spacing: -0.06em;
+}
+
+.body {
+  max-width: 520px;
+  font-size: 19px;
+  line-height: 1.5;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+
+.hint {
+  position: absolute;
+  left: 72px;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: calc(1 - var(--p) * 6);
+}
+
+.mouse {
+  position: relative;
+  width: 26px;
+  height: 42px;
+  border: 1.5px solid var(--white);
+  border-radius: var(--radius-pill);
+}
+
+.dot {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 4px;
+  height: 9px;
+  margin-left: -2px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  animation: pf-nudge 1.5s ease-in-out infinite;
+}
+
+.hintText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .scrim {
+    background: linear-gradient(180deg, rgba(19, 19, 22, 0.25) 0%, rgba(19, 19, 22, 0.5) 45%, rgba(19, 19, 22, 0.62) 100%);
+  }
+
+  .text {
+    left: 20px;
+    right: 20px;
+    bottom: 90px;
+    max-width: none;
+    transform: translateY(calc(var(--p) * var(--move) * -100px));
+    filter: none;
+  }
+
+  .label {
+    font-size: 11px;
+  }
+
+  .heading {
+    margin: 14px 0 20px;
+    font-size: 80px;
+    line-height: 0.86;
+    letter-spacing: -0.055em;
+  }
+
+  .body {
+    max-width: none;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+
+  .hint {
+    left: 20px;
+    bottom: 34px;
+    gap: 12px;
+  }
+
+  .mouse {
+    width: 22px;
+    height: 36px;
+  }
+
+  .dot {
+    top: 7px;
+    height: 8px;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: inline;
+  }
+}
+
+/* Keyframes live in this module so CSS Modules renames name and definition together. */
+@keyframes pf-nudge {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  60% { transform: translateY(9px); opacity: 0.2; }
+}

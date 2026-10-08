@@ -1,0 +1,350 @@
+.section {
+  position: relative;
+  padding: 28px var(--gutter) 110px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 136px;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: var(--ink);
+}
+
+.button,
+.buttonMobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-20);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: background 160ms ease;
+}
+
+.button:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.buttonMobile {
+  display: none;
+}
+
+.grid {
+  column-count: 4;
+  column-gap: 16px;
+}
+
+.card {
+  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 22px;
+}
+
+.frame {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--surface-placeholder);
+  transition: transform 260ms var(--ease-ui);
+}
+
+.image {
+  position: absolute;
+  inset: -8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (hover: hover) {
+  .frame:hover {
+    transform: rotate(-0.6deg) scale(1.01);
+  }
+
+  .image:hover {
+    animation: pf-boil 0.33s steps(1) infinite;
+  }
+}
+
+.kind {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.loop {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.loopDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  animation: pf-blink 1s steps(1) infinite;
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-skeleton);
+  animation: pf-pulse 1.4s ease-in-out infinite;
+}
+
+.inking {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 4px;
+}
+
+.captionTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.n {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.captionSkeleton {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 4px;
+}
+
+.barTitle {
+  width: 45%;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--surface-skeleton);
+  animation: pf-pulse 1.4s ease-in-out infinite;
+}
+
+.barYear {
+  width: 40px;
+  height: 12px;
+  border-radius: 4px;
+  background: var(--surface-skeleton);
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 24px 16px 64px;
+  }
+
+  .header {
+    display: block;
+    margin-bottom: 0;
+  }
+
+  .titles {
+    gap: 0;
+  }
+
+  .label {
+    font-size: 10.5px;
+  }
+
+  .heading {
+    margin: 8px 0 24px;
+    font-size: 66px;
+    line-height: 0.84;
+    letter-spacing: -0.055em;
+  }
+
+  .button {
+    display: none;
+  }
+
+  .buttonMobile {
+    display: flex;
+    width: 100%;
+    height: 52px;
+    margin-top: 30px;
+  }
+
+  .grid {
+    column-count: 2;
+    column-gap: 10px;
+  }
+
+  .card {
+    gap: 7px;
+    margin: 0 0 16px;
+  }
+
+  .image {
+    inset: 0;
+  }
+
+  .kind {
+    top: 9px;
+    left: 9px;
+    padding: 4px 7px;
+    border-radius: 6px;
+    font-size: 9px;
+  }
+
+  .loop {
+    bottom: 9px;
+    right: 9px;
+    gap: 5px;
+    padding: 4px 7px;
+    border-radius: 6px;
+    font-size: 9px;
+  }
+
+  .loopDot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .inking {
+    display: none;
+  }
+
+  .caption {
+    gap: 8px;
+    padding: 0 2px;
+  }
+
+  .n {
+    display: none;
+  }
+
+  .title {
+    font-size: 19px;
+  }
+
+  .year {
+    font-size: 10px;
+  }
+
+  .captionSkeleton {
+    padding: 0;
+  }
+
+  .barTitle {
+    width: 55%;
+    height: 16px;
+    border-radius: 5px;
+    animation: none;
+  }
+
+  .barYear {
+    display: none;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: inline;
+  }
+}
+
+/* Keyframes live in this module so CSS Modules renames name and definition together. */
+@keyframes pf-boil {
+  0% { transform: scale(1.04) translate(0, 0) rotate(0); }
+  33% { transform: scale(1.045) translate(-1.5px, 1px) rotate(-0.5deg); }
+  66% { transform: scale(1.04) translate(1.5px, -1px) rotate(0.5deg); }
+  100% { transform: scale(1.045) translate(0, 0) rotate(0); }
+}
+
+@keyframes pf-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes pf-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
