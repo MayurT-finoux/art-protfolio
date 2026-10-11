@@ -26,7 +26,7 @@ The design files from Claude Design are the finalized design and the **single so
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
 - Email: Resend (contact form notifications)
-- Hosting: **Netlify** (preview from branch `phase-1`, `netlify.toml`); functions region Singapore needs a paid plan, decide before launch
+- Hosting: **Vercel** (production branch `phase-1`; R2 keys in Vercel env vars). `netlify.toml` kept but unused.
 - Do NOT use Neon Auth, Neon Functions, or Neon Object Storage (so no `neon.ts` / `neon deploy`).
 
 ## Key features (details are in the design files)
@@ -141,6 +141,6 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Admin design built before database/login/R2 (Phase 2). Placeholder data in `src/lib/placeholder/admin.ts`; client-side state in `AdminProvider`. Real URLs per screen; `[slug]` editors read params inside `<Suspense>` (Next 16 instant-navigation rule).
 - 2026-10-08 — Hidden shortcut: 3 clicks on the footer Wordmark within 600 ms → `/admin`.
 - 2026-10-08 — Next 16 + Cache Components: no `new Date()` / `Math.random()` during prerender in client components; wrap in `<Suspense>` or move to an event/effect.
-- 2026-10-08 — Cloudflare R2: no domain yet → public `r2.dev` URL for now (custom domain before launch). Uploads: browser PUTs to a presigned URL from `/api/uploads`, which only works in `npm run dev` until the admin login exists. Limits: images 20 MB (JPG/PNG/WebP), video 200 MB (MP4/WebM/MOV), audio 30 MB (MP3/M4A).
-- 2026-10-11 — Hosting: Netlify chosen (Render considered). `/admin` was hidden on deployed builds; **removed at Yurix's request (2026-10-11): admin is open on every deployment until the login (Better Auth) is added** — must be protected before launch.
+- 2026-10-08 — Cloudflare R2: no domain yet → public `r2.dev` URL for now (custom domain before launch). Uploads: browser PUTs to a presigned URL from `/api/uploads`. The dev-only gate was **removed at Yurix's request (2026-10-11)**: uploads work on deployments too (R2 keys set in Vercel); type/size/folder still checked. Must require the login before launch. Limits: images 20 MB (JPG/PNG/WebP), video 200 MB (MP4/WebM/MOV), audio 30 MB (MP3/M4A).
+- 2026-10-11 — Hosting: Vercel (Render and Netlify considered). `/admin` was hidden on deployed builds; **removed at Yurix's request (2026-10-11): admin is open on every deployment until the login (Better Auth) is added** — must be protected before launch.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

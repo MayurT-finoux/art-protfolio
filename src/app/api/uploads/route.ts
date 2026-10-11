@@ -7,13 +7,10 @@ type Body = { kind: UploadKind; folder: string; contentType: string; size: numbe
  * Signs one upload: the browser then PUTs the file straight to R2.
  * Returns { uploadUrl, publicUrl, key }.
  *
- * Until the admin login exists, this only works on the local dev server.
+ * TODO (before launch): require the admin login. Open on every deployment for
+ * now at Yurix's request (2026-10-11); type, size and folder are still checked.
  */
 export async function POST(request: Request) {
-  if (process.env.NODE_ENV !== "development") {
-    return Response.json({ error: "Uploads are disabled until the admin login is set up." }, { status: 403 });
-  }
-
   let body: Body;
   try {
     body = await request.json();
