@@ -142,5 +142,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Hidden shortcut: 3 clicks on the footer Wordmark within 600 ms → `/admin`.
 - 2026-10-08 — Next 16 + Cache Components: no `new Date()` / `Math.random()` during prerender in client components; wrap in `<Suspense>` or move to an event/effect.
 - 2026-10-08 — Cloudflare R2: no domain yet → public `r2.dev` URL for now (custom domain before launch). Uploads: browser PUTs to a presigned URL from `/api/uploads`, which only works in `npm run dev` until the admin login exists. Limits: images 20 MB (JPG/PNG/WebP), video 200 MB (MP4/WebM/MOV), audio 30 MB (MP3/M4A).
-- 2026-10-11 — Hosting: Netlify chosen (Render considered). `/admin` is hidden (404) on deployed builds until the login exists; `ENABLE_ADMIN=true` shows it.
+- 2026-10-11 — Hosting: Netlify chosen (Render considered). `/admin` was hidden on deployed builds; **removed at Yurix's request (2026-10-11): admin is open on every deployment until the login (Better Auth) is added** — must be protected before launch.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

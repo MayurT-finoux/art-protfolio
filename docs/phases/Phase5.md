@@ -16,7 +16,7 @@ The admin isn't needed on the live site yet. (A Render plan was drafted first; N
 | Next.js runtime | Netlify's OpenNext adapter, detected automatically (supports Next 16 + Cache Components) |
 | Env vars | none needed yet (pages don't use the database; uploads are dev-only) |
 
-- `/admin` → "not found" on deployed builds (`src/app/admin/layout.tsx`); set `ENABLE_ADMIN=true` to show it.
+- `/admin` is **open** on deployed builds (hiding removed at Yurix's request, 2026-10-11). Protect with the login before launch.
 - `/api/uploads` already refuses requests outside local dev.
 - Functions region: Netlify's free plan runs functions in the US; choosing Singapore needs a paid plan. Fine for a preview (pages are static).
 
