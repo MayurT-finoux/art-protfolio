@@ -26,7 +26,7 @@ The design files from Claude Design are the finalized design and the **single so
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
 - Email: Resend (contact form notifications)
-- Hosting: Vercel or Netlify, functions region Singapore (`sin1` on Vercel)
+- Hosting: **Netlify** (preview from branch `phase-1`, `netlify.toml`); functions region Singapore needs a paid plan, decide before launch
 - Do NOT use Neon Auth, Neon Functions, or Neon Object Storage (so no `neon.ts` / `neon deploy`).
 
 ## Key features (details are in the design files)
@@ -142,4 +142,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Hidden shortcut: 3 clicks on the footer Wordmark within 600 ms → `/admin`.
 - 2026-10-08 — Next 16 + Cache Components: no `new Date()` / `Math.random()` during prerender in client components; wrap in `<Suspense>` or move to an event/effect.
 - 2026-10-08 — Cloudflare R2: no domain yet → public `r2.dev` URL for now (custom domain before launch). Uploads: browser PUTs to a presigned URL from `/api/uploads`, which only works in `npm run dev` until the admin login exists. Limits: images 20 MB (JPG/PNG/WebP), video 200 MB (MP4/WebM/MOV), audio 30 MB (MP3/M4A).
+- 2026-10-11 — Hosting: Netlify chosen (Render considered). `/admin` is hidden (404) on deployed builds until the login exists; `ENABLE_ADMIN=true` shows it.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.
