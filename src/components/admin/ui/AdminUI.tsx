@@ -196,7 +196,7 @@ export function SoonTag() {
 /** Thumbnail with a cover-fitted background image. */
 export function Thumb({ src, position = "center", className, style, children }: { src: string; position?: string; className?: string; style?: React.CSSProperties; children?: ReactNode }) {
   return (
-    <span className={cx(styles.thumb, className)} style={{ backgroundImage: `url("${src}")`, backgroundPosition: position, ...style }}>
+    <span className={cx(styles.thumb, className)} style={{ backgroundImage: src ? `url("${src}")` : undefined, backgroundPosition: position, ...style }}>
       {children}
     </span>
   );

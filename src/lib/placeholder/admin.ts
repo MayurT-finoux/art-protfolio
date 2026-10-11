@@ -120,7 +120,7 @@ export const NAV: NavRow[] = [
   { id: "contact", label: "contact", href: "/contact", visible: true },
 ];
 
-export type Track = { name: string; file: string; duration: string };
+export type Track = { name: string; file: string; duration: string; /** uploaded file (R2) */ url?: string };
 export const TRACKS: Track[] = [
   { name: "lullaby for a cat (loop)", file: "lullaby-cat.mp3", duration: "1:42" },
   { name: "rooftop hum", file: "rooftop-hum.mp3", duration: "2:10" },

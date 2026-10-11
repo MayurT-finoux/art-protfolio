@@ -14,6 +14,7 @@ import {
 import { AdminPage } from "../AdminPage/AdminPage";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { SlugSeoFields } from "../SlugSeoFields/SlugSeoFields";
+import { FilePicker, progressLabel } from "../ui/FilePicker";
 import { SortableList } from "../ui/Sortable";
 import { Button, Chip, DragHandle, Field, FieldLabel, Panel, TextArea, TextInput, Thumb, Toggle } from "../ui/AdminUI";
 import styles from "./ArtworkEditor.module.css";
@@ -54,6 +55,7 @@ export function ArtworkEditor({ artwork }: { artwork: Artwork | null }) {
     })),
   );
   const [localDraft, setLocalDraft] = useState(true);
+  const [previewFile, setPreviewFile] = useState<string | null>(null);
 
   const draft = artwork ? artworkDraft[artwork.slug] : localDraft;
   const setDraft = (d: boolean) => (artwork ? setArtworkDraft(artwork.slug, d) : setLocalDraft(d));
@@ -106,11 +108,21 @@ export function ArtworkEditor({ artwork }: { artwork: Artwork | null }) {
                 )}
               />
               <div className={styles.imageCell}>
-                <button type="button" className={styles.addImage}>
-                  <span className={styles.addPlus}>+</span>
-                  <span>add image</span>
-                  <span className={styles.addHint}>JPG, PNG, WebP</span>
-                </button>
+                <FilePicker
+                  kind="image"
+                  folder={`artworks/${slug}`}
+                  onUploaded={(url) =>
+                    setImages((list) => [...list, { id: url, label: list.length ? "" : "front", src: url, position: "center" }])
+                  }
+                >
+                  {({ open, progress }) => (
+                    <button type="button" className={styles.addImage} onClick={open}>
+                      <span className={styles.addPlus}>+</span>
+                      <span>{progressLabel(progress, "add image")}</span>
+                      <span className={styles.addHint}>JPG, PNG, WebP</span>
+                    </button>
+                  )}
+                </FilePicker>
                 <span className={styles.labelHint}>label: front, side, before, after…</span>
               </div>
             </div>
@@ -118,12 +130,16 @@ export function ArtworkEditor({ artwork }: { artwork: Artwork | null }) {
               <div className={styles.preview}>
                 <span className={styles.previewIcon}>▶</span>
                 <div className={styles.previewText}>
-                  <span className={styles.previewTitle}>Preview loop · {slug}-preview.mp4</span>
+                  <span className={styles.previewTitle}>Preview loop · {previewFile ?? `${slug}-preview.mp4`}</span>
                   <span className={styles.previewNote}>Plays muted on the card when in view or on hover. Keep it under 6 s.</span>
                 </div>
-                <button type="button" className={styles.replace}>
-                  replace
-                </button>
+                <FilePicker kind="video" folder={`artworks/${slug}`} onUploaded={(_url, file) => setPreviewFile(file.name)}>
+                  {({ open, progress }) => (
+                    <button type="button" className={styles.replace} onClick={open}>
+                      {progressLabel(progress, "replace")}
+                    </button>
+                  )}
+                </FilePicker>
               </div>
             )}
           </Panel>

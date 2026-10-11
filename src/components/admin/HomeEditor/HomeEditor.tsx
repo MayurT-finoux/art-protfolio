@@ -20,8 +20,8 @@ export function HomeEditor() {
       name: "HeroAnimation",
       summary: "full-screen loop behind the intro",
       fields: [
-        { kind: "file", label: "loop video", value: "hero-loop.mp4", hint: "1920×1080 · muted, loops · plays inline on phones", image: img("klimt", 200) },
-        { kind: "file", label: "still frame · reduced motion", value: "hero-still.jpg", hint: "shown instead of the loop when motion is reduced", image: img("klimt", 200) },
+        { kind: "file", label: "loop video", value: "hero-loop.mp4", hint: "1920×1080 · muted, loops · plays inline on phones", image: img("klimt", 200), accept: "video", folder: "home" },
+        { kind: "file", label: "still frame · reduced motion", value: "hero-still.jpg", hint: "shown instead of the loop when motion is reduced", image: img("klimt", 200), accept: "image", folder: "home" },
       ],
     },
     {
@@ -56,7 +56,7 @@ export function HomeEditor() {
       name: "AboutSection",
       summary: "floating window + about me",
       fields: [
-        { kind: "file", label: "window video", value: "about-window.mp4", hint: "square · muted, loops", image: img("pearl", 200) },
+        { kind: "file", label: "window video", value: "about-window.mp4", hint: "square · muted, loops", image: img("pearl", 200), accept: "video", folder: "home" },
         { kind: "text", label: "window label", value: aboutSection.windowLabel },
         { kind: "text", label: "label", value: aboutSection.label },
         { kind: "text", label: "paragraph 1", value: aboutSection.paragraphs[0] },

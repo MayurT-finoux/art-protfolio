@@ -1,16 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { arrayMove, SortableList } from "../ui/Sortable";
 import { AddRow, DragHandle, ReorderButtons, Toggle } from "../ui/AdminUI";
+import { FilePicker, progressLabel } from "../ui/FilePicker";
 import styles from "./MusicPlaylist.module.css";
 
-// Playlist editor. Preview buttons only toggle their state for now:
-// audio files arrive with uploads (Cloudflare R2).
+/** "1:42" from an audio file's metadata. */
+function readDuration(file: File) {
+  return new Promise<string>((resolve) => {
+    const url = URL.createObjectURL(file);
+    const audio = new Audio();
+    audio.preload = "metadata";
+    audio.onloadedmetadata = () => {
+      const s = Math.round(audio.duration);
+      URL.revokeObjectURL(url);
+      resolve(Number.isFinite(s) ? `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}` : "—");
+    };
+    audio.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve("—");
+    };
+    audio.src = url;
+  });
+}
+
+// Playlist editor. Preview plays uploaded tracks; the placeholder tracks have no file yet.
 export function MusicPlaylist() {
   const { tracks, setTracks, musicOn, setMusicOn } = useAdmin();
   const [playing, setPlaying] = useState(-1);
+
+  // Play / stop the previewed track.
+  useEffect(() => {
+    const url = tracks[playing]?.url;
+    if (!url) return;
+    const a = new Audio(url);
+    a.onended = () => setPlaying(-1);
+    void a.play();
+    return () => a.pause();
+  }, [playing, tracks]);
 
   const reorder = (next: typeof tracks) => {
     setTracks(next);
@@ -55,7 +84,16 @@ export function MusicPlaylist() {
             );
           }}
         />
-        <AddRow>+ add track · MP3 or M4A</AddRow>
+        <FilePicker
+          kind="audio"
+          folder="music"
+          onUploaded={async (url, file) => {
+            const duration = await readDuration(file);
+            setTracks([...tracks, { name: file.name.replace(/\.[^.]+$/, ""), file: file.name, duration, url }]);
+          }}
+        >
+          {({ open, progress }) => <AddRow onClick={open}>{progressLabel(progress, "+ add track · MP3 or M4A")}</AddRow>}
+        </FilePicker>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ The design files from Claude Design are the finalized design and the **single so
 - Database: Neon Postgres (project "art-portfolio", id `lucky-hat-31537393`, database `portfolio`, branch `production`, Postgres 18, AWS Singapore `aws-ap-southeast-1`)
 - ORM: Drizzle ORM + drizzle-kit + `@neondatabase/serverless` (neon-http driver)
 - Admin login: Better Auth (single admin account, sign-ups disabled)
-- Media storage: Cloudflare R2 (set up later)
+- Media storage: Cloudflare R2 via `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` (presigned browser uploads)
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
 - Email: Resend (contact form notifications)
@@ -109,12 +109,14 @@ Component folders and files are named exactly as the design's `data-component`.
 - `npm run lint` — ESLint
 - `npm run db:check` — test the database connection (both URLs)
 - `npm run db:generate` / `db:migrate` / `db:studio` — drizzle-kit (uses `DATABASE_URL_UNPOOLED`)
+- `npm run r2:check` — test Cloudflare R2 (upload, public read, delete)
 
 ## Environment
 
 `.env.local` (git-ignored):
 - `DATABASE_URL` — pooled connection string (app)
 - `DATABASE_URL_UNPOOLED` — direct connection string (drizzle-kit migrations)
+- `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_PUBLIC_URL` — Cloudflare R2
 
 ## Decisions log
 
@@ -139,4 +141,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Admin design built before database/login/R2 (Phase 2). Placeholder data in `src/lib/placeholder/admin.ts`; client-side state in `AdminProvider`. Real URLs per screen; `[slug]` editors read params inside `<Suspense>` (Next 16 instant-navigation rule).
 - 2026-10-08 — Hidden shortcut: 3 clicks on the footer Wordmark within 600 ms → `/admin`.
 - 2026-10-08 — Next 16 + Cache Components: no `new Date()` / `Math.random()` during prerender in client components; wrap in `<Suspense>` or move to an event/effect.
+- 2026-10-08 — Cloudflare R2: no domain yet → public `r2.dev` URL for now (custom domain before launch). Uploads: browser PUTs to a presigned URL from `/api/uploads`, which only works in `npm run dev` until the admin login exists. Limits: images 20 MB (JPG/PNG/WebP), video 200 MB (MP4/WebM/MOV), audio 30 MB (MP3/M4A).
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

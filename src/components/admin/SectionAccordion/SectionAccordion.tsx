@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { AboutListKey, ListItem } from "@/lib/placeholder/admin";
+import type { UploadKind } from "@/lib/uploads";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { FieldLabel, SoonTag, TextArea, Thumb } from "../ui/AdminUI";
+import { FilePicker, progressLabel } from "../ui/FilePicker";
 import styles from "./SectionAccordion.module.css";
 
 export type SectionField =
   | { kind: "text"; label: string; value: string }
-  | { kind: "file"; label: string; value: string; hint: string; image: string }
+  | { kind: "file"; label: string; value: string; hint: string; image: string; accept: UploadKind; folder: string }
   | { kind: "auto"; label: string; value: string; cta: string; href: string }
   | { kind: "list"; label: string; list: AboutListKey; addLabel: string; blank: ListItem };
 
@@ -55,18 +57,7 @@ function FieldControl({ field }: { field: SectionField }) {
     case "text":
       return <TextField initial={field.value} label={field.label} />;
     case "file":
-      return (
-        <div className={styles.file}>
-          <Thumb src={field.image} position="center" className={styles.fileThumb} />
-          <span className={styles.fileText}>
-            <span className={styles.fileName}>{field.value}</span>
-            <span className={styles.fileHint}>{field.hint}</span>
-          </span>
-          <button type="button" className={styles.replace}>
-            replace
-          </button>
-        </div>
-      );
+      return <FileField field={field} />;
     case "auto":
       return (
         <div className={styles.auto}>
@@ -79,6 +70,32 @@ function FieldControl({ field }: { field: SectionField }) {
     case "list":
       return <ListField list={field.list} addLabel={field.addLabel} blank={field.blank} />;
   }
+}
+
+function FileField({ field }: { field: Extract<SectionField, { kind: "file" }> }) {
+  const [file, setFile] = useState({ name: field.value, url: field.image, video: false });
+  return (
+    <div className={styles.file}>
+      <Thumb src={file.video ? "" : file.url} position="center" className={styles.fileThumb}>
+        {file.video && <video className={styles.fileVideo} src={file.url} muted autoPlay loop playsInline />}
+      </Thumb>
+      <span className={styles.fileText}>
+        <span className={styles.fileName}>{file.name}</span>
+        <span className={styles.fileHint}>{field.hint}</span>
+      </span>
+      <FilePicker
+        kind={field.accept}
+        folder={field.folder}
+        onUploaded={(url, f) => setFile({ name: f.name, url, video: f.type.startsWith("video/") })}
+      >
+        {({ open, progress }) => (
+          <button type="button" className={styles.replace} onClick={open}>
+            {progressLabel(progress, "replace")}
+          </button>
+        )}
+      </FilePicker>
+    </div>
+  );
 }
 
 function TextField({ initial, label }: { initial: string; label: string }) {

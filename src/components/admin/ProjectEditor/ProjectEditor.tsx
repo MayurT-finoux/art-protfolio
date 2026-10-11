@@ -5,6 +5,7 @@ import { img, slugify, type Project } from "@/lib/placeholder/admin";
 import { AdminPage } from "../AdminPage/AdminPage";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { SlugSeoFields } from "../SlugSeoFields/SlugSeoFields";
+import { FilePicker, progressLabel } from "../ui/FilePicker";
 import { SortableList } from "../ui/Sortable";
 import { DragHandle, Field, Panel, PanelToggleHeader, TextArea, TextInput, Thumb, Toggle } from "../ui/AdminUI";
 import styles from "./ProjectEditor.module.css";
@@ -52,7 +53,9 @@ export function ProjectEditor({ project }: { project: Project | null }) {
 
   const draft = p ? projectDraft[p.slug] : localDraft;
   const setDraft = (d: boolean) => (p ? setProjectDraft(p.slug, d) : setLocalDraft(d));
-  const cover = image(0, 1200);
+  const [cover, setCover] = useState(() => image(0, 1200));
+  const [coverIsVideo, setCoverIsVideo] = useState(false);
+  const folder = `projects/${p?.slug ?? (slugify(title) || "untitled")}`;
 
   const outline: [string, string, string][] = [
     ["Basics", "", "basics"],
@@ -108,18 +111,30 @@ export function ProjectEditor({ project }: { project: Project | null }) {
           </Panel>
 
           <Panel id="pe-cover" title="Cover" note="image or MP4 loop · 16:9 or wider" gap={14}>
-            {cover ? (
-              <Thumb src={cover} className={styles.cover}>
-                <button type="button" className={styles.coverReplace}>
-                  replace
-                </button>
-              </Thumb>
-            ) : (
-              <button type="button" className={`${styles.cover} ${styles.dashedTile}`}>
-                <span className={styles.plus}>+</span>
-                <span>add cover</span>
-              </button>
-            )}
+            <FilePicker
+              kind={["image", "video"]}
+              folder={folder}
+              onUploaded={(url, file) => {
+                setCover(url);
+                setCoverIsVideo(file.type.startsWith("video/"));
+              }}
+            >
+              {({ open, progress }) =>
+                cover ? (
+                  <Thumb src={coverIsVideo ? "" : cover} className={styles.cover}>
+                    {coverIsVideo && <video className={styles.coverVideo} src={cover} autoPlay muted loop playsInline />}
+                    <button type="button" className={styles.coverReplace} onClick={open}>
+                      {progressLabel(progress, "replace")}
+                    </button>
+                  </Thumb>
+                ) : (
+                  <button type="button" className={`${styles.cover} ${styles.dashedTile}`} onClick={open}>
+                    <span className={styles.plus}>+</span>
+                    <span>{progressLabel(progress, "add cover")}</span>
+                  </button>
+                )
+              }
+            </FilePicker>
           </Panel>
 
           <Panel id="pe-story" title="Story" gap={12}>
@@ -169,10 +184,14 @@ export function ProjectEditor({ project }: { project: Project | null }) {
                   </div>
                 )}
               />
-              <button type="button" className={`${styles.stepAdd} ${styles.dashedTile}`}>
-                <span className={styles.plus}>+</span>
-                <span>add step</span>
-              </button>
+              <FilePicker kind="image" folder={folder} onUploaded={(url) => setSteps((list) => [...list, { id: uid(), label: "", src: url }])}>
+                {({ open, progress }) => (
+                  <button type="button" className={`${styles.stepAdd} ${styles.dashedTile}`} onClick={open}>
+                    <span className={styles.plus}>+</span>
+                    <span>{progressLabel(progress, "add step")}</span>
+                  </button>
+                )}
+              </FilePicker>
             </div>
           </Panel>
 
@@ -187,7 +206,7 @@ export function ProjectEditor({ project }: { project: Project | null }) {
                   <span className={styles.fieldHint}>Plays only after a click; until then the site shows the preview image.</span>
                 </Field>
                 <Field label="preview image">
-                  <Thumb src={cover} className={styles.ytPreview}>
+                  <Thumb src={coverIsVideo ? "" : cover} className={styles.ytPreview}>
                     <span className={styles.ytPlay}>▶</span>
                   </Thumb>
                 </Field>
@@ -214,10 +233,14 @@ export function ProjectEditor({ project }: { project: Project | null }) {
                   </Thumb>
                 )}
               />
-              <button type="button" className={`${styles.finalAdd} ${styles.dashedTile}`}>
-                <span className={styles.plus}>+</span>
-                <span>add piece</span>
-              </button>
+              <FilePicker kind="image" folder={folder} onUploaded={(url) => setFinals((list) => [...list, { id: uid(), src: url }])}>
+                {({ open, progress }) => (
+                  <button type="button" className={`${styles.finalAdd} ${styles.dashedTile}`} onClick={open}>
+                    <span className={styles.plus}>+</span>
+                    <span>{progressLabel(progress, "add piece")}</span>
+                  </button>
+                )}
+              </FilePicker>
             </div>
           </Panel>
 
@@ -243,7 +266,7 @@ export function ProjectEditor({ project }: { project: Project | null }) {
               slug={p?.slug ?? slugify(title)}
               title={p?.title ?? ""}
               descriptionFallback="uses teaser if empty"
-              shareImage={cover || undefined}
+              shareImage={(!coverIsVideo && cover) || undefined}
             />
           </div>
         </div>

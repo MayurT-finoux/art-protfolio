@@ -1,6 +1,6 @@
 # Phase 3 — Cloudflare R2 (media uploads)
 
-Status: **plan, waiting for approval** (no code changes yet)
+Status: **working** (2026-10-11) — bucket, public r2.dev URL, CORS and token set up; `npm run r2:check` passes. Browser upload from the admin still failing — see Progress.
 
 Requested 2026-10-08: set up Cloudflare. R2 stores everything uploaded in the admin:
 artwork images, preview loops, project covers / process / finals, hero and about videos, music tracks.
@@ -74,10 +74,10 @@ on a deployed site the endpoint refuses every request. — **question 3**
 
 | # | Question | Answer |
 |---|---|---|
-| 1 | Do you own `yurix.art`, and is it (or can it be) on Cloudflare DNS? A custom domain like `media.yurix.art` is needed for production. If not yet, we can start with the bucket's `r2.dev` URL (fine for testing, rate-limited, not for launch). | _open_ |
-| 2 | OK to install `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` (recommended), or prefer `aws4fetch`? | _open_ |
-| 3 | OK that uploads only work locally until the login is built? | _open_ |
-| 4 | File types and size limits above OK? | _open_ |
+| 1 | Do you own `yurix.art`, and is it (or can it be) on Cloudflare DNS? | **No domain yet** → use the bucket's `r2.dev` URL for now; switch to a custom domain before launch. |
+| 2 | OK to install `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner`? | **Yes** (installed) |
+| 3 | OK that uploads only work locally until the login is built? | **Yes** |
+| 4 | File types and size limits above OK? | **Yes** |
 
 ## Done when
 
@@ -86,3 +86,30 @@ on a deployed site the endpoint refuses every request. — **question 3**
 - [ ] Every upload button in the admin uploads to R2 and shows the file
 - [ ] Upload endpoint refuses requests outside local dev (until login)
 - [ ] `npm run lint` + `npm run build` pass; no secrets in git
+
+## Progress (2026-10-08)
+
+- [x] `@aws-sdk/client-s3`, `@aws-sdk/s3-request-presigner` installed
+- [x] `src/lib/uploads.ts` (rules), `src/lib/r2.ts` (client + signing), `src/app/api/uploads/route.ts` (dev-only), `src/lib/uploadFile.ts` (browser upload with progress)
+- [x] `npm run r2:check`; R2 keys in `.env.example`; empty R2 keys added to `.env.local`
+- [x] `next.config.ts`: `*.r2.dev` allowed for `next/image`
+- [x] Admin upload buttons wired via `FilePicker`: artwork images + preview loop, project cover / process / finals, Home & About files, music tracks (name + duration read from the file, preview plays)
+- [x] Cloudflare dashboard: bucket `yurix-media` (APAC, Standard), public URL `https://pub-eca174b5059b4f439ba018f94a1a7d2c.r2.dev`, CORS, API token → `.env.local`
+- [x] `npm run r2:check` passes; signed PUT + CORS preflight verified for localhost and the Codespace URL
+- [ ] Real upload tested in the admin — **open (2026-10-11)**: browser PUT fails with a CORS-style error from the Codespace origin, although the same preflight + PUT succeed via curl with that Origin. Next step: read the exact reason in the browser console (Network/Console) or test in an incognito window (extensions).
+
+Note: the signed URL fixes the file type but not the size; size is checked before signing. Fine while uploads are dev-only; tighten when the login lands.
+
+### CORS rule (bucket → Settings → CORS policy)
+
+```json
+[
+  {
+    "AllowedOrigins": ["http://localhost:3000", "https://stunning-journey-q7q65rw4j5jwhv7p-3000.app.github.dev"],
+    "AllowedMethods": ["PUT", "GET", "HEAD"],
+    "AllowedHeaders": ["content-type"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+Add the production site URL here when it exists.
