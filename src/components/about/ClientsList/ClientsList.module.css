@@ -1,0 +1,146 @@
+/* ---------- Sketchbook: pills ---------- */
+
+.sk {
+  position: relative;
+  padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);
+}
+
+.skHeader {
+  margin-bottom: clamp(28px, 3.5cqw, 52px);
+}
+
+.skList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(12px, 1.4cqw, 20px);
+}
+
+.pill,
+.pillCta {
+  padding: clamp(12px, 1.2cqw, 18px) clamp(18px, 1.8cqw, 28px);
+  border-radius: var(--radius-pill);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  border: 2px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+  transition: transform 240ms var(--ease-ui), background 200ms ease;
+}
+
+.pill:hover {
+  transform: rotate(0deg) translateY(-3px) !important;
+  background: var(--accent-tint);
+  color: var(--ink);
+}
+
+.pillName,
+.pillCta {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 2.5cqw, 36px);
+  letter-spacing: -0.04em;
+}
+
+.pillKind {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.pillCta {
+  display: inline-flex;
+  align-items: center;
+  border: 2px dashed var(--accent);
+  color: var(--accent);
+  transform: rotate(2deg);
+}
+
+.pillCta:hover {
+  color: var(--accent);
+}
+
+/* ---------- Editorial: index list ---------- */
+
+.ed {
+  position: relative;
+  padding: clamp(64px, 8cqw, 120px) clamp(16px, 3.9cqw, 56px);
+}
+
+.edWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5cqw, 80px);
+}
+
+.edAside {
+  flex: 4 1 280px;
+}
+
+.edList {
+  flex: 7 1 480px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.edRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(14px, 1.4cqw, 20px) 0;
+  border-top: 1px solid var(--line-12);
+  color: var(--ink);
+  transition: color 200ms ease, padding 260ms var(--ease-ui);
+}
+
+.edRow:hover {
+  color: var(--accent);
+  padding-left: 12px;
+}
+
+.edName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(26px, 3cqw, 44px);
+  letter-spacing: -0.045em;
+}
+
+.edKind {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.edArrow {
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.edCta {
+  border-bottom: 1px solid var(--line-12);
+  color: var(--accent);
+  transition: none;
+}
+
+.edCta:hover {
+  padding-left: 0;
+  color: var(--accent);
+}
+
+.edCtaArrow {
+  font-size: 20px;
+}

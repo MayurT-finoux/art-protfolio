@@ -1,0 +1,172 @@
+/* ---------- Sketchbook ---------- */
+
+.sk {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(32px, 5cqw, 80px);
+  padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);
+}
+
+.skBody {
+  flex: 7 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.skPara {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 640px;
+}
+
+.skText {
+  margin: 0;
+  font-size: clamp(18px, 1.45cqw, 21px);
+  line-height: 1.65;
+  color: #2b2b31;
+  text-wrap: pretty;
+}
+
+.skText strong,
+.edText strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.doodle {
+  width: 180px;
+  height: 24px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.sketches {
+  flex: 4 1 300px;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 28px 20px;
+  padding-top: 24px;
+}
+
+.sketch {
+  flex: 0 1 var(--w);
+}
+
+.polaroid {
+  position: relative;
+  padding: 10px 10px 40px;
+  background: var(--white);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(19, 19, 22, 0.06), 0 16px 36px rgba(19, 19, 22, 0.1);
+}
+
+.tape {
+  position: absolute;
+  z-index: 2;
+  top: -9px;
+  left: 50%;
+  width: 70px;
+  height: 20px;
+  margin-left: -35px;
+  background: rgba(90, 75, 196, 0.22);
+  transform: rotate(3deg);
+}
+
+.frame {
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: var(--surface-placeholder);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.caption {
+  position: absolute;
+  left: 12px;
+  bottom: 13px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 767px) {
+  .sketch {
+    flex-basis: 80%;
+  }
+}
+
+/* ---------- Editorial ---------- */
+
+.ed {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(32px, 6cqw, 100px);
+  padding: clamp(64px, 8cqw, 120px) clamp(16px, 3.9cqw, 56px);
+}
+
+.edAside {
+  flex: 4 1 300px;
+  min-width: 0;
+}
+
+.edSticky {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(34px, 3.8cqw, 56px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.edBody {
+  flex: 6 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3cqw, 40px);
+}
+
+.edPara {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.mark {
+  width: 30px;
+  height: 30px;
+  margin-top: 2px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.edText {
+  margin: 0;
+  font-size: clamp(18px, 1.5cqw, 22px);
+  line-height: 1.62;
+  color: #2b2b31;
+  text-wrap: pretty;
+}

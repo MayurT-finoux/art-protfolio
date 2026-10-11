@@ -8,6 +8,8 @@ import styles from "./MobileMenu.module.css";
 
 type Props = {
   items: NavItem[];
+  /** Current page's nav href, shown in purple. */
+  activeHref?: string;
   wordmark: string;
   email: string;
   instagram: SocialLink;
@@ -15,7 +17,7 @@ type Props = {
   onClose: () => void;
 };
 
-export function MobileMenu({ items, wordmark, email, instagram, track, onClose }: Props) {
+export function MobileMenu({ items, activeHref, wordmark, email, instagram, track, onClose }: Props) {
   // Lock page scroll and close on Escape while open.
   useEffect(() => {
     const root = document.documentElement;
@@ -45,6 +47,8 @@ export function MobileMenu({ items, wordmark, email, instagram, track, onClose }
             key={item.href}
             href={item.href}
             className={styles.item}
+            data-active={item.href === activeHref || undefined}
+            aria-current={item.href === activeHref ? "page" : undefined}
             onClick={onClose}
             style={{ animationDelay: `${60 + i * 60}ms` }}
           >

@@ -1,0 +1,215 @@
+.card {
+  break-inside: avoid;
+  margin: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: pf-up 380ms var(--ease-ui) both;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-card);
+}
+
+.frame {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--surface-placeholder);
+  transition: transform 240ms var(--ease-ui);
+}
+
+.preview,
+.still {
+  position: absolute;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.preview {
+  inset: -8px;
+}
+
+.still {
+  inset: -6px;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Animation pieces "boil" while ≥40% in view or hovered. */
+.card[data-inview="1"] .preview,
+.frame:hover .preview {
+  animation: pf-boil 0.33s steps(1) infinite;
+}
+
+@media (hover: hover) {
+  .frame:hover {
+    transform: translateY(-4px);
+  }
+
+  .still:hover {
+    animation: pf-boil 0.33s steps(1) infinite;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  animation: pf-blink 1s steps(1) infinite;
+}
+
+.multi {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: var(--white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink);
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 2px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.03em;
+}
+
+.cat {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .card {
+    margin: 0 0 20px;
+    gap: 7px;
+    animation: none;
+  }
+
+  .frame {
+    border-radius: 14px;
+    transition: none;
+  }
+
+  .frame:hover {
+    transform: none;
+  }
+
+  .still {
+    inset: 0;
+  }
+
+  .still:hover {
+    animation: none;
+  }
+
+  .badge {
+    top: 8px;
+    left: 8px;
+    gap: 5px;
+    padding: 3px 7px;
+    border-radius: 6px;
+    font-size: 9px;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .multi {
+    display: none;
+  }
+
+  .caption {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .cat {
+    font-size: 9.5px;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .dot,
+  .preview,
+  .still,
+  .card[data-inview="1"] .preview,
+  .frame:hover .preview,
+  .still:hover {
+    animation: none !important;
+  }
+
+  .frame {
+    transition: none;
+  }
+}
+
+/* Keyframes live in this module so CSS Modules renames name and definition together. */
+@keyframes pf-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pf-boil {
+  0% { transform: scale(1.04) translate(0, 0) rotate(0); }
+  33% { transform: scale(1.045) translate(-1.5px, 1px) rotate(-0.5deg); }
+  66% { transform: scale(1.04) translate(1.5px, -1px) rotate(0.5deg); }
+  100% { transform: scale(1.045) translate(0, 0) rotate(0); }
+}
+
+@keyframes pf-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}

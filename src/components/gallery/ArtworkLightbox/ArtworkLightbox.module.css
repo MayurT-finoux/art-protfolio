@@ -1,0 +1,510 @@
+/* ---------- Desktop window ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(19, 19, 22, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: pf-fade 200ms ease both;
+}
+
+.dialog {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* 1240×780 as designed; shrinks to fit smaller screens with the same layout. */
+  width: min(1240px, 100vw - 48px);
+  height: min(780px, 100vh - 48px);
+  transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: 0 30px 80px rgba(19, 19, 22, 0.35);
+  animation: pf-pop 260ms var(--ease-ui) both;
+}
+
+.mediaCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface-card);
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 24px 24px 0;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.boil {
+  inset: -6px;
+  animation: pf-boil 0.33s steps(1) infinite;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.loop {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  animation: pf-blink 1s steps(1) infinite;
+}
+
+.viewLabel {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  border-radius: var(--radius-pill);
+  border: 0;
+  padding: 0;
+  background: var(--white);
+  font-size: 18px;
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(19, 19, 22, 0.12);
+}
+
+.arrowPrev {
+  left: 14px;
+}
+
+.arrowNext {
+  right: 14px;
+}
+
+.thumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 104px;
+  flex: none;
+  padding: 0 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.thumbs::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.thumb {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.thumbImg {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-input);
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 0 1px var(--line-12);
+}
+
+.thumbOn {
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--accent);
+}
+
+.thumbLabel {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 40px 36px 32px;
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-16);
+  background: var(--white);
+  padding: 0;
+}
+
+.close span {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  top: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ink);
+  transform: rotate(45deg);
+}
+
+.close span + span {
+  transform: rotate(-45deg);
+}
+
+.tag {
+  align-self: flex-start;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-placeholder);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.title {
+  margin: 0;
+  padding-right: 40px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+}
+
+.desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-body-strong);
+  text-wrap: pretty;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.materials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.material {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-18);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.position {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ---------- Mobile sheet (≤767px) ---------- */
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  animation: pf-up 260ms var(--ease-ui) both;
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 12px 0 16px;
+  flex: none;
+}
+
+.sheetHead .position {
+  margin-top: 0;
+}
+
+.sheetHead .close {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: 48px;
+  height: 48px;
+}
+
+.sheetHead .close span {
+  left: 14px;
+  right: 14px;
+  top: 22px;
+}
+
+.sheetBody {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.sheetBody::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.sheetMedia {
+  position: relative;
+  margin: 0 16px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--surface-card);
+}
+
+.sheetMedia .viewLabel {
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  font-size: 9.5px;
+}
+
+.sheetThumbs {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sheetThumbs::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.sheetThumbs .thumbImg {
+  width: 56px;
+  height: 56px;
+}
+
+.sheetInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 16px 40px;
+}
+
+.sheetInfo .tag {
+  padding: 4px 9px;
+  border-radius: 7px;
+  font-size: 10px;
+}
+
+.sheetInfo .title {
+  padding-right: 0;
+  font-size: 40px;
+}
+
+.sheetInfo .desc {
+  text-wrap: wrap;
+}
+
+.sheetInfo .group {
+  gap: 8px;
+}
+
+.sheetInfo .groupLabel {
+  font-size: 10.5px;
+}
+
+.sheetLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.sheetLinks .link {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  padding: 0;
+  font-size: 15px;
+}
+
+.sheetLinks .link:hover {
+  border-color: var(--line-18);
+  color: var(--ink);
+}
+
+.steps {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.prev,
+.next {
+  flex: 1;
+  height: 50px;
+  border-radius: var(--radius-pill);
+  border: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.prev {
+  background: var(--surface-card);
+  color: var(--ink);
+}
+
+.next {
+  background: var(--ink);
+  color: var(--white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .dialog,
+  .boil,
+  .dot,
+  .sheet {
+    animation: none !important;
+  }
+}
+
+/* Keyframes live in this module so CSS Modules renames name and definition together. */
+@keyframes pf-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pf-pop {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes pf-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pf-boil {
+  0% { transform: scale(1.04) translate(0, 0) rotate(0); }
+  33% { transform: scale(1.045) translate(-1.5px, 1px) rotate(-0.5deg); }
+  66% { transform: scale(1.04) translate(1.5px, -1px) rotate(0.5deg); }
+  100% { transform: scale(1.045) translate(0, 0) rotate(0); }
+}
+
+@keyframes pf-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}

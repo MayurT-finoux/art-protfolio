@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { NavItem, SocialLink } from "@/lib/placeholder/home";
 import { MobileMenu } from "../MobileMenu/MobileMenu";
@@ -18,6 +19,9 @@ type Props = {
 // Desktop item i starts at p = 0.40 + 0.05·i; the mobile button at p = 0.50.
 export function MainNav({ items, wordmark, email, instagram, track }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  // Current section: "/work/moth-lullaby" → "/work".
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <>
@@ -30,7 +34,9 @@ export function MainNav({ items, wordmark, email, instagram, track }: Props) {
                 key={item.href}
                 href={item.href}
                 className={styles.item}
-                data-cursor="go"
+                data-active={isActive(item.href) || undefined}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                data-cursor={isActive(item.href) ? undefined : "go"}
                 style={{ "--start": 0.4 + i * 0.05 } as React.CSSProperties}
               >
                 {item.label}
@@ -52,6 +58,7 @@ export function MainNav({ items, wordmark, email, instagram, track }: Props) {
       {menuOpen && (
         <MobileMenu
           items={items}
+          activeHref={items.find((i) => isActive(i.href))?.href}
           wordmark={wordmark}
           email={email}
           instagram={instagram}

@@ -148,4 +148,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-11 — Hosting: Vercel (Render and Netlify considered). `/admin` was hidden on deployed builds; **removed at Yurix's request (2026-10-11): admin is open on every deployment until the login (Better Auth) is added** — must be protected before launch.
 - 2026-10-11 — Database live for artworks + Home (Phase 6). Reads: `"use cache"` + `cacheTag("content")`; saves: server actions + `updateTag("content")`. No `DATABASE_URL` → placeholder fallback. Other admin screens still placeholder.
 - 2026-10-11 — Home Selected Work / Fresh now come from the artworks table (card label = category, lowercase).
+- 2026-10-11 — Gallery (DB artworks, live only), Work + project pages (placeholder `work.ts`) and About (both layouts, `ABOUT_LAYOUT` in `about.ts`) built. Gallery questions: one mobile menu (Home's) + active page in purple; live only; lightbox shrinks to fit; no lightbox URL.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

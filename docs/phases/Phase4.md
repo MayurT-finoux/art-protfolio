@@ -1,10 +1,10 @@
 # Phase 4 — Gallery page
 
-Status: **plan, waiting for approval** (no code changes yet)
+Status: **built** (2026-10-11) — Gallery, plus Work/project pages and About (see "Also built"). Waiting for review / browser tests.
 
 Requested 2026-10-09. Second public page after Home.
 Source: `design/design_handoff_yurix_site/designs/GalleryPage.dc.html` + handoff README ("Gallery").
-Placeholder data (database comes later), same artworks the admin shows.
+Data: the artworks table (same as the admin and Home), live artworks only.
 
 ---
 
@@ -62,10 +62,10 @@ Nothing new.
 
 | # | Question | Answer |
 |---|---|---|
-| 1 | **Mobile menu differs between designs.** Home: "yurix" wordmark, 66px items, Instagram + email pills and the music player. Gallery: no wordmark/pills/player, 60px items, current page in purple. Use **one menu everywhere = Home's version + the current page in purple**? | _open_ |
-| 2 | The Gallery design lists all 16 artworks, including "paper moon", which the admin marks as **draft**. Show **only live artworks** (15) as the data rules say? | _open_ |
-| 3 | The lightbox is a fixed 1240×780 window. On smaller laptop screens, **shrink it to fit** (24px margin, same layout)? | _open_ |
-| 4 | Earlier we put `/gallery/{slug}` "for later". Keep the lightbox without its own URL for now? | _open_ |
+| 1 | Mobile menu differs between designs. | **One menu everywhere = Home's version + current page in purple** (done in MainNav/MobileMenu). |
+| 2 | Show only live artworks? | **Yes, live only.** |
+| 3 | Lightbox on smaller screens? | **Shrink to fit**, same layout. |
+| 4 | Lightbox URL? | **No URL for now.** |
 
 ## Done when
 
@@ -75,3 +75,16 @@ Nothing new.
 - [ ] Animation previews play in view / on hover; reduced motion respected
 - [ ] Nav shows "gallery" as active
 - [ ] `npm run lint` + `npm run build` pass
+
+## Also built (2026-10-11, at Yurix's request: "complete the remaining designs")
+
+- **Work** `/work` + **project pages** `/work/{slug}` — `WorkPage.dc.html`. Data: `src/lib/placeholder/work.ts` (projects aren't in the database yet; the admin's ProjectEditor still uses its own placeholder copy — merge when projects move to the DB). YouTube iframe loads only after clicking play.
+- **About** `/about` — both layouts (`About Sketchbook.dc.html`, `About Editorial.dc.html`). Which one shows: `ABOUT_LAYOUT` in `src/lib/placeholder/about.ts` (default `"sketchbook"`; the admin's layout switch isn't saved yet). Image slots use placeholder paintings.
+- **MainNav / MobileMenu**: current page in purple (desktop: weight 800 + dot).
+
+### Notes / open points
+- Unknown `/work/{slug}` (and admin `[slug]`) show the not-found page with HTTP **200**, not 404 (Next 16 streams the page before `notFound()` runs inside `<Suspense>`).
+- About's AboutCTA follows the page designs (one "say hi →" button); the admin AboutEditor shows a different heading + two buttons — decide which is right.
+- About medium cards link to `/gallery` (no category deep link yet).
+- Ruled paper on Sketchbook stops above the footer (the footer lives in the shared layout).
+- Not yet checked in a real browser — the Phase 7 e2e/visual tests cover that.

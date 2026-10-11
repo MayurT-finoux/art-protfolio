@@ -72,6 +72,11 @@
   color: var(--ink);
 }
 
+.item[data-active],
+.item[data-active]:hover {
+  color: var(--accent);
+}
+
 .num {
   font-family: var(--font-mono);
   font-size: 12px;

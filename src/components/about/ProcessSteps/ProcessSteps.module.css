@@ -1,0 +1,218 @@
+.skFrame,
+.edFrame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background-color: var(--surface-placeholder);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* ---------- Sketchbook ---------- */
+
+.sk {
+  position: relative;
+  padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);
+}
+
+.skHeader {
+  margin-bottom: clamp(32px, 4cqw, 60px);
+}
+
+.skRow {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px 28px;
+}
+
+/* Dotted path running behind the steps (desktop only). */
+.path {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 46%;
+  height: 60px;
+  pointer-events: none;
+}
+
+.path svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgba(90, 75, 196, 0.45);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 2 10;
+}
+
+.skStep {
+  position: relative;
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.skCard {
+  position: relative;
+  padding: 12px 12px 18px;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(19, 19, 22, 0.06), 0 18px 40px rgba(19, 19, 22, 0.1);
+}
+
+.skTape {
+  position: absolute;
+  z-index: 2;
+  top: -10px;
+  left: 50%;
+  width: 80px;
+  height: 22px;
+  margin-left: -40px;
+  background: rgba(90, 75, 196, 0.22);
+  transform: rotate(-2deg);
+}
+
+.skFrame {
+  border-radius: 3px;
+}
+
+.skTitleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 0 4px;
+}
+
+.skNum {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.skTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.skLine {
+  margin: 6px 0 0;
+  padding: 0 4px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-body-strong);
+}
+
+@media (max-width: 767px) {
+  .path {
+    display: none;
+  }
+}
+
+/* ---------- Editorial ---------- */
+
+.ed {
+  position: relative;
+  padding: clamp(64px, 8cqw, 120px) 0;
+}
+
+.edHeader {
+  padding: 0 clamp(16px, 3.9cqw, 56px);
+  margin-bottom: clamp(28px, 4cqw, 56px);
+}
+
+.edGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  padding: 0 56px;
+}
+
+.edStep {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.edNum {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--accent);
+}
+
+.edTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+}
+
+.edFrame {
+  border-radius: 18px;
+}
+
+.edLine {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-body-strong);
+}
+
+.edSwipe {
+  padding: 4px 16px 0;
+}
+
+@media (max-width: 767px) {
+  .edGrid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 0 16px 14px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 16px;
+  }
+
+  .edStep {
+    flex: none;
+    width: 260px;
+    scroll-snap-align: start;
+    gap: 12px;
+    transition-delay: 0ms !important;
+  }
+
+  .edTop {
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  .edNum {
+    font-size: 52px;
+  }
+
+  .edTitle {
+    font-size: 22px;
+  }
+
+  .edFrame {
+    border-radius: 16px;
+  }
+
+  .edLine {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
