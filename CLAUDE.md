@@ -85,7 +85,7 @@ scripts/db-check.mts    database connection test
 src/
   app/
     layout.tsx          root layout
-    (site)/             public pages + layout (MainNav, Footer, MusicPlayer, cursor)
+    (site)/             public pages + layout (MainNav, Footer, MusicPlayer)
     admin/              CMS routes (layout = AdminShell)
     api/
   components/{site,home,work,gallery,about,notfound,admin}/
@@ -149,4 +149,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-11 — Database live for artworks + Home (Phase 6). Reads: `"use cache"` + `cacheTag("content")`; saves: server actions + `updateTag("content")`. No `DATABASE_URL` → placeholder fallback. Other admin screens still placeholder.
 - 2026-10-11 — Home Selected Work / Fresh now come from the artworks table (card label = category, lowercase).
 - 2026-10-11 — Gallery (DB artworks, live only), Work + project pages (placeholder `work.ts`) and About (both layouts, `ABOUT_LAYOUT` in `about.ts`) built. Gallery questions: one mobile menu (Home's) + active page in purple; live only; lightbox shrinks to fit; no lightbox URL.
+- 2026-10-11 — Yurix's change: normal system cursor; the design's custom cursor (dot + labels) is removed. `data-cursor` attributes stay in the markup but do nothing.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

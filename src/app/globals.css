@@ -84,12 +84,6 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* Custom cursor active (fine pointer only, set by CustomCursor). */
-html[data-cursor="on"],
-html[data-cursor="on"] * {
-  cursor: none !important;
-}
-
 @keyframes mp-eq {
   0%, 100% { transform: scaleY(0.25); }
   50% { transform: scaleY(1); }

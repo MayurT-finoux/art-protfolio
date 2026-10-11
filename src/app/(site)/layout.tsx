@@ -1,4 +1,3 @@
-import { CustomCursor } from "@/components/site/CustomCursor/CustomCursor";
 import { Footer } from "@/components/site/Footer/Footer";
 import { MainNav } from "@/components/site/MainNav/MainNav";
 import { PlayerDock } from "@/components/site/PlayerDock/PlayerDock";
@@ -27,7 +26,6 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
         social={social}
       />
       <PlayerDock track={music.track} />
-      <CustomCursor />
     </>
   );
 }
