@@ -93,7 +93,9 @@ src/
   components/admin/ui/  shared admin controls (AdminUI: Panel, Field, TextInput, Toggle, Chip…; Sortable: dnd-kit)
   styles/tokens.css     design tokens
   db/index.ts           Drizzle client (DATABASE_URL, pooled)
-  db/schema.ts          Drizzle schema
+  db/schema.ts          Drizzle schema (categories, artworks, artwork_images, site_content)
+  lib/content/          cached reads (queries.ts, home.ts), shared types, seed data
+  app/admin/actions.ts  server actions (save/feature/delete artwork, save Home)
   lib/
 ```
 
@@ -110,6 +112,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - `npm run db:check` — test the database connection (both URLs)
 - `npm run db:generate` / `db:migrate` / `db:studio` — drizzle-kit (uses `DATABASE_URL_UNPOOLED`)
 - `npm run r2:check` — test Cloudflare R2 (upload, public read, delete)
+- `npm run db:seed` — fill empty tables with the placeholder content
 
 ## Environment
 
@@ -143,4 +146,6 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — Next 16 + Cache Components: no `new Date()` / `Math.random()` during prerender in client components; wrap in `<Suspense>` or move to an event/effect.
 - 2026-10-08 — Cloudflare R2: no domain yet → public `r2.dev` URL for now (custom domain before launch). Uploads: browser PUTs to a presigned URL from `/api/uploads`. The dev-only gate was **removed at Yurix's request (2026-10-11)**: uploads work on deployments too (R2 keys set in Vercel); type/size/folder still checked. Must require the login before launch. Limits: images 20 MB (JPG/PNG/WebP), video 200 MB (MP4/WebM/MOV), audio 30 MB (MP3/M4A).
 - 2026-10-11 — Hosting: Vercel (Render and Netlify considered). `/admin` was hidden on deployed builds; **removed at Yurix's request (2026-10-11): admin is open on every deployment until the login (Better Auth) is added** — must be protected before launch.
+- 2026-10-11 — Database live for artworks + Home (Phase 6). Reads: `"use cache"` + `cacheTag("content")`; saves: server actions + `updateTag("content")`. No `DATABASE_URL` → placeholder fallback. Other admin screens still placeholder.
+- 2026-10-11 — Home Selected Work / Fresh now come from the artworks table (card label = category, lowercase).
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

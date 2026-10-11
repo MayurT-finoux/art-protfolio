@@ -11,7 +11,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "r2:check": "node --env-file=.env.local scripts/r2-check.mts"
+    "r2:check": "node --env-file=.env.local scripts/r2-check.mts",
+    "db:seed": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/db-seed.mts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1147.0",
@@ -24,7 +25,8 @@
     "gsap": "^3.15.0",
     "next": "16.4.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "^20",

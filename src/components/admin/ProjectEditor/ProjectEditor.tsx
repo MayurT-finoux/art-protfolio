@@ -4,7 +4,7 @@ import { useState } from "react";
 import { img, slugify, type Project } from "@/lib/placeholder/admin";
 import { AdminPage } from "../AdminPage/AdminPage";
 import { useAdmin } from "../AdminProvider/AdminProvider";
-import { SlugSeoFields } from "../SlugSeoFields/SlugSeoFields";
+import { SlugSeoFields, type SeoValues } from "../SlugSeoFields/SlugSeoFields";
 import { FilePicker, progressLabel } from "../ui/FilePicker";
 import { SortableList } from "../ui/Sortable";
 import { DragHandle, Field, Panel, PanelToggleHeader, TextArea, TextInput, Thumb, Toggle } from "../ui/AdminUI";
@@ -49,6 +49,7 @@ export function ProjectEditor({ project }: { project: Project | null }) {
   const [behanceOn, setBehanceOn] = useState(p?.behance ?? false);
   const [behanceSlug, setBehanceSlug] = useState(p?.slug ?? "");
   const [behanceText, setBehanceText] = useState("the full case study, every frame");
+  const [seo, setSeo] = useState<SeoValues>({ slug: p?.slug ?? "", seoTitle: p ? `${p.title} — Yurix` : "", seoDescription: "" });
   const [localDraft, setLocalDraft] = useState(true);
 
   const draft = p ? projectDraft[p.slug] : localDraft;
@@ -263,8 +264,9 @@ export function ProjectEditor({ project }: { project: Project | null }) {
           <div id="pe-seo">
             <SlugSeoFields
               base="yurix.art/work/"
-              slug={p?.slug ?? slugify(title)}
-              title={p?.title ?? ""}
+              {...seo}
+              onChange={(patch) => setSeo({ ...seo, ...patch })}
+              titleFallback={`${title || "untitled"} — Yurix`}
               descriptionFallback="uses teaser if empty"
               shareImage={(!coverIsVideo && cover) || undefined}
             />

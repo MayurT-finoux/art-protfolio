@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArtworkEditor } from "@/components/admin/ArtworkEditor/ArtworkEditor";
-import { ARTWORKS } from "@/lib/placeholder/admin";
+import { featuredOrder, getArtworks, getCategories } from "@/lib/content/queries";
 
-export function generateStaticParams() {
-  return ARTWORKS.map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  return (await getArtworks()).map((a) => ({ slug: a.slug }));
 }
 
 // The slug is read inside <Suspense> so navigation into the editor stays instant.
@@ -18,7 +18,15 @@ export default function ArtworkPage({ params }: PageProps<"/admin/artworks/[slug
 
 async function Editor({ params }: { params: PageProps<"/admin/artworks/[slug]">["params"] }) {
   const { slug } = await params;
-  const artwork = ARTWORKS.find((a) => a.slug === slug);
+  const [artworks, categories] = await Promise.all([getArtworks(), getCategories()]);
+  const artwork = artworks.find((a) => a.slug === slug);
   if (!artwork) notFound();
-  return <ArtworkEditor key={slug} artwork={artwork} />;
+  return (
+    <ArtworkEditor
+      key={artwork.id}
+      artwork={artwork}
+      categories={categories}
+      featuredIds={featuredOrder(artworks).map((a) => a.id)}
+    />
+  );
 }

@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { Suspense } from "react";
-import { ARTWORKS, INSTAGRAM_POSTS, MAX_FEATURED, img } from "@/lib/placeholder/admin";
-import { useAdmin } from "../AdminProvider/AdminProvider";
+import { INSTAGRAM_POSTS, img } from "@/lib/placeholder/admin";
+import { MAX_FEATURED, type ArtworkData } from "@/lib/content/types";
 import { ButtonLink, Panel, PanelTitle, StatusDot, Thumb } from "../ui/AdminUI";
 import styles from "./Dashboard.module.css";
 
-const DRAFTS = [
-  { title: "paper moon", meta: "Artwork · Handmade · 2 images", image: img("monet", 120), href: "/admin/artworks/paper-moon" },
+// Project drafts stay placeholder until projects are in the database.
+const PROJECT_DRAFTS = [
   { title: "tiny gods", meta: "Project · short film · no final pieces yet", image: img("monet", 120), href: "/admin/projects/tiny-gods" },
 ];
 
@@ -30,8 +30,19 @@ function Today() {
   return <span className={styles.date}>{today()}</span>;
 }
 
-export function Dashboard() {
-  const { featured } = useAdmin();
+/** `featured`: featured artworks in Home order. */
+export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; featured: ArtworkData[] }) {
+  const drafts = [
+    ...artworks
+      .filter((a) => a.status === "draft")
+      .map((a) => ({
+        title: a.title,
+        meta: `Artwork · ${a.category} · ${a.images.length} ${a.images.length === 1 ? "image" : "images"}`,
+        image: a.images[0]?.url ?? "",
+        href: `/admin/artworks/${a.slug}`,
+      })),
+    ...PROJECT_DRAFTS,
+  ];
 
   return (
     <div data-component="Dashboard" className={styles.dashboard}>
@@ -65,9 +76,9 @@ export function Dashboard() {
           </div>
           <div className={styles.slots}>
             {Array.from({ length: MAX_FEATURED }, (_, i) => {
-              const a = ARTWORKS[featured[i]];
+              const a = featured[i];
               return a ? (
-                <Thumb key={i} src={img(a.imageKey, 200)} position={a.position} className={styles.slot} />
+                <Thumb key={i} src={a.images[0]?.url ?? ""} position={a.images[0]?.focus} className={styles.slot} />
               ) : (
                 <span key={i} className={`${styles.slot} ${styles.emptySlot}`}>
                   +
@@ -105,7 +116,7 @@ export function Dashboard() {
       <div className={styles.row2}>
         <Panel gap={6}>
           <PanelTitle className={styles.listTitle}>Drafts</PanelTitle>
-          {DRAFTS.map((d) => (
+          {drafts.map((d) => (
             <Link key={d.title} href={d.href} className={styles.draftRow}>
               <Thumb src={d.image} className={styles.draftThumb} />
               <span className={styles.rowText}>

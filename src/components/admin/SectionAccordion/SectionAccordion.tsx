@@ -9,16 +9,41 @@ import { FieldLabel, SoonTag, TextArea, Thumb } from "../ui/AdminUI";
 import { FilePicker, progressLabel } from "../ui/FilePicker";
 import styles from "./SectionAccordion.module.css";
 
+/**
+ * Fields with a `name` are controlled by the editor through `onChange(name, value)`
+ * (HomeEditor saves them); fields without one keep their own state (AboutEditor, for now).
+ */
 export type SectionField =
-  | { kind: "text"; label: string; value: string }
-  | { kind: "file"; label: string; value: string; hint: string; image: string; accept: UploadKind; folder: string }
+  | { kind: "text"; label: string; value: string; name?: string }
+  | {
+      kind: "file";
+      label: string;
+      /** Shown when nothing is uploaded yet, e.g. "hero-loop.mp4". */
+      value: string;
+      hint: string;
+      /** Thumbnail shown when nothing is uploaded yet. */
+      image: string;
+      accept: UploadKind;
+      folder: string;
+      name?: string;
+      /** Controlled: the uploaded file's URL (null = none yet). */
+      url?: string | null;
+    }
   | { kind: "auto"; label: string; value: string; cta: string; href: string }
   | { kind: "list"; label: string; list: AboutListKey; addLabel: string; blank: ListItem };
 
 export type Section = { name: string; summary: string; fields: SectionField[] };
 
 // HomeEditor / AboutEditor accordion: one section open at a time.
-export function SectionAccordion({ sections, defaultOpen }: { sections: Section[]; defaultOpen: string }) {
+export function SectionAccordion({
+  sections,
+  defaultOpen,
+  onChange,
+}: {
+  sections: Section[];
+  defaultOpen: string;
+  onChange?: (name: string, value: string) => void;
+}) {
   const [open, setOpen] = useState<string | null>(defaultOpen);
 
   return (
@@ -40,7 +65,7 @@ export function SectionAccordion({ sections, defaultOpen }: { sections: Section[
                 {section.fields.map((f) => (
                   <div key={f.label} className={styles.field}>
                     <FieldLabel>{f.label}</FieldLabel>
-                    <FieldControl field={f} />
+                    <FieldControl field={f} onChange={onChange} />
                   </div>
                 ))}
               </div>
@@ -52,12 +77,24 @@ export function SectionAccordion({ sections, defaultOpen }: { sections: Section[
   );
 }
 
-function FieldControl({ field }: { field: SectionField }) {
+type OnChange = ((name: string, value: string) => void) | undefined;
+
+function FieldControl({ field, onChange }: { field: SectionField; onChange: OnChange }) {
   switch (field.kind) {
     case "text":
-      return <TextField initial={field.value} label={field.label} />;
+      return field.name && onChange ? (
+        <TextArea
+          rows={1}
+          aria-label={field.label}
+          className={styles.text}
+          value={field.value}
+          onChange={(e) => onChange(field.name!, e.target.value)}
+        />
+      ) : (
+        <TextField initial={field.value} label={field.label} />
+      );
     case "file":
-      return <FileField field={field} />;
+      return <FileField field={field} onChange={onChange} />;
     case "auto":
       return (
         <div className={styles.auto}>
@@ -72,8 +109,16 @@ function FieldControl({ field }: { field: SectionField }) {
   }
 }
 
-function FileField({ field }: { field: Extract<SectionField, { kind: "file" }> }) {
-  const [file, setFile] = useState({ name: field.value, url: field.image, video: false });
+const fileName = (url: string) => decodeURIComponent(url.split("/").pop() ?? url);
+
+function FileField({ field, onChange }: { field: Extract<SectionField, { kind: "file" }>; onChange: OnChange }) {
+  const [local, setLocal] = useState({ name: field.value, url: field.image, video: false });
+  const controlled = Boolean(field.name && onChange);
+  const file = controlled
+    ? field.url
+      ? { name: fileName(field.url), url: field.url, video: field.accept === "video" }
+      : { name: field.value, url: field.image, video: false }
+    : local;
   return (
     <div className={styles.file}>
       <Thumb src={file.video ? "" : file.url} position="center" className={styles.fileThumb}>
@@ -86,7 +131,9 @@ function FileField({ field }: { field: Extract<SectionField, { kind: "file" }> }
       <FilePicker
         kind={field.accept}
         folder={field.folder}
-        onUploaded={(url, f) => setFile({ name: f.name, url, video: f.type.startsWith("video/") })}
+        onUploaded={(url, f) =>
+          controlled ? onChange!(field.name!, url) : setLocal({ name: f.name, url, video: f.type.startsWith("video/") })
+        }
       >
         {({ open, progress }) => (
           <button type="button" className={styles.replace} onClick={open}>

@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ADMIN_USER, ARTWORKS, PROJECTS } from "@/lib/placeholder/admin";
+import { ADMIN_USER, PROJECTS } from "@/lib/placeholder/admin";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { SoonTag } from "../ui/AdminUI";
 import styles from "./AdminSidebar.module.css";
 
 type Item = { label: string; href?: string; count?: number };
 
-export function AdminSidebar() {
+export function AdminSidebar({ artworkCount }: { artworkCount: number }) {
   const pathname = usePathname();
   const { categories } = useAdmin();
 
@@ -18,7 +18,7 @@ export function AdminSidebar() {
     {
       name: "content",
       items: [
-        { label: "Artworks", href: "/admin/artworks", count: ARTWORKS.length },
+        { label: "Artworks", href: "/admin/artworks", count: artworkCount },
         { label: "Projects", href: "/admin/projects", count: PROJECTS.length },
         { label: "Categories", href: "/admin/categories", count: categories.length },
       ],
