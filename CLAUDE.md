@@ -97,7 +97,7 @@ src/
   db/index.ts           Drizzle client (DATABASE_URL, pooled)
   db/schema.ts          Drizzle schema (categories, artworks, artwork_images, site_content)
   lib/content/          cached reads (queries.ts, home.ts), shared types, seed data
-  app/admin/actions.ts  server actions (save/feature/delete artwork, save Home)
+  app/admin/actions.ts  server actions (save/feature/delete artwork, save Home, save Footer & social)
   lib/
 ```
 
@@ -161,4 +161,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-19 — New design handoff (zip) replaced `design/design_handoff_yurix_site/`: adds AdminLogin, Contact, Shop, 404, admin Shop/404 screens. Already-built pages unchanged. Home stays v6 (the handoff's v7 "Cut & Paste" Home is not adopted unless Yurix says so).
 - 2026-10-19 — Admin sign-in built (Phase 8): Better Auth, sign-ups off, 5 tries / 15 min per IP (DB-stored), reset link 30 min. `/admin` gate = proxy **rewrite** to the sign-in screen (redirects broke behind Codespaces). All admin actions + `/api/uploads` require a session again (reverses the 2026-10-11 "open admin" state). Added (not in design): `/admin/reset-password` page and a sidebar "sign out".
 - 2026-10-19 — Contact page built (Phase 8): messages → `contact_messages`, Resend notification to `NOTIFY_EMAIL`, honeypot spam guard.
+- 2026-10-19 — Bug fix: admin "Footer & social" now saves (site_content "footer": wordmark, say-hi label, location, email, copyright, Instagram/Behance/YouTube URLs). Used by the footer, mobile menu, Home follow button and Contact page; empty social links are hidden. Instagram connection panel is still placeholder. About page SocialLinks still come from `about.ts`.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

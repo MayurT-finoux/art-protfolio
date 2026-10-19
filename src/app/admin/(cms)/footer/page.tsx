@@ -1,10 +1,6 @@
-import { AdminPage } from "@/components/admin/AdminPage/AdminPage";
 import { FooterEditor } from "@/components/admin/FooterEditor/FooterEditor";
+import { getFooterContent } from "@/lib/content/queries";
 
-export default function FooterPage() {
-  return (
-    <AdminPage title="Footer & social">
-      <FooterEditor />
-    </AdminPage>
-  );
+export default async function FooterPage() {
+  return <FooterEditor initial={await getFooterContent()} />;
 }

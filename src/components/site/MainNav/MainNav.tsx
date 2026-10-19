@@ -11,7 +11,7 @@ type Props = {
   items: NavItem[];
   wordmark: string;
   email: string;
-  instagram: SocialLink;
+  instagram?: SocialLink;
   track: string;
 };
 

@@ -6,11 +6,12 @@ import { HeroScroll } from "@/components/home/HeroScroll/HeroScroll";
 import { InfoCards } from "@/components/home/InfoCards/InfoCards";
 import { SelectedWork } from "@/components/home/SelectedWork/SelectedWork";
 import { getHomePageData } from "@/lib/content/home";
+import { getFooterContent } from "@/lib/content/queries";
 import { freshWork, hero, infoCards, selectedWork } from "@/lib/placeholder/home";
 import styles from "./page.module.css";
 
 export default async function HomePage() {
-  const { content: c, selected, fresh, aboutButtons } = await getHomePageData();
+  const [{ content: c, selected, fresh, aboutButtons }, footer] = await Promise.all([getHomePageData(), getFooterContent()]);
 
   return (
     <div data-home className={styles.home}>
@@ -38,7 +39,7 @@ export default async function HomePage() {
           label={c.freshLabel}
           heading={c.freshHeading}
           followButton={c.followButton}
-          followHref={freshWork.followHref}
+          followHref={footer.instagram || freshWork.followHref}
           items={fresh}
         />
         <AboutSection

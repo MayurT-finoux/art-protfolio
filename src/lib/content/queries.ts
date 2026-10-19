@@ -4,7 +4,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, hasDatabase } from "@/db";
 import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
-import { DEFAULT_CATEGORIES, DEFAULT_HOME, type ArtworkData, type HomeContent } from "./types";
+import { DEFAULT_CATEGORIES, DEFAULT_FOOTER, DEFAULT_HOME, type ArtworkData, type FooterContent, type HomeContent } from "./types";
 
 export const CONTENT_TAG = "content";
 
@@ -15,6 +15,15 @@ export async function getHomeContent(): Promise<HomeContent> {
   if (!hasDatabase()) return DEFAULT_HOME;
   const [row] = await db().select().from(siteContent).where(eq(siteContent.key, "home"));
   return { ...DEFAULT_HOME, ...((row?.data as Partial<HomeContent>) ?? {}) };
+}
+
+export async function getFooterContent(): Promise<FooterContent> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  if (!hasDatabase()) return DEFAULT_FOOTER;
+  const [row] = await db().select().from(siteContent).where(eq(siteContent.key, "footer"));
+  return { ...DEFAULT_FOOTER, ...((row?.data as Partial<FooterContent>) ?? {}) };
 }
 
 /** All artworks, newest first, with their images in order. */

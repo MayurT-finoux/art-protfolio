@@ -1,27 +1,33 @@
 import { Footer } from "@/components/site/Footer/Footer";
 import { MainNav } from "@/components/site/MainNav/MainNav";
 import { PlayerDock } from "@/components/site/PlayerDock/PlayerDock";
-import { footerLinks, music, nav, site, social } from "@/lib/placeholder/home";
+import { getFooterContent } from "@/lib/content/queries";
+import { footerSocial } from "@/lib/content/types";
+import { footerLinks, music, nav } from "@/lib/placeholder/home";
 
 // Public site shell. The MusicPlayer lives here (not the root layout) so it
 // keeps playing across public pages but never appears in /admin.
-export default function SiteLayout({ children }: LayoutProps<"/">) {
+// Footer text + social links come from the admin ("Footer & social").
+export default async function SiteLayout({ children }: LayoutProps<"/">) {
+  const footer = await getFooterContent();
+  const social = footerSocial(footer);
+
   return (
     <>
       <MainNav
         items={nav}
-        wordmark={site.wordmark}
-        email={site.email}
-        instagram={social[0]}
+        wordmark={footer.wordmark}
+        email={footer.email}
+        instagram={social.find((s) => s.label === "Instagram")}
         track={music.track}
       />
       <main>{children}</main>
       <Footer
-        wordmark={site.wordmark}
-        sayHiLabel={site.sayHiLabel}
-        location={site.location}
-        email={site.email}
-        copyright={site.copyright}
+        wordmark={footer.wordmark}
+        sayHiLabel={footer.sayHiLabel}
+        location={footer.location}
+        email={footer.email}
+        copyright={footer.copyright}
         pageLinks={footerLinks}
         social={social}
       />

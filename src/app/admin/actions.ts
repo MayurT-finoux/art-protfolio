@@ -187,3 +187,37 @@ export async function saveHome(raw: z.infer<typeof homeInput>): Promise<Result> 
     return fail(error);
   }
 }
+
+/** Accepts "instagram.com/x" or a full URL; stores "https://…". Empty = hidden on the site. */
+const socialUrl = z
+  .string()
+  .trim()
+  .max(300)
+  .transform((v) => (v && !/^https?:\/\//i.test(v) ? `https://${v}` : v))
+  .refine((v) => v === "" || z.string().url().safeParse(v).success, "That link doesn't look right.");
+
+const footerInput = z.object({
+  wordmark: text(40).min(1, "Add a wordmark."),
+  sayHiLabel: text(60),
+  location: text(80),
+  email: z.union([z.string().trim().email("That email doesn't look right."), z.literal("")]),
+  copyright: text(160),
+  instagram: socialUrl,
+  behance: socialUrl,
+  youtube: socialUrl,
+});
+
+export async function saveFooter(raw: z.input<typeof footerInput>): Promise<Result> {
+  try {
+    await requireAdmin();
+    const data = footerInput.parse(raw);
+    await db()
+      .insert(siteContent)
+      .values({ key: "footer", data })
+      .onConflictDoUpdate({ target: siteContent.key, set: { data, updatedAt: new Date() } });
+    updateTag(CONTENT_TAG);
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}

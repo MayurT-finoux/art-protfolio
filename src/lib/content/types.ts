@@ -1,6 +1,6 @@
 // Content shapes shared by the site, the admin and the database layer.
 // Relative .ts imports: also used by scripts/db-seed.mts (plain Node).
-import { aboutSection, freshWork, hero, selectedWork } from "../placeholder/home.ts";
+import { aboutSection, freshWork, hero, selectedWork, site, social } from "../placeholder/home.ts";
 
 /** Home page content, stored as site_content["home"]. */
 export type HomeContent = {
@@ -73,3 +73,43 @@ export const DEFAULT_CATEGORIES = ["Traditional", "Digital", "Animation", "Handm
 /** Card aspect ratio from the cover image, e.g. "4/5". */
 export const coverRatio = (a: Pick<ArtworkData, "images">) =>
   a.images[0] ? `${a.images[0].width}/${a.images[0].height}` : "4/5";
+
+/** Footer + social links (admin "Footer & social"), stored as site_content["footer"]. */
+export type FooterContent = {
+  wordmark: string;
+  sayHiLabel: string;
+  location: string;
+  email: string;
+  copyright: string;
+  /** Full URLs; empty = not shown on the site. */
+  instagram: string;
+  behance: string;
+  youtube: string;
+};
+
+const realUrl = (href: string) => (href.startsWith("http") ? href : "");
+
+export const DEFAULT_FOOTER: FooterContent = {
+  wordmark: site.wordmark,
+  sayHiLabel: site.sayHiLabel,
+  location: site.location,
+  email: site.email,
+  copyright: site.copyright,
+  instagram: realUrl(social.find((s) => s.label === "Instagram")?.href ?? ""),
+  behance: realUrl(social.find((s) => s.label === "Behance")?.href ?? ""),
+  youtube: realUrl(social.find((s) => s.label === "YouTube")?.href ?? ""),
+};
+
+/** Footer social links that are set, in the footer's order. */
+export const footerSocial = (f: FooterContent) =>
+  [
+    { label: "Instagram", href: f.instagram },
+    { label: "Behance", href: f.behance },
+    { label: "YouTube", href: f.youtube },
+  ].filter((l) => l.href);
+
+/** "@yurix.draws" from an Instagram profile URL. */
+export const instagramHandle = (url: string) => {
+  const handle = url.match(/instagram\.com\/([^/?#]+)/i)?.[1];
+  return handle ? `@${handle}` : "";
+};

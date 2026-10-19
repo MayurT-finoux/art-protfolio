@@ -12,7 +12,7 @@ type Props = {
   activeHref?: string;
   wordmark: string;
   email: string;
-  instagram: SocialLink;
+  instagram?: SocialLink;
   track: string;
   onClose: () => void;
 };
@@ -60,12 +60,16 @@ export function MobileMenu({ items, activeHref, wordmark, email, instagram, trac
 
       <div className={styles.footer}>
         <div className={styles.pills}>
-          <a href={instagram.href} target="_blank" rel="noopener noreferrer" className={styles.pill}>
-            instagram ↗
-          </a>
-          <a href={`mailto:${email}`} className={styles.pill}>
-            {email}
-          </a>
+          {instagram && (
+            <a href={instagram.href} target="_blank" rel="noopener noreferrer" className={styles.pill}>
+              instagram ↗
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`} className={styles.pill}>
+              {email}
+            </a>
+          )}
         </div>
         <MusicPlayer track={track} />
       </div>
