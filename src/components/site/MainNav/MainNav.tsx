@@ -17,9 +17,11 @@ type Props = {
 
 // Items fade and drop in as the Home hero completes (--p, see globals.css).
 // Desktop item i starts at p = 0.40 + 0.05·i; the mobile button at p = 0.50.
-export function MainNav({ items, wordmark, email, instagram, track }: Props) {
+export function MainNav({ items: navItems, wordmark, email, instagram, track }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  // Yurix's change: a "home" link first on every page except Home itself.
+  const items = pathname === "/" ? navItems : [{ label: "home", href: "/" }, ...navItems];
   // Current section: "/work/moth-lullaby" → "/work".
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
