@@ -2,13 +2,15 @@
 
 ## Overview
 Portfolio site for Yurix, a 2D animator and illustrator in Mumbai. It has two parts:
-1. **Public website**: Home (scroll-driven animated hero), Work (curated projects) with a ProjectPage for each, and Gallery (filterable masonry plus lightbox). About (two layouts, picked in the CMS). Shop, Contact and the 404 game are not designed yet; only their Home "InfoCards" exist.
-2. **Admin**: a small CMS that lets Yurix edit everything the site shows without touching code.
+1. **Public website**: Home (scroll-driven animated hero), Work (curated projects) with a ProjectPage for each, and Gallery (filterable masonry plus lightbox). About (two layouts, picked in the CMS), Shop with product pages and custom orders, Contact, and a 404 page that shows either a runner game or a piece of art (switchable in the CMS).
+2. **Admin**: a small CMS behind a sign-in screen. It lets Yurix edit everything the site shows without touching code.
+
+**Updated:** Shop, Contact, 404 (game / image / animation), admin sign-in and the admin Shop + 404 screens were added. The newest overview is `designs/Artist Portfolio v7.dc.html` (sections 3–7).
 
 ## About the design files
 The files in `designs/` are **design references built in HTML**. They are prototypes that show the intended look and behaviour, not production code to ship. Rebuild them in the target stack. If no codebase exists yet, a good fit is **Next.js (App Router) + TypeScript**, with a headless CMS or a small custom admin on Postgres plus object storage for media. The admin screens in `Admin.dc.html` show the data model the CMS needs.
 
-To view them, open `designs/Overview Canvas.dc.html` in a browser served over a local static server (e.g. `npx serve designs`). It shows every page and admin screen side by side; each frame is live (scroll, click, filter). Each `.dc.html` page also opens on its own. Inline `style="…"` attributes hold the exact values. Elements carry `data-component="…"` with the component names to use in code.
+To view them, open `designs/Artist Portfolio v7.dc.html` (newest work) or `designs/Overview Canvas.dc.html` (earlier pages) in a browser served over a local static server (e.g. `npx serve designs`). It shows every page and admin screen side by side; each frame is live (scroll, click, filter). Each `.dc.html` page also opens on its own. Inline `style="…"` attributes hold the exact values. Elements carry `data-component="…"` with the component names to use in code.
 
 Images are public-domain paintings loaded from Wikimedia **as placeholders**. Replace them with Yurix's artwork via the CMS.
 
@@ -135,6 +137,50 @@ A dark gradient scrim sits behind the text for contrast: desktop 90°, `rgba(19,
   - Controls: Esc closes, ← → step between artworks, and the background scroll is locked.
   - Mobile: opens as a full-screen sheet.
 
+### Shop (`ShopStudioTable.dc.html`, props `mobile`, `page` = shop | product, `product`, `shopState` = live | loading | empty, `buyMode` = checkout | cart, `formState`)
+Direction "Studio Table": products are taped paper cards on a cutting mat (background `#f5f5f7` with a 32px purple grid at 7% opacity).
+- **ShopIntro**: mono label with an automatic count, a 200px "shop" heading and an intro line.
+- **ShopFilters**: All plus the shop categories with counts. Categories with nothing for sale are hidden. Mobile is one swipe row.
+- **ProductGrid / ProductCard**: white card with radius 6 and a tape strip. Each card has a small alternating rotation (±1.4deg) and straightens and lifts on hover. The second image fades in on hover. Below the image: title, edition line and a purple price tag.
+  - **ProductStatusBadge** is automatic: available, "only N left" (stock ≤ 2, not for originals), sold out (grayscale image), coming soon (blurred image), made to order (Custom category).
+  - Loading skeleton and empty state ("new prints are still drying" + notify-me email).
+- **SoldOriginals** ("found a home"): originals marked *collected* move here, in a horizontal strip of framed squares with a red gallery dot and "sold · now in {city}".
+- **CustomOrders**: label, heading, 3 steps, a "request a custom piece" button, and past custom work drawn in real object shapes (skateboard, headphones, metro card, clay model).
+- **CustomOrderForm**: a modal "order slip".
+  - Fields: name, email, object chips, idea, reference image, budget chips, deadline chips (+ date).
+  - Validation with inline messages, a network-error banner that keeps the input, and a success summary. Requests go to the admin inbox.
+- **ShopInfo** ("the small print"): FAQ accordion.
+- **ProductPage**:
+  - **ProductGallery**: swipe carousel with labelled images, thumbnails and ← → buttons on desktop.
+  - Sticky info column: badge, category · no., title, price (+ "incl. taxes · shipping at checkout"), story.
+  - **ProductOptions**: optional groups such as print size and paper; an add-on price changes the total.
+  - **BuyButton**. In *checkout* mode each product opens its own payment link; in *cart* mode it shows "add to cart", then a floating cart button. Custom products show "request this piece". Sold out or coming soon shows "notify me", and sold originals show "request something similar".
+  - Specs list, **RelatedArtwork** link (→ /gallery/{slug}) and "more from the table".
+  - On mobile, the buy bar is sticky at the bottom.
+
+### Contact (`ContactPage.dc.html`, props `mobile`, `formState` = idle | error | success, `availability` = open | booked)
+- **ContactIntro**: a 200px "say hi" heading and an **AvailabilityBadge** ("open for commissions · booking …" or "booked until …").
+- **ContactForm**: a postcard taped to the cutting mat.
+  - Left side: "what's it about?" chips (illustration commission, animation / music video, custom object, a shop order, collab / press, just saying hi, other) and a ruled message textarea. The placeholder changes with the topic.
+  - Right side: stamp, a postmark with today's date (Asia/Kolkata), and lined "from" and "reply to" fields.
+  - Topic-dependent fields: budget and timing chips for commission / animation / custom; an order number field for a shop order.
+  - Validation is inline. On success the postcard gets a "sent!" stamp (pf-stamp) and a summary.
+- **DirectLines**: email with a copy button, Instagram DM, and the studio with a live Mumbai clock ("awake, probably drawing" 9:00–24:00, otherwise "asleep · replies at 9").
+- **GoodToKnow**: rates (placeholder), turnaround, usage.
+
+### 404 (`404 Sketchbook.dc.html`, props `mode` = game | image | animation, `mobile`, `landscape`, game states)
+- **game**: ruled-paper page with "oops! this page ran away.", a back-to-home button, and the endless runner (`RunnerGame Sketchbook.dc.html` + `runner-engine.js`).
+  - The world goes from sketch to inked (score 220) to painted (score 600). Space / click / tap jumps; P / Esc pauses.
+  - The high score is saved. The game auto-pauses when the tab is hidden. Reduced motion shows a still with "play anyway". Doodle art is placeholder.
+- **image / animation**: a blank white page with only the MainNav, a big "404" heading and one centred 16:10 image or muted looping MP4. There is no message, button or footer. Reduced motion shows the still frame.
+
+### Admin sign-in (`AdminLogin.dc.html`, prop `state` = idle | error | reset | sent)
+- A taped white card on the cutting mat, with the "yurix" wordmark and an admin pill.
+- Sign-in: email, password with show/hide, and "sign in →".
+- Wrong password shows an inline error; 5 failed tries locks sign-in for 15 minutes.
+- "forgot?" asks for the email, then shows "check your inbox" (the link is valid 30 minutes).
+- After sign-in it opens the dashboard. Single owner account. Use real auth (e.g. a hosted auth provider or a session-cookie login with rate limiting).
+
 ---
 
 ## Admin (`Admin.dc.html`), desktop CMS
@@ -148,7 +194,7 @@ A dark gradient scrim sits behind the text for contrast: desktop 90°, `rgba(19,
 - Reorder: a ⋮⋮ drag handle plus ↑ / ↓ 34px buttons (30% opacity at the ends). Build real drag-and-drop too.
 - Save shows a toast: "saved · live on the site in a few seconds" (2s).
 
-**Sidebar** (`AdminSidebar`): groups *overview* (Dashboard), *content* (Artworks, Projects, Categories, with counts), *pages* (Home, About page; Shop, Contact page, 404 game marked **"soon"** and disabled), *site* (Navigation, Music, Footer & social, Microcopy; Loader "soon"). The active item is ink-filled with white text.
+**Sidebar** (`AdminSidebar`): groups *overview* (Dashboard), *content* (Artworks, Projects, Categories, with counts), *shop* (Products, Shop categories, Shop page; Custom requests "soon"), *pages* (Home, About page, 404 page; Contact page "soon"), *site* (Navigation, Music, Footer & social, Microcopy; Loader "soon"). The active item is ink-filled with white text.
 
 **Screens**
 1. **Dashboard**
@@ -218,6 +264,25 @@ A dark gradient scrim sits behind the text for contrast: desktop 90°, `rgba(19,
 
 ---
 
+13. **ProductList** (`screen="products"`): chips (All, categories, Collected). Rows show thumb, title + no. · edition, category, price, stock, the live status badge, ↑↓ order (only under All), and live/draft. Mobile uses compact rows.
+14. **ProductEditor** (`screen="shopitem"`, `shopProduct`):
+    - **Images**: the 1st is the cover and the 2nd is the hover image.
+    - **Details**: title, no., category chips, base price, a "show as from" toggle and the story.
+    - **Stock & status**: on sale / coming soon / sold out; an open-edition toggle; a stock stepper (0 sets sold out). For originals that are sold out: a *collected* toggle and "now in {city}". Custom products show a made-to-order note instead.
+    - **Options**: groups of values, each with an add-on price.
+    - **Specs**: size, materials, edition line and shipping.
+    - **Links & URL**: `yurix.art/shop/{slug}` and the linked gallery artwork.
+    - **Right column**: a live ProductCard preview, the Buy-button label for the current mode, and "delete".
+15. **ShopCategoryManager** (`screen="shopcats"`): ordered list with product counts and the shown/hidden state.
+16. **ShopPageEditor** (`screen="shoppage"`):
+    - **CheckoutSettings**: buy button mode (checkout link | cart), payment providers, price note and currency.
+    - An accordion for ShopIntro, ShopFilters, ProductGrid (empty state), SoldOriginals, CustomOrders (steps list, past custom work list), CustomOrderForm (object choices, budget options, recipient) and ShopInfo (FAQ list).
+17. **NotFoundEditor** (`screen="notfound"`):
+    - Radio cards: runner game / image / animation.
+    - *image*: the file, caption and alt text. *animation*: the loop, a still frame for reduced motion, caption and alt text.
+    - *game*: difficulty (easy / normal / hard).
+    - Message fields: label, heading, text and button for the game; the heading only for art mode.
+
 ## Data model (suggested)
 ```ts
 Category   { id, name, order }                       // hidden on site when no live artworks
@@ -248,6 +313,22 @@ Track      { name, fileUrl, duration, order }  + musicEnabled: boolean
 Footer     { wordmark, sayHiLabel, location, email, copyright, pageLinks[] }
 Social     { instagramHandle, instagramToken, lastSyncAt, syncStatus, behanceUrl, youtubeUrl }
 Microcopy  { scrollHint, scrollHintMobile, emptyCategory, cursorPlay, cursorView, cursorOpen }
+ShopCategory { id, name, order }                   // hidden when nothing for sale
+Product    { id, slug, no, title, categoryId, price, showFrom: boolean, story,
+             images: { url, label, order }[],         // [0] cover, [1] hover
+             status: 'onsale'|'soon'|'soldout', stock: number | null,  // null = open edition
+             collected?: boolean, collectedCity?,      // originals → "found a home"
+             options: { name, values: { label, addPrice }[] }[],
+             size?, materials?, editionLine?, shipping?, artworkId?, order, draft }
+ShopContent{ buyMode: 'checkout'|'cart', paymentIndia, paymentIntl, priceNote, currency,
+             intro…, emptyHeading, emptyText, soldHeading, soldText,
+             custom: { label, heading, text, steps[], button, note, examples: { object, fromPrice, image }[] },
+             orderForm: { heading, intro, objects[], budgets[], recipient }, faq: { q, a }[] }
+CustomRequest { name, email, object, idea, referenceUrl?, budget?, deadline?, date?, createdAt }
+ContactMessage { topic, message, name, email, budget?, timing?, orderNo?, createdAt }
+NotFoundContent { mode: 'game'|'image'|'animation', mediaUrl?, stillUrl?, caption?, alt?,
+             difficulty, label, heading, text, buttonLabel, buttonHref }
+AdminUser  { email, passwordHash }  + login rate limit (5 tries / 15 min), reset token (30 min)
 ```
 **Derived on the site:**
 - Fresh = 3 newest live artworks plus 3 cached Instagram posts.
@@ -257,19 +338,23 @@ Microcopy  { scrollHint, scrollHintMobile, emptyCategory, cursorPlay, cursorView
 
 ## Assets
 - Placeholder images: Wikimedia Commons public-domain paintings (Klimt, Vermeer, Van Gogh, Munch, Kandinsky, Hokusai, Botticelli, Monet). **Replace all of them.**
+- Shop prices (₹), shipping rates, payment providers (Razorpay / PayPal shown as examples), contact rates and availability dates are **placeholders**.
 - Video and audio: none bundled. They come from the CMS: hero loop, about-window loop, animation previews, music tracks.
 - Fonts: Google Fonts (Bricolage Grotesque, DM Mono, Inter).
 - Icons are text glyphs (↗ → ← ↑ ↓ ▶ ❚❚ ★ ⋮⋮ ×). Swap them for an icon set if you prefer, at the same sizes.
 
 ## Files (`designs/`)
-- `Overview Canvas.dc.html`: every page and admin screen side by side. Start here.
+- `Artist Portfolio v7.dc.html`: newest overview. Home (Cut & Paste), Shop, Admin shop screens, sign-in, Contact and 404. Start here.
+- `Overview Canvas.dc.html`: earlier overview (Home, Work, Gallery, About, first admin screens).
+- `HomeCollage.dc.html`: Home, Cut & Paste direction (props `mobile`, `menuOpen`, `ink2`, `mess`, `grain`).
+- `ShopStudioTable.dc.html`, `ContactPage.dc.html`, `404 Sketchbook.dc.html` (+ `RunnerGame Sketchbook.dc.html`, `runner-engine.js`), `AdminLogin.dc.html`: see the sections above.
 - `HomePage.dc.html`: HeroAnimation, HeroIntro, MainNav, SelectedWork, FreshWork, AboutSection, InfoCards, MusicPlayer mount, mobile menu (props: `mobile`, `reduced`, loading states).
 - `WorkPage.dc.html`: WorkPage and ProjectPage.
 - `GalleryPage.dc.html`: GalleryFilters, GalleryGrid, ArtworkCard, ArtworkLightbox.
 - `About Sketchbook.dc.html`, `About Editorial.dc.html`: the two About page layouts (prop `mobile`). Same content; the CMS picks which one is live. Sections: AboutHero, AboutStory, MediumsShowcase, ProcessSteps, ToolsSkills, JourneyTimeline, ClientsList, FunFacts, SocialLinks, AboutCTA (+ GuideCharacter in Sketchbook).
 - `SiteFooter.dc.html`, `MusicPlayer.dc.html`: shared pieces.
 - `image-slot.js`: drop-in image placeholder used by the About pages (prototype only).
-- `Admin.dc.html`: all admin screens (prop `screen` = dashboard | artworks | artwork | projects | project | categories | home | nav | music | footer | microcopy | about).
+- `Admin.dc.html`: all admin screens (prop `screen` = dashboard | artworks | artwork | projects | project | categories | home | nav | music | footer | microcopy | about | products | shopitem | shopcats | shoppage | notfound).
 - `support.js`: the small runtime the prototypes need in order to open in a browser. Not for production.
 
 Desktop admin only. The admin is not designed for mobile; a responsive collapse of the sidebar is fine.

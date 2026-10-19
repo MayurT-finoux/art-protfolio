@@ -1,0 +1,18 @@
+/* Contact page wrapper: `cqi` container for the design's fluid clamp() values. */
+.page {
+  position: relative;
+  container-type: inline-size;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+}
+
+/* Postcard + DirectLines */
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: clamp(28px, 4cqi, 56px);
+  padding: clamp(36px, 3.4cqi, 50px) clamp(16px, 3.9cqi, 56px) 0;
+}

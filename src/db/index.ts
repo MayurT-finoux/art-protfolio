@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle, type NeonHttpDatabase } from "drizzle-orm/neon-http";
-import * as schema from "./schema";
+import * as schema from "./schema.ts";
 
 /** False when DATABASE_URL isn't set (e.g. a build without env vars): pages fall back to placeholder content. */
 export const hasDatabase = () => Boolean(process.env.DATABASE_URL);

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  @keyframes pf-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes pf-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pf-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+  body { margin: 0; }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, label:focus-within { outline: 2px solid #5a4bc4; outline-offset: 2px; }
+  [data-artboard="d"], [data-artboard="d"] * { cursor: none !important; }
+  [data-annot="off"] [data-cname], [data-annot="off"] [data-admin] { display: none !important; }
+  [data-pc]:hover [data-alt] { opacity: 1 !important; }
+  [data-scroller] { scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { width: 0; height: 0; }
+  @media (prefers-reduced-motion: reduce) { [data-motion], [data-pc] { animation: none !important; transition: none !important; } }
+</style>
+</helmet>
+<div data-artboard="{{ boardMode }}" ref="{{ rootRef }}" data-annot="{{ annot }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="position: relative; width: 100%; height: {{ rootH }}; overflow: hidden; background: #ffffff; font-family: 'Inter', system-ui, sans-serif; color: #131316; font-weight: 300; container-type: inline-size;">
+  <div data-scroller="" ref="{{ scrollRef }}" style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;">
+
+    <sc-if value="{{ isShop }}" hint-placeholder-val="{{ true }}">
+      <div data-component="ShopPage">
+        <section data-component="ShopIntro" style="position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 40px; padding: clamp(96px, 9cqi, 130px) clamp(16px, 3.9cqi, 56px) 0;">
+          <span data-cname="" style="position: absolute; top: clamp(70px, 6.5cqi, 96px); left: clamp(16px, 3.9cqi, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ShopIntro</span>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: clamp(10.5px, 0.85cqi, 12px); letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ introLabel }}</span>
+            <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(96px, 13.9cqi, 200px); line-height: 0.8; letter-spacing: -0.065em;">shop</h1>
+          </div>
+          <p style="margin: 0; max-width: 430px; font-size: clamp(16px, 1.25cqi, 18px); line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Little pieces of my world you can take home: prints, a few originals, stickers, and things I'll paint just for you.</p>
+        </section>
+
+        <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ true }}">
+          <div data-component="ShopFilters" data-scroller="" style="position: relative; display: flex; align-items: center; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; padding: 36px clamp(16px, 3.9cqi, 56px) 4px; margin-bottom: clamp(20px, 2.4cqi, 34px);">
+            <sc-for list="{{ chips }}" as="c" hint-placeholder-count="5">
+              <sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ c.pick }}" aria-pressed="true" style="flex: none; scroll-snap-align: start; display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid #131316; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; white-space: nowrap;">{{ c.label }}<span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #c9c4f2;">{{ c.count }}</span></button>
+              </sc-if>
+              <sc-if value="{{ c.off }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ c.pick }}" aria-pressed="false" style="flex: none; scroll-snap-align: start; display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; color: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; white-space: nowrap; transition: border-color 160ms ease;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">{{ c.label }}<span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">{{ c.count }}</span></button>
+              </sc-if>
+            </sc-for>
+            <span data-admin="" style="flex: none; margin-left: 8px; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ShopFilters · "Digital" hidden (0 products)</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noFilters }}" hint-placeholder-val="{{ false }}">
+          <div style="height: 36px;"></div>
+        </sc-if>
+
+        <section style="padding: 0 clamp(16px, 3.9cqi, 56px);">
+          <div style="position: relative; border-radius: clamp(18px, 1.7cqi, 24px); background-color: #f5f5f7; background-image: linear-gradient(rgba(90,75,196,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(90,75,196,0.07) 1px, transparent 1px); background-size: 32px 32px; background-position: -1px -1px; padding: clamp(26px, 3.4cqi, 50px) clamp(12px, 3.4cqi, 50px) clamp(22px, 3cqi, 44px);">
+            <span data-cname="" style="position: absolute; top: 10px; left: 12px; z-index: 3; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ProductGrid · ProductCard · ProductStatusBadge</span>
+            <span data-admin="" style="position: absolute; top: 10px; right: 12px; z-index: 3; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · add / remove / drag to reorder</span>
+
+            <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+              <div data-component="ProductGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(calc(50% - 8px), 260px), 1fr)); gap: clamp(26px, 3cqi, 44px) clamp(12px, 2.5cqi, 36px);">
+                <sc-for list="{{ cards }}" as="p" hint-placeholder-count="8">
+                  <article data-component="ProductCard" data-pc="" data-motion="" data-cursor="view" onClick="{{ p.open }}" style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: clamp(7px, 0.7cqi, 10px) clamp(7px, 0.7cqi, 10px) clamp(10px, 1cqi, 14px); border-radius: 6px; background: #ffffff; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 10px 24px rgba(19,19,22,0.07); transform: rotate({{ p.rot }}); transition: transform 260ms cubic-bezier(.2,.8,.2,1), box-shadow 260ms ease; cursor: pointer; animation: pf-up 380ms cubic-bezier(.2,.8,.2,1) both;" style-hover="transform: rotate(0deg) translateY(-6px); box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 22px 40px rgba(19,19,22,0.12);">
+                    <span style="position: absolute; top: -9px; left: 50%; z-index: 2; width: 64px; height: 18px; margin-left: -32px; background: rgba(90,75,196,0.2); transform: rotate({{ p.tape }});"></span>
+                    <div style="position: relative; aspect-ratio: 4/5; border-radius: 3px; overflow: hidden; background: #efeef6;">
+                      <div style="position: absolute; inset: 0; filter: {{ p.fx }}; transform: scale(1.02);">
+                        <div style="position: absolute; inset: 0; background: url({{ p.img }}) {{ p.pos }} / cover no-repeat;"></div>
+                        <div data-alt="" style="position: absolute; inset: 0; opacity: 0; background: url({{ p.img2 }}) {{ p.pos2 }} / {{ p.size2 }} no-repeat; transition: opacity 260ms ease;"></div>
+                      </div>
+                      <span data-component="ProductStatusBadge" style="position: absolute; top: 8px; left: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 8px; border-radius: 999px; background: {{ p.badge.bg }}; border: {{ p.badge.bd }}; color: {{ p.badge.fg }}; font-family: 'DM Mono', monospace; font-size: clamp(9px, 0.7cqi, 10px); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transform: rotate(-3deg); box-shadow: 0 2px 6px rgba(19,19,22,0.08);"><span style="width: 6px; height: 6px; border-radius: 999px; background: {{ p.badge.dot }};"></span>{{ p.badge.label }}</span>
+                    </div>
+                    <span style="padding: 0 2px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(15px, 1.35cqi, 19px); line-height: 1.05; letter-spacing: -0.03em;">{{ p.title }}</span>
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; padding: 0 2px;">
+                      <span style="font-family: 'DM Mono', monospace; font-size: clamp(9.5px, 0.73cqi, 10.5px); letter-spacing: 0.06em; text-transform: uppercase; color: #63636d; white-space: nowrap;">{{ p.edition }}</span>
+                      <span style="position: relative; display: inline-flex; align-items: center; height: 24px; padding: 0 9px 0 16px; background: #efedfb; clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%); font-family: 'DM Mono', monospace; font-size: clamp(11px, 0.8cqi, 12px); font-weight: 500; color: #443a97; white-space: nowrap;"><span style="position: absolute; left: 7px; top: 10px; width: 4px; height: 4px; border-radius: 999px; background: #ffffff;"></span>{{ p.price }}</span>
+                    </div>
+                  </article>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+              <div aria-busy="true" aria-label="Loading products" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(calc(50% - 8px), 260px), 1fr)); gap: clamp(26px, 3cqi, 44px) clamp(12px, 2.5cqi, 36px);">
+                <sc-for list="{{ skel }}" as="k" hint-placeholder-count="8">
+                  <div style="display: flex; flex-direction: column; gap: 10px; padding: 10px 10px 14px; border-radius: 6px; background: #ffffff; transform: rotate({{ k.rot }});">
+                    <div data-motion="" style="aspect-ratio: 4/5; border-radius: 3px; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                    <div data-motion="" style="width: 70%; height: 14px; border-radius: 4px; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                    <div data-motion="" style="width: 40%; height: 10px; border-radius: 4px; background: #e8e7f0; animation: pf-pulse 1.4s ease-in-out infinite;"></div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; max-width: 560px; padding: clamp(36px, 5cqi, 80px) clamp(8px, 2cqi, 30px);">
+                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">nothing on the table yet</span>
+                <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(36px, 3.9cqi, 56px); line-height: 0.95; letter-spacing: -0.05em; text-wrap: balance;">new prints are still drying.</h2>
+                <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Leave your email and I'll send one note when the shop opens. No newsletter, promise.</p>
+                <sc-if value="{{ emptyNotified }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 18px; border-radius: 999px; background: #ffffff; font-size: 15px; color: #2f8a57;">✓ you're on the list</span>
+                </sc-if>
+                <sc-if value="{{ emptyAsk }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; width: 100%;">
+                    <input type="email" placeholder="you@email.com" aria-label="Email" style="flex: 1 1 220px; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.14); background: #ffffff; font: 400 15px 'Inter', sans-serif; color: #131316;">
+                    <button onClick="{{ emptyNotify }}" data-cursor="ok" style="height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px;" style-hover="background: #5a4bc4;">notify me</button>
+                  </div>
+                </sc-if>
+                <a href="#" data-cursor="open" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">meanwhile, wander the gallery →</a>
+              </div>
+            </sc-if>
+          </div>
+        </section>
+
+        <sc-if value="{{ hasSold }}" hint-placeholder-val="{{ true }}">
+          <section data-component="SoldOriginals" style="position: relative; padding: clamp(64px, 7.6cqi, 110px) clamp(16px, 3.9cqi, 56px) 0;">
+            <span data-cname="" style="position: absolute; top: clamp(40px, 5.5cqi, 82px); left: clamp(16px, 3.9cqi, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">SoldOriginals</span>
+            <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 40px; margin-bottom: clamp(22px, 2.6cqi, 36px);">
+              <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 4.4cqi, 64px); line-height: 0.9; letter-spacing: -0.05em;">found a home</h2>
+              <p style="margin: 0; max-width: 380px; font-size: 15px; line-height: 1.6; color: #55555d; text-wrap: pretty;">Originals that now live on someone else's wall. The red dot is a gallery thing: it means collected.</p>
+            </div>
+            <div data-scroller="" style="display: flex; gap: clamp(14px, 1.7cqi, 24px); overflow-x: auto; scroll-snap-type: x proximity; padding: 8px 4px 16px; margin: 0 -4px;">
+              <sc-for list="{{ sold }}" as="o" hint-placeholder-count="5">
+                <button onClick="{{ o.open }}" data-cursor="view" style="flex: 0 0 clamp(150px, 15.5cqi, 224px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 10px; padding: 0; border: 0; background: transparent; text-align: left; font: inherit; color: inherit;">
+                  <span style="position: relative; display: block; width: 100%; aspect-ratio: 1/1; padding: clamp(8px, 0.9cqi, 12px); box-sizing: border-box; background: #ffffff; border: 1px solid rgba(19,19,22,0.12); box-shadow: 0 8px 20px rgba(19,19,22,0.06);">
+                    <span style="display: block; width: 100%; height: 100%; background: url({{ o.img }}) {{ o.pos }} / cover no-repeat;"></span>
+                    <span style="position: absolute; right: -6px; bottom: -6px; width: 18px; height: 18px; border-radius: 999px; background: #c0392b; box-shadow: 0 0 0 3px #ffffff;"></span>
+                  </span>
+                  <span style="display: flex; flex-direction: column; gap: 3px;">
+                    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -0.03em;">{{ o.title }}</span>
+                    <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;">sold · {{ o.where }}</span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
+
+        <section data-component="CustomOrders" ref="{{ customRef }}" style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(32px, 5cqi, 72px); align-items: center; padding: clamp(64px, 7.6cqi, 110px) clamp(16px, 3.9cqi, 56px) 0;">
+          <span data-cname="" style="position: absolute; top: clamp(40px, 5.5cqi, 82px); left: clamp(16px, 3.9cqi, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">CustomOrders</span>
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">custom orders · made to order</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 4.4cqi, 64px); line-height: 0.9; letter-spacing: -0.05em; text-wrap: balance;">your thing, my paint.</h2>
+            <p style="margin: 0; max-width: 480px; font-size: 16px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Send me a skateboard, your headphones, a metro card, or ask for a little clay model. I sketch it first, you say yes, then I paint.</p>
+            <ol style="display: flex; flex-direction: column; gap: 0; margin: 4px 0 0; padding: 0; list-style: none; max-width: 480px;">
+              <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+                <li style="display: grid; grid-template-columns: 40px 1fr; align-items: baseline; padding: 12px 0; border-top: 1px solid rgba(19,19,22,0.08);"><span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #5a4bc4;">{{ s.n }}</span><span style="font-size: 15px; line-height: 1.5; color: #131316;">{{ s.t }}</span></li>
+              </sc-for>
+            </ol>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 6px;">
+              <button onClick="{{ openFormBlank }}" data-cursor="ask" style="height: 52px; padding: 0 26px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4;">request a custom piece →</button>
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: #86868f;">reply within 2 days · from ₹2,500</span>
+            </div>
+          </div>
+          <div style="position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: clamp(18px, 2.2cqi, 32px); padding: clamp(28px, 3.4cqi, 50px) clamp(16px, 2.4cqi, 36px); border-radius: clamp(18px, 1.7cqi, 24px); background-color: #f5f5f7; background-image: linear-gradient(rgba(90,75,196,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(90,75,196,0.07) 1px, transparent 1px); background-size: 32px 32px;">
+            <span data-admin="" style="position: absolute; top: 10px; left: 12px; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · past custom work, reorderable</span>
+            <sc-for list="{{ customs }}" as="x" hint-placeholder-count="4">
+              <figure style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0;">
+                <span style="display: block; width: {{ x.w }}; height: {{ x.h }}; border-radius: {{ x.r }}; background: url({{ x.img }}) {{ x.pos }} / cover no-repeat; box-shadow: 0 0 0 {{ x.ring }} #ffffff, 0 12px 26px rgba(19,19,22,0.14); transform: rotate({{ x.rot }});"></span>
+                <figcaption style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;">
+                  <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: -0.02em;">{{ x.kind }}</span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.04em; color: #63636d;">{{ x.line }}</span>
+                </figcaption>
+              </figure>
+            </sc-for>
+          </div>
+        </section>
+
+        <section data-component="ShopInfo" style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 20px 72px; padding: clamp(64px, 7.6cqi, 110px) clamp(16px, 3.9cqi, 56px) clamp(40px, 5cqi, 72px);">
+          <span data-cname="" style="position: absolute; top: clamp(40px, 5.5cqi, 82px); left: clamp(16px, 3.9cqi, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ShopInfo</span>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 4.4cqi, 64px); line-height: 0.9; letter-spacing: -0.05em;">the small print</h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #55555d;">Anything else? <a href="#">hey@aditi.art</a></p>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <sc-for list="{{ faq }}" as="q" hint-placeholder-count="5">
+              <div style="border-top: 1px solid rgba(19,19,22,0.1);">
+                <button onClick="{{ q.toggle }}" aria-expanded="{{ q.exp }}" data-cursor="{{ q.cur }}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 60px; padding: 0; border: 0; background: transparent; text-align: left; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(18px, 1.4cqi, 20px); color: #131316;" style-hover="color: #5a4bc4;">{{ q.q }}<span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: {{ q.signBg }}; color: {{ q.signFg }}; display: grid; place-items: center; font-family: 'DM Mono', monospace; font-size: 16px;">{{ q.sign }}</span></button>
+                <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+                  <p data-motion="" style="margin: 0; padding: 0 48px 20px 0; font-size: 15px; line-height: 1.6; color: #4b4b54; text-wrap: pretty; animation: pf-fade 220ms ease both;">{{ q.a }}</p>
+                </sc-if>
+              </div>
+            </sc-for>
+            <span data-admin="" style="align-self: flex-start; margin-top: 10px; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · questions + answers, add / reorder</span>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+      <div data-component="ProductPage" style="position: relative; padding: clamp(84px, 7.6cqi, 110px) clamp(16px, 3.9cqi, 56px) 0;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-bottom: 18px;">
+          <button onClick="{{ backToShop }}" data-cursor="back" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; color: #131316;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">← shop</button>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #86868f;">{{ pr.crumb }}</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: clamp(22px, 4cqi, 60px); align-items: start;">
+          <div data-component="ProductGallery" style="position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0;">
+            <span data-cname="" style="position: absolute; top: -20px; left: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ProductGallery · swipe / ← →</span>
+            <div style="position: relative; border-radius: clamp(18px, 1.7cqi, 24px); overflow: hidden; background-color: #f5f5f7; background-image: linear-gradient(rgba(90,75,196,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(90,75,196,0.07) 1px, transparent 1px); background-size: 32px 32px;">
+              <div data-scroller="" ref="{{ carRef }}" onScroll="{{ onCar }}" style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;">
+                <sc-for list="{{ slides }}" as="sl" hint-placeholder-count="3">
+                  <div style="flex: 0 0 100%; scroll-snap-align: start; display: grid; place-items: center; padding: clamp(28px, 4cqi, 58px) clamp(28px, 4cqi, 58px); box-sizing: border-box;">
+                    <div style="position: relative; width: min(100%, 440px); padding: 12px; box-sizing: border-box; background: #ffffff; box-shadow: 0 2px 4px rgba(19,19,22,0.06), 0 24px 50px rgba(19,19,22,0.12); transform: rotate({{ sl.rot }});">
+                      <span style="position: absolute; top: -10px; left: 50%; z-index: 2; width: 84px; height: 22px; margin-left: -42px; background: rgba(90,75,196,0.2); transform: rotate(-3deg);"></span>
+                      <div style="aspect-ratio: 4/5; filter: {{ pr.fx }}; background: #efeef6 url({{ sl.img }}) {{ sl.pos }} / {{ sl.size }} no-repeat;"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <span style="position: absolute; top: 14px; left: 14px; padding: 5px 9px; border-radius: 8px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;">{{ slideLabel }}</span>
+              <span style="position: absolute; top: 14px; right: 14px; padding: 5px 9px; border-radius: 8px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; color: #63636d;">{{ slideCount }}</span>
+              <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ prevSlide }}" data-cursor="prev" aria-label="Previous image" style="position: absolute; left: 14px; top: 50%; width: 48px; height: 48px; margin-top: -24px; border-radius: 999px; border: 0; background: #ffffff; font-size: 18px; color: #131316; box-shadow: 0 4px 14px rgba(19,19,22,0.12);">←</button>
+                <button onClick="{{ nextSlide }}" data-cursor="next" aria-label="Next image" style="position: absolute; right: 14px; top: 50%; width: 48px; height: 48px; margin-top: -24px; border-radius: 999px; border: 0; background: #ffffff; font-size: 18px; color: #131316; box-shadow: 0 4px 14px rgba(19,19,22,0.12);">→</button>
+              </sc-if>
+            </div>
+            <div data-scroller="" style="display: flex; gap: 10px; overflow-x: auto; padding: 4px;">
+              <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" aria-label="{{ t.label }}" style="flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; border: 0; background: transparent;">
+                  <span style="display: block; width: clamp(52px, 4.4cqi, 64px); height: clamp(52px, 4.4cqi, 64px); border-radius: 10px; background: url({{ t.img }}) {{ t.pos }} / {{ t.size }} no-repeat; box-shadow: {{ t.ring }};"></span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d; white-space: nowrap;">{{ t.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="position: sticky; top: 104px; display: flex; flex-direction: column; gap: 18px; min-width: 0;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+              <span data-component="ProductStatusBadge" style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 9px; border-radius: 999px; background: {{ pr.badge.bg }}; border: {{ pr.badge.bd }}; color: {{ pr.badge.fg }}; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 999px; background: {{ pr.badge.dot }};"></span>{{ pr.badge.label }}</span>
+              <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">{{ pr.cat }} · no. {{ pr.no }}</span>
+            </div>
+            <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 4.4cqi, 64px); line-height: 0.9; letter-spacing: -0.05em; text-wrap: balance;">{{ pr.title }}</h1>
+            <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px;">
+              <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(28px, 2.4cqi, 34px); letter-spacing: -0.03em; color: {{ pr.priceColor }};">{{ pr.price }}</span>
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">incl. taxes · shipping at checkout</span>
+            </div>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">{{ pr.story }}</p>
+
+            <sc-if value="{{ hasOptions }}" hint-placeholder-val="{{ true }}">
+              <div data-component="ProductOptions" style="position: relative; display: flex; flex-direction: column; gap: 14px;">
+                <span data-admin="" style="position: absolute; top: -2px; right: 0; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ProductOptions · per product, optional</span>
+                <sc-for list="{{ opts }}" as="g" hint-placeholder-count="2">
+                  <div role="radiogroup" aria-label="{{ g.name }}" style="display: flex; flex-direction: column; gap: 8px;">
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">{{ g.name }}</span>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                      <sc-for list="{{ g.items }}" as="o" hint-placeholder-count="3">
+                        <button onClick="{{ o.pick }}" role="radio" aria-checked="{{ o.pressed }}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid {{ o.bd }}; background: {{ o.bg }}; color: {{ o.fg }}; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;" style-hover="border-color: #5a4bc4;">{{ o.label }}<span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: {{ o.xc }};">{{ o.extra }}</span></button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <div data-component="BuyButton" style="position: relative; display: flex; flex-direction: column; gap: 10px;">
+              <span data-admin="" style="position: absolute; top: -20px; right: 0; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">BuyButton · mode: {{ buyModeLabel }}</span>
+              <sc-if value="{{ buy.primary }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ buy.act }}" data-cursor="buy" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px;" style-hover="background: #5a4bc4;">{{ buy.label }}</button>
+              </sc-if>
+              <sc-if value="{{ buy.added }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; gap: 8px;">
+                  <span style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; height: 56px; border-radius: 999px; border: 1px solid rgba(47,138,87,0.4); color: #2f8a57; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">✓ added</span>
+                  <button onClick="{{ viewCart }}" data-cursor="cart" style="flex: 1.4; height: 56px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4;">{{ buy.cartLabel }}</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ buy.off }}" hint-placeholder-val="{{ false }}">
+                <span aria-disabled="true" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #f5f5f7; color: #86868f; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px;">{{ buy.offLabel }}</span>
+                <sc-if value="{{ notifyAsk }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ buy.secAct }}" data-cursor="ok" style="height: 52px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); background: #ffffff; color: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">{{ buy.secLabel }}</button>
+                </sc-if>
+                <sc-if value="{{ notifyForm }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <input type="email" placeholder="you@email.com" aria-label="Email for notification" style="flex: 1 1 200px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.14); font: 400 15px 'Inter', sans-serif; color: #131316;">
+                    <button onClick="{{ doNotify }}" style="height: 52px; padding: 0 22px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px;" style-hover="background: #5a4bc4;">notify me</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ notifyDone }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 999px; background: #f5f5f7; color: #2f8a57; font-size: 15px;">✓ you're on the list. one email, that's it.</span>
+                </sc-if>
+              </sc-if>
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.02em; color: #86868f;">{{ buy.note }}</span>
+            </div>
+
+            <dl style="display: flex; flex-direction: column; margin: 4px 0 0;">
+              <sc-for list="{{ specs }}" as="sp" hint-placeholder-count="4">
+                <div style="display: grid; grid-template-columns: 110px minmax(0,1fr); gap: 12px; padding: 12px 0; border-top: 1px solid rgba(19,19,22,0.08);">
+                  <dt style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f; padding-top: 2px;">{{ sp.k }}</dt>
+                  <dd style="margin: 0; font-size: 15px; line-height: 1.5; color: #131316;">{{ sp.v }}</dd>
+                </div>
+              </sc-for>
+            </dl>
+          </div>
+        </div>
+
+        <sc-if value="{{ hasRelated }}" hint-placeholder-val="{{ true }}">
+          <a href="#" data-component="RelatedArtwork" data-cursor="open" style="position: relative; display: grid; grid-template-columns: clamp(96px, 11cqi, 160px) minmax(0,1fr) auto; align-items: center; gap: clamp(14px, 2cqi, 28px); margin-top: clamp(56px, 6cqi, 88px); padding: clamp(12px, 1.4cqi, 18px); border-radius: 20px; background: #f5f5f7; color: #131316; transition: background 200ms ease;" style-hover="background: #efedfb; color: #131316;">
+            <span data-cname="" style="position: absolute; top: -20px; left: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">RelatedArtwork → /gallery/{slug}</span>
+            <span style="display: block; aspect-ratio: 1/1; border-radius: 12px; background: url({{ rel.img }}) {{ rel.pos }} / cover no-repeat;"></span>
+            <span style="display: flex; flex-direction: column; gap: 6px; min-width: 0;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">in the gallery</span>
+              <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 2.2cqi, 32px); line-height: 0.95; letter-spacing: -0.04em;">see “{{ rel.title }}” where it started</span>
+              <span style="font-size: 14px; line-height: 1.5; color: #55555d;">The original, more angles and the story behind it.</span>
+            </span>
+            <span style="width: 48px; height: 48px; border-radius: 999px; background: #131316; color: #ffffff; display: grid; place-items: center; font-size: 18px;">→</span>
+          </a>
+        </sc-if>
+
+        <section style="padding: clamp(56px, 6cqi, 88px) 0 clamp(40px, 5cqi, 72px);">
+          <h2 style="margin: 0 0 clamp(24px, 2.6cqi, 36px); font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(34px, 3.3cqi, 48px); line-height: 0.9; letter-spacing: -0.05em;">more from the table</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(calc(50% - 8px), 260px), 1fr)); gap: clamp(26px, 3cqi, 44px) clamp(12px, 2.5cqi, 36px);">
+            <sc-for list="{{ more }}" as="p" hint-placeholder-count="4">
+              <article data-component="ProductCard" data-pc="" data-cursor="view" onClick="{{ p.open }}" style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: clamp(7px, 0.7cqi, 10px) clamp(7px, 0.7cqi, 10px) clamp(10px, 1cqi, 14px); border-radius: 6px; background: #ffffff; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 10px 24px rgba(19,19,22,0.07); transform: rotate({{ p.rot }}); transition: transform 260ms cubic-bezier(.2,.8,.2,1); cursor: pointer;" style-hover="transform: rotate(0deg) translateY(-6px);">
+                <span style="position: absolute; top: -9px; left: 50%; z-index: 2; width: 64px; height: 18px; margin-left: -32px; background: rgba(90,75,196,0.2); transform: rotate({{ p.tape }});"></span>
+                <div style="position: relative; aspect-ratio: 4/5; border-radius: 3px; overflow: hidden; background: #efeef6;">
+                  <div style="position: absolute; inset: 0; filter: {{ p.fx }}; transform: scale(1.02);">
+                    <div style="position: absolute; inset: 0; background: url({{ p.img }}) {{ p.pos }} / cover no-repeat;"></div>
+                    <div data-alt="" style="position: absolute; inset: 0; opacity: 0; background: url({{ p.img2 }}) {{ p.pos2 }} / {{ p.size2 }} no-repeat; transition: opacity 260ms ease;"></div>
+                  </div>
+                  <span style="position: absolute; top: 8px; left: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 8px; border-radius: 999px; background: {{ p.badge.bg }}; border: {{ p.badge.bd }}; color: {{ p.badge.fg }}; font-family: 'DM Mono', monospace; font-size: clamp(9px, 0.7cqi, 10px); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transform: rotate(-3deg);"><span style="width: 6px; height: 6px; border-radius: 999px; background: {{ p.badge.dot }};"></span>{{ p.badge.label }}</span>
+                </div>
+                <span style="padding: 0 2px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(15px, 1.35cqi, 19px); line-height: 1.05; letter-spacing: -0.03em;">{{ p.title }}</span>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; padding: 0 2px;">
+                  <span style="font-family: 'DM Mono', monospace; font-size: clamp(9.5px, 0.73cqi, 10.5px); letter-spacing: 0.06em; text-transform: uppercase; color: #63636d; white-space: nowrap;">{{ p.edition }}</span>
+                  <span style="position: relative; display: inline-flex; align-items: center; height: 24px; padding: 0 9px 0 16px; background: #efedfb; clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%); font-family: 'DM Mono', monospace; font-size: clamp(11px, 0.8cqi, 12px); font-weight: 500; color: #443a97; white-space: nowrap;"><span style="position: absolute; left: 7px; top: 10px; width: 4px; height: 4px; border-radius: 999px; background: #ffffff;"></span>{{ p.price }}</span>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <dc-import name="SiteFooter" mobile="{{ isM }}" hint-size="100%,400px"></dc-import>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 84px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 34px; padding: 0 56px;">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+          <sc-if value="{{ n.on }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ backToShop }}" style="position: relative; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: #5a4bc4;">{{ n.label }}<span style="position: absolute; left: 50%; bottom: -6px; width: 6px; height: 6px; margin-left: -3px; border-radius: 999px; background: #5a4bc4;"></span></button>
+          </sc-if>
+          <sc-if value="{{ n.off }}" hint-placeholder-val="{{ true }}">
+            <button data-cursor="go" style="padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316;" style-hover="color: #5a4bc4;">{{ n.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </nav>
+  </sc-if>
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 68px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -40px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 0; padding: 0; background: #131316;">
+        <span style="position: absolute; left: 14px; right: 14px; top: 19px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+        <span style="position: absolute; left: 14px; right: 19px; top: 27px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+      </button>
+    </nav>
+    <sc-if value="{{ stickyBuy }}" hint-placeholder-val="{{ false }}">
+      <div data-component="BuyButton" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; align-items: center; gap: 12px; padding: 10px 12px 14px 16px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(19,19,22,0.08);">
+        <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1;">
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; color: {{ pr.priceColor }}; white-space: nowrap;">{{ pr.price }}</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: {{ pr.badge.stickyFg }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ pr.badge.label }}</span>
+        </div>
+        <sc-if value="{{ buy.primary }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ buy.act }}" style="flex: none; height: 52px; padding: 0 24px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">{{ buy.short }}</button>
+        </sc-if>
+        <sc-if value="{{ buy.added }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ viewCart }}" style="flex: none; height: 52px; padding: 0 22px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">✓ {{ buy.cartLabel }}</button>
+        </sc-if>
+        <sc-if value="{{ buy.off }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ buy.secAct }}" style="flex: none; height: 52px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); background: #ffffff; color: #131316; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px;">{{ buy.secShort }}</button>
+        </sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-component="MobileMenu" style="position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; padding: 0 12px 28px 20px; box-sizing: border-box; background-color: #ffffff; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.14) 39px 40px);">
+        <div style="display: flex; justify-content: flex-end; align-items: center; height: 68px;">
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); padding: 0; background: #ffffff;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; margin-top: 48px; padding-right: 8px;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ closeMenu }}" data-motion="" style="display: flex; align-items: baseline; justify-content: space-between; min-height: 72px; padding: 0; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: {{ n.color }}; animation: pf-up 460ms cubic-bezier(.2,.8,.2,1) {{ n.delay }} both;">{{ n.label }}<span style="font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #86868f;">{{ n.num }}</span></button>
+          </sc-for>
+        </nav>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ showCart }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ viewCart }}" data-cursor="cart" style="position: absolute; right: clamp(12px, 1.7cqi, 24px); bottom: {{ cartBottom }}; z-index: 45; display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 8px 0 18px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; box-shadow: 0 10px 30px rgba(19,19,22,0.18);">cart<span style="min-width: 34px; height: 34px; padding: 0 8px; box-sizing: border-box; border-radius: 999px; background: #5a4bc4; display: grid; place-items: center; font-family: 'DM Mono', monospace; font-size: 12px;">{{ cartCount }}</span></button>
+  </sc-if>
+
+  <sc-if value="{{ formOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0; z-index: 70;">
+      <div onClick="{{ closeForm }}" data-motion="" style="position: absolute; inset: 0; background: rgba(19,19,22,0.62); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: pf-fade 200ms ease both;"></div>
+      <div data-component="CustomOrderForm" data-scroller="" data-motion="" role="dialog" aria-label="Request a custom piece" style="position: absolute; left: 50%; top: 50%; width: min(760px, calc(100% - 20px)); max-height: calc(100% - 20px); transform: translate(-50%,-50%); overflow-y: auto; box-sizing: border-box; border-radius: clamp(18px, 1.7cqi, 24px); background: #ffffff; box-shadow: 0 30px 80px rgba(19,19,22,0.35); animation: pf-fade 240ms ease both;">
+        <div style="position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 14px 14px clamp(18px, 2.8cqi, 36px); background: #ffffff; border-bottom: 1px dashed #c6c6cc;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">custom order slip · no. 027</span>
+          <button onClick="{{ closeForm }}" aria-label="Close" style="position: relative; flex: none; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; padding: 0;">
+            <span style="position: absolute; left: 13px; right: 13px; top: 20px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 13px; right: 13px; top: 20px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+
+        <sc-if value="{{ formSent }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 16px; padding: clamp(28px, 3.4cqi, 48px) clamp(18px, 2.8cqi, 40px) clamp(28px, 3cqi, 40px);">
+            <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef7f1; color: #2f8a57; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;"><span style="width: 6px; height: 6px; border-radius: 999px; background: #2f8a57;"></span>request sent</span>
+            <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 4cqi, 56px); line-height: 0.92; letter-spacing: -0.05em;">got it, {{ f.nameOr }}.</h2>
+            <p style="margin: 0; max-width: 520px; font-size: 16px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Your idea is on my desk. I'll reply to {{ f.emailOr }} within 2 days with a quick sketch and a quote. Nothing is charged until you say yes.</p>
+            <dl style="display: flex; flex-direction: column; margin: 6px 0 0; max-width: 520px;">
+              <sc-for list="{{ summary }}" as="sm" hint-placeholder-count="3">
+                <div style="display: grid; grid-template-columns: 110px minmax(0,1fr); gap: 12px; padding: 10px 0; border-top: 1px solid rgba(19,19,22,0.08);"><dt style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">{{ sm.k }}</dt><dd style="margin: 0; font-size: 15px;">{{ sm.v }}</dd></div>
+              </sc-for>
+            </dl>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 6px;">
+              <button onClick="{{ closeForm }}" style="height: 52px; padding: 0 26px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4;">back to the shop</button>
+              <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">→ admin › inbox, tagged "custom request"</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ formEditing }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 20px; padding: clamp(24px, 3cqi, 40px) clamp(18px, 2.8cqi, 40px) clamp(24px, 3cqi, 36px);">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(36px, 3.6cqi, 52px); line-height: 0.92; letter-spacing: -0.05em;">tell me what to paint.</h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #55555d;">Rough is fine. I'll come back with a sketch and a price before anything happens.</p>
+            </div>
+            <sc-if value="{{ formFailed }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #fbeeec; color: #8f2a20; font-size: 14px; line-height: 1.5;"><span style="flex: none; width: 22px; height: 22px; border-radius: 999px; background: #c0392b; color: #ffffff; display: grid; place-items: center; font-family: 'DM Mono', monospace; font-size: 12px;">!</span><span>That didn't send (the internet blinked). Everything you wrote is still here; try again, or email it to <a href="#" style="color: #8f2a20; text-decoration: underline;">hey@aditi.art</a>.</span></div>
+            </sc-if>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px;">
+              <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">your name</span><input value="{{ f.name }}" onChange="{{ on.name }}" placeholder="what should I call you?" style="min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid {{ fb.name }}; font: 400 15px 'Inter', sans-serif; color: #131316;"><sc-if value="{{ fh.name }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.name }}</span></sc-if></label>
+              <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">email</span><input type="email" value="{{ f.email }}" onChange="{{ on.email }}" placeholder="so I can reply" style="min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid {{ fb.email }}; font: 400 15px 'Inter', sans-serif; color: #131316;"><sc-if value="{{ fh.email }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.email }}</span></sc-if></label>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">what should I customise?</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <sc-for list="{{ whatChips }}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid {{ c.bd }}; background: {{ c.bg }}; color: {{ c.fg }}; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px;" style-hover="border-color: #5a4bc4;">{{ c.label }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ fh.what }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.what }}</span></sc-if>
+            </div>
+            <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">the idea</span><textarea value="{{ f.idea }}" onChange="{{ on.idea }}" rows="4" placeholder="who it's for, colours, characters, anything you love…" style="padding: 12px 14px; border-radius: 12px; border: 1px solid {{ fb.idea }}; font: 400 15px/1.5 'Inter', sans-serif; color: #131316; resize: vertical;"></textarea><sc-if value="{{ fh.idea }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.idea }}</span></sc-if></label>
+            <label style="position: relative; display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 10px 16px; border-radius: 14px; border: 1px dashed #c6c6cc; background: #fafafb; cursor: pointer;" style-hover="border-color: #5a4bc4;">
+              <input type="file" accept="image/*" onChange="{{ on.file }}" style="position: absolute; inset: 0; opacity: 0;">
+              <span style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #efedfb; color: #5a4bc4; display: grid; place-items: center; font-size: 18px;">↑</span>
+              <span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #131316;">{{ fileLabel }}</span><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: #86868f;">optional · JPG / PNG, up to 10 MB</span></span>
+            </label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px;">
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">budget</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <sc-for list="{{ budgetChips }}" as="c" hint-placeholder-count="5">
+                    <button onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{ c.bd }}; background: {{ c.bg }}; color: {{ c.fg }}; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;" style-hover="border-color: #5a4bc4;">{{ c.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">deadline</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <sc-for list="{{ deadlineChips }}" as="c" hint-placeholder-count="3">
+                    <button onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{ c.bd }}; background: {{ c.bg }}; color: {{ c.fg }}; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;" style-hover="border-color: #5a4bc4;">{{ c.label }}</button>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ hasDate }}" hint-placeholder-val="{{ false }}">
+                  <input type="date" value="{{ f.date }}" onChange="{{ on.date }}" aria-label="Deadline date" style="min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(19,19,22,0.14); font: 400 15px 'Inter', sans-serif; color: #131316;">
+                </sc-if>
+              </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding-top: 6px;">
+              <button onClick="{{ submit }}" data-cursor="send" style="height: 54px; padding: 0 28px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; opacity: {{ sendOpacity }};" style-hover="background: #5a4bc4;">{{ submitLabel }}</button>
+              <span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #86868f;">goes straight to my inbox · reply within 2 days</span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" data-motion="" style="position: absolute; left: 50%; bottom: {{ toastBottom }}; z-index: 90; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; background: #131316; color: #ffffff; font-size: 14px; white-space: nowrap; box-shadow: 0 10px 30px rgba(19,19,22,0.18); animation: pf-fade 200ms ease both;"><span style="width: 8px; height: 8px; border-radius: 999px; background: #8be0a6;"></span>{{ toast }}</div>
+  </sc-if>
+
+  <div ref="{{ cursorRef }}" style="position: absolute; left: 0; top: 0; z-index: 95; pointer-events: none; opacity: 0;"><div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; transform: translate(-50%,-50%); border-radius: 999px; background: #fff; mix-blend-mode: difference; display: grid; place-items: center; transition: width 220ms cubic-bezier(.2,.8,.2,1), height 220ms cubic-bezier(.2,.8,.2,1), background 220ms ease;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity 160ms ease;"></span></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;page&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;shop&quot;,&quot;product&quot;],&quot;default&quot;:&quot;shop&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;product&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:14,&quot;tsType&quot;:&quot;number&quot;},&quot;shopState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;loading&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;buyMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;checkout&quot;,&quot;cart&quot;],&quot;default&quot;:&quot;checkout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;added&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;formState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;open&quot;,&quot;error&quot;,&quot;success&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const WM = (f, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + f + "?width=" + (w || 640);
+const F = {
+  klimt: "Gustav_Klimt_016.jpg", pearl: "Girl_with_a_Pearl_Earring.jpg", starry: "Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+  scream: "The_Scream.jpg", kand: "Vassily_Kandinsky,_1913_-_Composition_7.jpg", wave: "Tsunami_by_hokusai_19th_century.jpg",
+  venus: "Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg", monet: "Claude_Monet,_Impression,_soleil_levant.jpg"
+};
+const INLINE_FORM = false;
+const CATS = ["Prints", "Originals", "Merch", "Custom", "Digital"];
+const I = (k, label, pos, zoom) => ({ k, label, pos: pos || "center", zoom: zoom || "cover" });
+const SIZE = { name: "print size", values: ["A4 · 21×30 cm", "A3 · 30×42 cm", "A2 · 42×59 cm"], add: [0, 800, 2000] };
+const PAPER = { name: "paper", values: ["cotton rag, matte", "textured watercolour"], add: [0, 300] };
+const PR = (o) => Object.assign({ from: false, left: 0, options: [], art: null, custom: false, collected: false }, o);
+const PRODUCTS = [
+  PR({ no: "014", title: "monsoon window", cat: "Prints", price: 1800, from: true, status: "available", ed: "ed. of 20", imgs: [I("venus", "front"), I("venus", "detail", "62% 30%", "260%"), I("monet", "on the wall"), I("klimt", "in hand")], story: "Painted the first week of rain from my window in Bandra. The glass kept fogging, so I painted the fog too.", size: "A4, A3 or A2", materials: "Giclée on 308gsm cotton rag", edition: "Limited to 20 prints · 12 left · signed & numbered", ship: "Rolled in a tube, leaves in 3–5 working days.", options: [SIZE, PAPER], art: "monsoon window", artK: "venus" }),
+  PR({ no: "009", title: "frog choir", cat: "Prints", price: 1200, status: "low", left: 1, ed: "riso · ed. of 50", imgs: [I("kand", "front", "left center"), I("kand", "ink detail", "30% 60%", "280%"), I("wave", "on the wall")], story: "Six frogs, one song, no rehearsal. Two-colour risograph, so every print misregisters a little differently.", size: "A3 · 30×42 cm", materials: "Risograph, 2 inks, Munken paper", edition: "Run of 50 · 1 left", ship: "Flat with card backing, 3–5 working days.", art: "frog choir", artK: "kand" }),
+  PR({ no: "021", title: "clay ghost", cat: "Originals", price: 6500, status: "available", ed: "one of one", imgs: [I("pearl", "front", "center 30%"), I("pearl", "side", "40% 20%", "200%"), I("scream", "in hand")], story: "A small, shy ghost made from air-dry clay, painted with acrylic and sealed. It's about the size of a mango.", size: "11 × 8 × 7 cm", materials: "Air-dry clay, acrylic, matte varnish", edition: "One of one", ship: "Wrapped in tissue and boxed, leaves in 2–3 days.", art: "clay ghost", artK: "pearl" }),
+  PR({ no: "030", title: "sticker sheet 03", cat: "Merch", price: 350, status: "available", ed: "open edition", imgs: [I("kand", "sheet"), I("klimt", "close-up", "center", "220%")], story: "Nine die-cut stickers of things that live in my sketchbook. Waterproof, laptop-proof, mostly cat-proof.", size: "A6 sheet · 10×15 cm", materials: "Matte vinyl, die-cut", edition: "Open edition", ship: "Envelope, leaves in 2–3 days." }),
+  PR({ no: "017", title: "night shift", cat: "Prints", price: 1600, from: true, status: "soon", ed: "ed. of 25", imgs: [I("starry", "front", "right center"), I("starry", "detail", "70% 40%", "240%")], story: "Auto drivers at 3am, lit by one tubelight. Still proofing the colours; it drops in November.", size: "A4 or A3", materials: "Giclée on cotton rag", edition: "Limited to 25 prints", ship: "Pre-orders open with the drop.", options: [SIZE], art: "night shift", artK: "starry" }),
+  PR({ no: "031", title: "art cards, set of 6", cat: "Merch", price: 600, status: "low", left: 2, ed: "set of 6", imgs: [I("monet", "the set"), I("wave", "back side", "left center")], story: "Six postcards from the gallery, with blank backs for writing to someone you miss.", size: "A6 · 10×15 cm each", materials: "350gsm matte card", edition: "Small batch · 2 sets left", ship: "Envelope, leaves in 2–3 days." }),
+  PR({ no: "006", title: "pigeon study", cat: "Prints", price: 1400, status: "soldout", ed: "ed. of 15", imgs: [I("wave", "front", "left center"), I("wave", "detail", "20% 40%", "260%")], story: "Pigeons on the Worli sea face, drawn from a very cold bench. All 15 have flown.", size: "A4 · 21×30 cm", materials: "Giclée on cotton rag", edition: "Limited to 15 prints · sold out", ship: "—", art: "pigeon study", artK: "wave" }),
+  PR({ no: "040", title: "custom skate deck", cat: "Custom", price: 9000, from: true, status: "available", custom: true, kind: "skateboard", ed: "made to order", imgs: [I("klimt", "deck art"), I("starry", "grip side"), I("klimt", "detail", "50% 30%", "240%")], story: "Send me your deck or I'll source one. I'll sketch an idea around what you love, then paint it by hand.", size: "Standard 8–8.5\" deck", materials: "Acrylic, Posca, UV clear coat", edition: "Made to order · 3–5 weeks", ship: "Padded box, insured." }),
+  PR({ no: "012", title: "chai break", cat: "Prints", price: 1500, from: true, status: "available", ed: "ed. of 30", imgs: [I("klimt", "front", "center bottom"), I("pearl", "on the wall")], story: "A tiny painting about the best ten minutes of a workday.", size: "A4 or A3", materials: "Giclée on cotton rag", edition: "Limited to 30 prints", ship: "Rolled in a tube, 3–5 working days.", options: [SIZE], art: "chai break", artK: "klimt" }),
+  PR({ no: "033", title: "tiny gods pin", cat: "Merch", price: 450, status: "available", ed: "enamel pin", imgs: [I("monet", "pin"), I("scream", "on a bag")], story: "A hard-enamel pin of the smallest god from my loop “tiny gods”. Two clutches, gold edges.", size: "3 cm", materials: "Hard enamel, gold plating", edition: "Open edition", ship: "Envelope, 2–3 days.", art: "tiny gods", artK: "monet" }),
+  PR({ no: "002", title: "static hearts", cat: "Originals", price: 12000, status: "soldout", collected: true, where: "now in Pune", ed: "one of one", imgs: [I("scream", "front", "center 35%"), I("scream", "detail", "50% 30%", "240%")], story: "Gouache and ink on paper, the first painting I ever sold.", size: "30 × 40 cm", materials: "Gouache, ink", edition: "One of one · collected 2025", ship: "—", art: "static hearts", artK: "scream" }),
+  PR({ no: "004", title: "bus stop", cat: "Originals", price: 18000, status: "soldout", collected: true, where: "now in Delhi", ed: "one of one", imgs: [I("pearl", "front", "center top")], story: "Oil on canvas. A girl waiting for the 7:40 that never comes.", size: "45 × 60 cm", materials: "Oil on canvas", edition: "One of one · collected 2024", ship: "—", art: "bus stop", artK: "pearl" }),
+  PR({ no: "005", title: "paper moon", cat: "Originals", price: 7000, status: "soldout", collected: true, where: "now in Mumbai", ed: "one of one", imgs: [I("monet", "front")], story: "Cut paper, glue and thread, framed in a deep box.", size: "25 × 25 cm", materials: "Cut paper, thread", edition: "One of one · collected 2024", ship: "—", art: "paper moon", artK: "monet" }),
+  PR({ no: "007", title: "embroidered cat", cat: "Originals", price: 5500, status: "soldout", collected: true, where: "now in Berlin", ed: "one of one", imgs: [I("klimt", "front", "center 20%")], story: "Embroidery floss on linen in a 20cm hoop.", size: "20 cm hoop", materials: "Embroidery floss, linen", edition: "One of one · collected 2024", ship: "—", art: "embroidered cat", artK: "klimt" }),
+  PR({ no: "011", title: "rooftop", cat: "Originals", price: 9500, status: "soldout", collected: true, where: "now in Goa", ed: "one of one", imgs: [I("venus", "front", "right center")], story: "Acrylic on board, painted on a terrace in May.", size: "40 × 30 cm", materials: "Acrylic on board", edition: "One of one · collected 2025", ship: "—", art: "rooftop", artK: "venus" })
+];
+const CUSTOM = [
+  { kind: "skateboard", k: "klimt", pos: "center", line: "from ₹9,000", w: "clamp(54px, 5cqi, 72px)", h: "clamp(190px, 17cqi, 250px)", r: "999px", ring: "0px", rot: "-4deg" },
+  { kind: "headphones", k: "starry", pos: "center", line: "from ₹6,000", w: "clamp(110px, 10cqi, 150px)", h: "clamp(110px, 10cqi, 150px)", r: "999px", ring: "8px", rot: "0deg" },
+  { kind: "metro card", k: "wave", pos: "left center", line: "from ₹2,500", w: "clamp(130px, 12cqi, 176px)", h: "clamp(82px, 7.6cqi, 111px)", r: "10px", ring: "0px", rot: "3deg" },
+  { kind: "clay model", k: "pearl", pos: "center 30%", line: "from ₹4,500", w: "clamp(104px, 9.5cqi, 140px)", h: "clamp(112px, 10cqi, 150px)", r: "46% 54% 42% 58% / 52% 44% 56% 48%", ring: "0px", rot: "0deg" }
+];
+const STEPS = ["Tell me the idea, the object and your budget.", "I send a sketch and a quote within 2 days.", "You say yes, I paint, pack and ship it."];
+const FAQ = [
+  { q: "shipping", a: "Everything ships from Mumbai. Across India by tracked courier; worldwide by India Post or DHL. The cost is worked out at checkout. [your rates]" },
+  { q: "delivery time", a: "Prints and merch leave in 3–5 working days, originals in 2–3. Within India it takes 3–7 days to arrive, internationally 10–20. Custom pieces take 1–5 weeks, agreed before I start." },
+  { q: "payment", a: "UPI, cards and netbanking through Razorpay; PayPal for international orders. [your provider]" },
+  { q: "returns", a: "If something arrives damaged, send a photo within 7 days and I'll replace it or refund you. Originals and custom pieces are one-offs, so otherwise they can't be returned." },
+  { q: "care", a: "Keep prints out of direct sun and frame them behind UV glass. Clay doesn't like water. Painted objects: wipe with a dry cloth, no harsh cleaners." }
+];
+const WHAT = ["skateboard", "headphones", "metro card", "clay model", "other"];
+const BUDGET = ["under ₹5k", "₹5–10k", "₹10–20k", "₹20k+", "not sure yet"];
+const DEADLINE = ["no rush", "within a month", "a specific date"];
+const ROT = ["-1.4deg", "0.9deg", "-0.5deg", "1.3deg", "-1deg", "0.6deg", "1.1deg", "-0.8deg"];
+const TAPE = ["-4deg", "3deg", "-2deg", "5deg", "2deg", "-5deg"];
+const money = (n, from) => (from ? "from " : "") + "₹" + n.toLocaleString("en-IN");
+const BADGE = (p) => {
+  const t = {
+    available: ["available", "#ffffff", "#2f8a57", "1px solid rgba(47,138,87,0.35)", "#2f8a57", "#2f8a57"],
+    low: ["only " + p.left + " left", "#efedfb", "#443a97", "1px solid rgba(90,75,196,0.3)", "#5a4bc4", "#443a97"],
+    soldout: [p.collected ? "sold · " + p.where : "sold out", "#131316", "#ffffff", "1px solid #131316", "#c0392b", "#c0392b"],
+    soon: ["coming soon", "#ffffff", "#63636d", "1px dashed #b5b5bc", "#b5b5bc", "#63636d"],
+    custom: ["made to order", "#efedfb", "#443a97", "1px solid rgba(90,75,196,0.3)", "#5a4bc4", "#443a97"]
+  }[p.custom ? "custom" : p.status];
+  return { label: t[0], bg: t[1], fg: t[2], bd: t[3], dot: t[4], stickyFg: t[5] };
+};
+
+class Component extends DCLogic {
+  state = this.init();
+
+  blank() { return { name: "", email: "", what: "", idea: "", budget: "", deadline: "", date: "", file: "" }; }
+  init() {
+    const p = this.props, fs = p.formState || "idle";
+    const filled = { name: "Rhea", email: fs === "error" ? "rhea@gmail" : "rhea@gmail.com", what: "skateboard", idea: "A deck with the frog choir on it, for my brother's 21st. He loves green.", budget: "₹5–10k", deadline: "within a month", date: "", file: "frog-ref.jpg" };
+    return {
+      page: p.page || "shop", pid: p.product ?? 0, filter: "All", view: 0, sel: {}, cart: p.added ? 1 : 0, added: !!p.added,
+      notifyOpen: false, notified: false, emptyNotified: false, faq: 0, menu: false, toast: "",
+      formOpen: fs !== "idle", form: fs === "open" || fs === "idle" ? this.blank() : filled,
+      errors: fs === "error" ? { email: "that email looks unfinished. check for a typo?" } : {},
+      status: fs === "success" ? "sent" : fs === "error" ? "failed" : "idle"
+    };
+  }
+  componentDidUpdate(prev, ps) {
+    const keys = ["page", "product", "formState", "added", "buyMode", "shopState"];
+    if (keys.some((k) => prev[k] !== this.props[k])) { this.setState(this.init()); return; }
+    if (ps.pid !== this.state.pid || ps.page !== this.state.page) {
+      if (this.scroller && !this.skipTop) this.scroller.scrollTop = 0;
+      this.skipTop = false;
+      if (this.car) this.car.scrollLeft = 0;
+    }
+  }
+  componentDidMount() { if (this.root && !this.root.closest("[data-fid]") && !this.root.parentElement.closest("[data-dc-mount], dc-import") && this.root.parentElement.clientHeight < 50) this.setState({ standalone: true }); if (INLINE_FORM && this.state.formOpen) this.mt = setTimeout(() => { if (this.scroller && this.custom) { const fm = this.custom.querySelector('[data-component="CustomOrderForm"]'); this.scroller.scrollTop = this.custom.offsetTop + (fm ? fm.offsetTop : 0) - 84; } }, 700); }
+  componentWillUnmount() { clearTimeout(this.tt); clearTimeout(this.st); clearTimeout(this.mt); }
+
+  flash(t) { clearTimeout(this.tt); this.setState({ toast: t }); this.tt = setTimeout(() => this.setState({ toast: "" }), 2000); }
+  openP(i) { this.setState({ page: "product", pid: i, view: 0, sel: {}, added: false, notifyOpen: false, notified: false, menu: false }); }
+  openForm(what) {
+    const next = { formOpen: true, status: "idle", errors: {}, form: Object.assign(this.blank(), { what: what || "" }) };
+    if (INLINE_FORM) {
+      next.page = "shop"; this.skipTop = true;
+      this.setState(next, () => setTimeout(() => { if (this.scroller && this.custom) this.scroller.scrollTo({ top: this.custom.offsetTop - 80, behavior: "smooth" }); }, 60));
+    } else this.setState(next);
+  }
+  setF(k, v) { this.setState((s) => { const e = Object.assign({}, s.errors); delete e[k]; return { form: Object.assign({}, s.form, { [k]: v }), errors: e }; }); }
+  submit() {
+    const f = this.state.form, e = {};
+    if (!f.name.trim()) e.name = "tell me what to call you";
+    if (!/^\S+@\S+\.\S+$/.test(f.email)) e.email = f.email ? "that email looks unfinished. check for a typo?" : "I need this to reply to you";
+    if (!f.what) e.what = "pick one, or “other”";
+    if (f.idea.trim().length < 10) e.idea = "a sentence or two about the idea, please";
+    if (Object.keys(e).length) return this.setState({ errors: e });
+    this.setState({ errors: {}, status: "sending" });
+    clearTimeout(this.st);
+    this.st = setTimeout(() => this.setState({ status: "sent" }), 900);
+  }
+  goSlide(i) {
+    const n = PRODUCTS[this.state.pid].imgs.length, j = (i + n) % n;
+    if (this.car) this.car.scrollTo({ left: j * this.car.clientWidth, behavior: "smooth" });
+    this.setState({ view: j });
+  }
+  moveCursor(e) {
+    const ab = this.root, c = this.cursor;
+    if (!ab || !c) return;
+    const r = ab.getBoundingClientRect(), sc = r.width / ab.offsetWidth || 1;
+    const x = (e.clientX - r.left) / sc, y = (e.clientY - r.top) / sc;
+    const t = e.target && e.target.closest ? e.target.closest("[data-cursor]") : null;
+    const label = t && ab.contains(t) ? t.getAttribute("data-cursor") : "";
+    c.style.opacity = "1"; c.style.transform = "translate(" + x + "px," + y + "px)";
+    const blob = c.firstElementChild, lab = blob.firstElementChild;
+    if (label) { blob.style.width = blob.style.height = "84px"; blob.style.background = "#5a4bc4"; blob.style.mixBlendMode = "normal"; lab.textContent = label; lab.style.opacity = "1"; }
+    else { blob.style.width = blob.style.height = "16px"; blob.style.background = "#fff"; blob.style.mixBlendMode = "difference"; lab.style.opacity = "0"; }
+  }
+
+  renderVals() {
+    const m = !!this.props.mobile, s = this.state, mode = this.props.buyMode === "cart" ? "cart" : "checkout";
+    const shopState = this.props.shopState || "live", live = shopState === "live";
+    const forSale = PRODUCTS.map((p, i) => ({ p, i })).filter((o) => !o.p.collected);
+    const counts = {}; CATS.forEach((c) => { counts[c] = forSale.filter((o) => o.p.cat === c).length; });
+    const visCats = CATS.filter((c) => counts[c] > 0);
+    const filter = visCats.includes(s.filter) ? s.filter : "All";
+    const list = forSale.filter((o) => filter === "All" || o.p.cat === filter);
+    const card = (o, j) => {
+      const p = o.p, a = p.imgs[0], b = p.imgs[1] || p.imgs[0];
+      return { title: p.title, cat: p.cat, no: p.no, price: money(p.price, p.from), edition: p.ed, badge: BADGE(p),
+        img: WM(F[a.k]), pos: a.pos, img2: WM(F[b.k]), pos2: b.pos, size2: b.zoom, rot: ROT[j % ROT.length], tape: TAPE[j % TAPE.length],
+        fx: p.status === "soldout" ? "grayscale(0.85)" : p.status === "soon" ? "blur(6px)" : "none", open: () => this.openP(o.i) };
+    };
+
+    const pid = Math.min(Math.max(s.pid, 0), PRODUCTS.length - 1), prod = PRODUCTS[pid];
+    const sel = prod.options.map((o, oi) => s.sel[oi] || 0);
+    const priceNow = prod.price + prod.options.reduce((acc, o, oi) => acc + o.add[sel[oi]], 0);
+    const view = Math.min(s.view, prod.imgs.length - 1);
+    const can = prod.status === "available" || prod.status === "low";
+    const isOrig = prod.cat === "Originals";
+    const pLabel = money(priceNow, prod.custom);
+    const others = forSale.filter((o) => o.i !== pid);
+    const start = Math.max(0, others.findIndex((o) => o.i > pid));
+    const more = others.slice(start).concat(others.slice(0, start)).slice(0, 4);
+    const f = s.form, er = s.errors;
+    const chipSet = (key, opts) => opts.map((v) => { const on = f[key] === v; return { label: v, pressed: on ? "true" : "false", bg: on ? "#131316" : "#ffffff", fg: on ? "#ffffff" : "#131316", bd: on ? "#131316" : er[key] ? "#c0392b" : "rgba(19,19,22,0.16)", pick: () => this.setF(key, v) }; });
+    const fld = ["name", "email", "what", "idea"];
+    const fe = {}, fh = {}, fb = {};
+    fld.forEach((k) => { fe[k] = er[k] || ""; fh[k] = !!er[k]; fb[k] = er[k] ? "#c0392b" : "rgba(19,19,22,0.14)"; });
+    const NAV = ["work", "gallery", "shop", "about", "contact"];
+    const showCart = mode === "cart" && s.cart > 0;
+    const sticky = m && s.page === "product";
+
+    return {
+      rootRef: (n) => { this.root = n; }, scrollRef: (n) => { this.scroller = n; }, cursorRef: (n) => { this.cursor = n; },
+      carRef: (n) => { this.car = n; }, customRef: (n) => { this.custom = n; },
+      boardMode: m ? "m" : "d",
+      rootH: s.standalone ? "100vh" : "100%",
+      onMove: m ? null : (e) => this.moveCursor(e),
+      onLeave: () => { if (this.cursor) this.cursor.style.opacity = "0"; },
+      annot: this.props.showAnnotations === false ? "off" : "on",
+      isD: !m, isM: m,
+      isShop: s.page === "shop", isProduct: s.page === "product",
+      isLive: live, isLoading: shopState === "loading", isEmpty: shopState === "empty",
+      hasFilters: live, noFilters: !live, hasSold: shopState !== "empty",
+      introLabel: live ? forSale.length + " things · packed by hand in mumbai" : shopState === "loading" ? "opening the drawers…" : "restocking · back soon",
+      chips: ["All"].concat(visCats).map((c) => { const on = c === filter; return { label: c, on, off: !on, count: c === "All" ? forSale.length : counts[c], pick: () => this.setState({ filter: c }) }; }),
+      cards: list.map(card),
+      skel: ROT.map((r) => ({ rot: r })),
+      emptyNotified: s.emptyNotified, emptyAsk: !s.emptyNotified, emptyNotify: () => this.setState({ emptyNotified: true }),
+      sold: PRODUCTS.map((p, i) => ({ p, i })).filter((o) => o.p.collected).map((o) => ({ title: o.p.title, where: o.p.where, img: WM(F[o.p.imgs[0].k], 480), pos: o.p.imgs[0].pos, open: () => this.openP(o.i) })),
+      steps: STEPS.map((t, i) => ({ n: "0" + (i + 1), t })),
+      customs: CUSTOM.map((x) => Object.assign({}, x, { img: WM(F[x.k], 480) })),
+      openFormBlank: () => this.openForm(""),
+      faq: FAQ.map((q, i) => { const open = s.faq === i; return { q: q.q, a: q.a, open, exp: open ? "true" : "false", sign: open ? "–" : "+", signBg: open ? "#131316" : "#f5f5f7", signFg: open ? "#ffffff" : "#131316", cur: open ? "close" : "open", toggle: () => this.setState({ faq: open ? -1 : i }) }; }),
+
+      backToShop: () => this.setState({ page: "shop", menu: false }),
+      pr: { title: prod.title, cat: prod.cat, no: prod.no, story: prod.story, badge: BADGE(prod), price: pLabel,
+        priceColor: can ? "#131316" : "#9d9da5", crumb: "/ " + prod.cat.toLowerCase() + " / " + prod.title, fx: prod.status === "soldout" && !prod.collected ? "grayscale(0.6)" : "none" },
+      slides: prod.imgs.map((im, j) => ({ img: WM(F[im.k], 1200), pos: im.pos, size: im.zoom, label: im.label, rot: j % 2 ? "0.8deg" : "-0.8deg" })),
+      onCar: (e) => { const el = e.currentTarget, i = Math.round(el.scrollLeft / Math.max(1, el.clientWidth)); if (i !== this.state.view) this.setState({ view: i }); },
+      slideLabel: prod.imgs[view].label,
+      slideCount: String(view + 1).padStart(2, "0") + " / " + String(prod.imgs.length).padStart(2, "0"),
+      prevSlide: () => this.goSlide(view - 1), nextSlide: () => this.goSlide(view + 1),
+      thumbs: prod.imgs.map((im, j) => ({ label: im.label, img: WM(F[im.k], 200), pos: im.pos, size: im.zoom, ring: j === view ? "0 0 0 2px #ffffff, 0 0 0 4px #5a4bc4" : "0 0 0 1px rgba(19,19,22,0.12)", pick: () => this.goSlide(j) })),
+      hasOptions: prod.options.length > 0 && can,
+      opts: prod.options.map((o, oi) => ({ name: o.name, items: o.values.map((v, vi) => { const on = sel[oi] === vi; return { label: v, extra: o.add[vi] ? "+" + money(o.add[vi]) : "", pressed: on ? "true" : "false", bg: on ? "#131316" : "#ffffff", fg: on ? "#ffffff" : "#131316", bd: on ? "#131316" : "rgba(19,19,22,0.16)", xc: on ? "#c9c4f2" : "#86868f", pick: () => this.setState((st) => ({ sel: Object.assign({}, st.sel, { [oi]: vi }) })) }; }) })),
+      buyModeLabel: mode === "cart" ? "add to cart" : "checkout link",
+      buy: {
+        primary: can && !(mode === "cart" && s.added) && !(prod.custom && false),
+        label: prod.custom ? "request this piece →" : mode === "cart" ? "add to cart · " + pLabel : "buy now · " + pLabel + " ↗",
+        short: prod.custom ? "request →" : mode === "cart" ? "add to cart" : "buy now ↗",
+        act: prod.custom ? () => this.openForm(prod.kind) : mode === "cart" ? () => { this.setState((x) => ({ added: true, cart: x.cart + 1 })); this.flash("added to cart"); } : () => this.flash("opening checkout… (your payment link)"),
+        added: can && mode === "cart" && s.added && !prod.custom,
+        cartLabel: "view cart (" + s.cart + ") →",
+        off: !can, offLabel: prod.status === "soldout" ? (prod.collected ? "sold · " + prod.where : "sold out") : "coming soon",
+        secLabel: prod.status === "soldout" ? (isOrig ? "request something similar →" : "notify me if it's reprinted") : "notify me when it drops",
+        secShort: prod.status === "soldout" && isOrig ? "request similar" : "notify me",
+        secAct: prod.status === "soldout" && isOrig ? () => this.openForm("other") : () => this.setState({ notifyOpen: true }),
+        note: prod.custom ? "made to order · I reply within 2 days with a sketch + quote" : !can ? (prod.status === "soon" ? "drops in November · one email when it's live" : isOrig ? "originals are one-offs, but I can make you something in the same spirit" : "this edition is gone; I may reprint a small run") : mode === "cart" ? "add a few things, check out once" : "secure checkout · UPI, cards, PayPal"
+      },
+      notifyAsk: !s.notifyOpen && !s.notified, notifyForm: s.notifyOpen && !s.notified, notifyDone: s.notified,
+      doNotify: () => this.setState({ notified: true, notifyOpen: false }),
+      specs: [["size", prod.size], ["materials", prod.materials], ["edition", prod.edition], ["shipping", prod.ship]].filter((x) => x[1] && x[1] !== "—").map((x) => ({ k: x[0], v: x[1] })),
+      hasRelated: !!prod.art,
+      rel: { title: prod.art || "", img: WM(F[prod.artK || "venus"], 400), pos: "center" },
+      more: more.map(card),
+
+      stickyBuy: sticky,
+      showCart, cartCount: String(s.cart), cartBottom: sticky ? "92px" : "24px",
+      viewCart: () => this.flash("cart drawer → checkout (when the cart is on)"),
+      hasToast: !!s.toast, toast: s.toast, toastBottom: sticky ? "92px" : "28px",
+
+      formOpen: s.formOpen,
+      closeForm: () => this.setState({ formOpen: false }),
+      formSent: s.status === "sent", formEditing: s.status !== "sent", formFailed: s.status === "failed",
+      f: Object.assign({}, f, { nameOr: f.name || "friend", emailOr: f.email || "your email" }), fe, fh, fb,
+      on: { name: (e) => this.setF("name", e.target.value), email: (e) => this.setF("email", e.target.value), idea: (e) => this.setF("idea", e.target.value), date: (e) => this.setF("date", e.target.value), file: (e) => this.setF("file", ((e.target.files || [])[0] || {}).name || "") },
+      whatChips: chipSet("what", WHAT), budgetChips: chipSet("budget", BUDGET), deadlineChips: chipSet("deadline", DEADLINE),
+      hasDate: f.deadline === "a specific date",
+      fileLabel: f.file ? "attached · " + f.file : "add a reference image",
+      submit: () => this.submit(),
+      submitLabel: s.status === "sending" ? "sending…" : s.status === "failed" ? "try again →" : "send request →",
+      sendOpacity: s.status === "sending" ? "0.6" : "1",
+      summary: [["object", f.what], ["budget", f.budget], ["deadline", f.deadline === "a specific date" ? f.date || "a specific date" : f.deadline], ["reference", f.file]].filter((x) => x[1]).map((x) => ({ k: x[0], v: x[1] })),
+
+      nav: NAV.map((l, i) => ({ label: l, on: l === "shop", off: l !== "shop", num: "0" + (i + 1), delay: (60 + i * 50) + "ms", color: l === "shop" ? "#5a4bc4" : "#131316" })),
+      menuOpen: s.menu, openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

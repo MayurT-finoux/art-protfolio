@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; height: 100%; }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button { cursor: pointer; font: inherit; color: inherit; }
+  input:focus-visible, button:focus-visible { outline: 2px solid #5a4bc4; outline-offset: 2px; }
+</style>
+</helmet>
+<div data-component="AdminLogin" data-screen-label="Admin sign in" style="position: relative; width: 100%; height: 100%; overflow: auto; display: grid; place-items: center; padding: 32px 16px; box-sizing: border-box; background-color: #f4f3ef; background-image: linear-gradient(rgba(90,75,196,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(90,75,196,0.07) 1px, transparent 1px); background-size: 32px 32px; font-family: 'Inter', sans-serif; color: #131316;">
+  <div style="position: relative; width: min(420px, 100%); display: flex; flex-direction: column; gap: 22px; padding: clamp(24px, 5vw, 36px); box-sizing: border-box; border-radius: 22px; background: #ffffff; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 24px 60px rgba(19,19,22,0.1); transform: rotate(-0.6deg);">
+    <span style="position: absolute; top: -11px; left: 50%; width: 92px; height: 22px; margin-left: -46px; background: rgba(90,75,196,0.2); transform: rotate(-3deg);"></span>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.06em;">yurix</span>
+      <span style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4bc4; padding: 3px 7px; border-radius: 999px; background: #efedfb;">admin</span>
+    </div>
+
+    <sc-if value="{{ isSignIn }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ submit }}" style="display: flex; flex-direction: column; gap: 18px; margin: 0;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.95; letter-spacing: -0.05em;">welcome back.</h1>
+          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #55555d;">Sign in to edit the site.</p>
+        </div>
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #fbeeec; color: #8f2a20; font-size: 14px; line-height: 1.45;"><span style="flex: none; width: 20px; height: 20px; border-radius: 999px; background: #c0392b; color: #fff; display: grid; place-items: center; font-family: 'DM Mono', monospace; font-size: 11px;">!</span><span>{{ errorText }}</span></div>
+        </sc-if>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">email</span>
+          <input type="email" autocomplete="username" value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@email.com" style="min-height: 48px; padding: 0 14px; border-radius: 12px; border: 1px solid {{ fieldBorder }}; background: #fff; font: 400 15px 'Inter', sans-serif; color: #131316; box-sizing: border-box;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">password</span><button type="button" onClick="{{ goReset }}" style="border: 0; padding: 0; background: transparent; color: #5a4bc4; font-size: 13px; font-weight: 500;">forgot?</button></span>
+          <span style="position: relative; display: flex;">
+            <input type="{{ pwType }}" autocomplete="current-password" value="{{ password }}" onChange="{{ onPassword }}" placeholder="••••••••" style="flex: 1; min-width: 0; min-height: 48px; padding: 0 64px 0 14px; border-radius: 12px; border: 1px solid {{ fieldBorder }}; background: #fff; font: 400 15px 'Inter', sans-serif; color: #131316; box-sizing: border-box;">
+            <button type="button" onClick="{{ toggleShow }}" aria-label="{{ showLabel }}" style="position: absolute; right: 4px; top: 4px; height: 40px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #55555d;" style-hover="background: #f4f3ef;">{{ showText }}</button>
+          </span>
+        </label>
+        <button type="submit" style="height: 52px; border: 0; border-radius: 999px; background: #131316; color: #fff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; opacity: {{ btnOpacity }};" style-hover="background: #5a4bc4;">{{ btnLabel }}</button>
+      </form>
+    </sc-if>
+
+    <sc-if value="{{ isReset }}" hint-placeholder-val="{{ false }}">
+      <form onSubmit="{{ sendReset }}" style="display: flex; flex-direction: column; gap: 18px; margin: 0;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.95; letter-spacing: -0.05em;">forgot it? happens.</h1>
+          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #55555d;">Enter your email and I'll send a link to set a new password.</p>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">email</span>
+          <input type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@email.com" style="min-height: 48px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(19,19,22,0.14); background: #fff; font: 400 15px 'Inter', sans-serif; color: #131316; box-sizing: border-box;">
+        </label>
+        <button type="submit" style="height: 52px; border: 0; border-radius: 999px; background: #131316; color: #fff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4;">send reset link →</button>
+        <button type="button" onClick="{{ goSignIn }}" style="align-self: flex-start; height: 40px; padding: 0; border: 0; background: transparent; color: #5a4bc4; font-size: 14px; font-weight: 500;">← back to sign in</button>
+      </form>
+    </sc-if>
+
+    <sc-if value="{{ isSent }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef7f1; color: #2f8a57; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;"><span style="width: 6px; height: 6px; border-radius: 999px; background: #2f8a57;"></span>link sent</span>
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.95; letter-spacing: -0.05em;">check your inbox.</h1>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #55555d;">If {{ emailOr }} has an account, a reset link is on its way. It works for 30 minutes.</p>
+        <button type="button" onClick="{{ goSignIn }}" style="height: 52px; border: 0; border-radius: 999px; background: #131316; color: #fff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4;">back to sign in</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef7f1; color: #2f8a57; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;"><span style="width: 6px; height: 6px; border-radius: 999px; background: #2f8a57;"></span>signed in</span>
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.95; letter-spacing: -0.05em;">hi, yurix.</h1>
+        <a href="Admin.dc.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 999px; background: #131316; color: #fff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4; color: #fff;">open the dashboard →</a>
+      </div>
+    </sc-if>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: 1px dashed #d6d5d0;">
+      <a href="#" style="font-size: 13px; font-weight: 500;">← back to the site</a>
+      <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: #86868f;">only you can get in</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;error&quot;,&quot;reset&quot;,&quot;sent&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = this.init();
+  init() {
+    const st = this.props.state || "idle";
+    return { view: st === "reset" ? "reset" : st === "sent" ? "sent" : "signin", email: st === "error" ? "hey@aditi.art" : "", password: st === "error" ? "wrongpass" : "", show: false, keep: true, error: st === "error" ? "bad" : "", loading: false, tries: st === "error" ? 1 : 0 };
+  }
+  componentDidUpdate(pp) { if (pp.state !== this.props.state) this.setState(this.init()); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  submit(e) {
+    e.preventDefault();
+    const s = this.state;
+    if (s.loading) return;
+    if (!/^\S+@\S+\.\S+$/.test(s.email) || !s.password) return this.setState({ error: "empty" });
+    this.setState({ loading: true, error: "" });
+    clearTimeout(this.t);
+    this.t = setTimeout(() => {
+      if (s.password === "yurix") this.setState({ loading: false, view: "done" });
+      else this.setState((x) => ({ loading: false, error: x.tries + 1 >= 5 ? "locked" : "bad", tries: x.tries + 1 }));
+    }, 800);
+  }
+  renderVals() {
+    const s = this.state, locked = s.error === "locked";
+    const msg = { empty: "Add your email and password.", bad: "That email and password don't match. Try again, or reset it.", locked: "Too many tries. Wait 15 minutes, or reset your password." }[s.error] || "";
+    return {
+      isSignIn: s.view === "signin", isReset: s.view === "reset", isSent: s.view === "sent", isDone: s.view === "done",
+      email: s.email, password: s.password, emailOr: s.email || "that email",
+      onEmail: (e) => this.setState({ email: e.target.value, error: locked ? s.error : "" }),
+      onPassword: (e) => this.setState({ password: e.target.value, error: locked ? s.error : "" }),
+      hasError: !!s.error, errorText: msg, fieldBorder: s.error === "bad" ? "#c0392b" : "rgba(19,19,22,0.14)",
+      pwType: s.show ? "text" : "password", showText: s.show ? "hide" : "show", showLabel: s.show ? "Hide password" : "Show password",
+      toggleShow: () => this.setState({ show: !s.show }),
+      keepTrack: s.keep ? "#5a4bc4" : "#d6d5d0", keepJustify: s.keep ? "flex-end" : "flex-start", keepAria: s.keep ? "true" : "false",
+      toggleKeep: () => this.setState({ keep: !s.keep }),
+      btnLabel: s.loading ? "signing in…" : "sign in →", btnOpacity: s.loading || locked ? "0.6" : "1",
+      submit: (e) => locked ? e.preventDefault() : this.submit(e),
+      goReset: () => this.setState({ view: "reset", error: "" }),
+      goSignIn: () => this.setState({ view: "signin", error: "", tries: 0 }),
+      sendReset: (e) => { e.preventDefault(); this.setState({ view: "sent" }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

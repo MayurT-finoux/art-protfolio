@@ -21,11 +21,11 @@ The design files from Claude Design are the finalized design and the **single so
 - Styling: CSS Modules (no Tailwind, no UI libraries)
 - Database: Neon Postgres (project "art-portfolio", id `lucky-hat-31537393`, database `portfolio`, branch `production`, Postgres 18, AWS Singapore `aws-ap-southeast-1`)
 - ORM: Drizzle ORM + drizzle-kit + `@neondatabase/serverless` (neon-http driver)
-- Admin login: Better Auth (single admin account, sign-ups disabled)
+- Admin login: Better Auth (single admin account, sign-ups disabled) — `src/lib/auth.ts`, gate in `src/proxy.ts`
 - Media storage: Cloudflare R2 via `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` (presigned browser uploads)
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
-- Email: Resend (contact form notifications)
+- Email: Resend (`src/lib/email.ts`; contact notifications + password reset; logs instead of sending without `RESEND_API_KEY`)
 - Hosting: **Vercel** (production branch `phase-1`; R2 keys in Vercel env vars). `netlify.toml` kept but unused.
 - Do NOT use Neon Auth, Neon Functions, or Neon Object Storage (so no `neon.ts` / `neon deploy`).
 
@@ -70,7 +70,9 @@ Only **v6** is in scope: `design/Artist Portfolio v6.dc.html` (identical to `des
   - `GalleryPage.dc.html` — GalleryFilters, GalleryGrid, ArtworkCard, ArtworkLightbox
   - `About Sketchbook.dc.html`, `About Editorial.dc.html` — About sections (+ GuideCharacter in Sketchbook)
   - `SiteFooter.dc.html`, `MusicPlayer.dc.html` — Footer, Wordmark, MusicPlayer
-  - `Admin.dc.html` — all admin screens
+  - `Admin.dc.html` — all admin screens (incl. new Shop + 404 screens, not built yet)
+  - `AdminLogin.dc.html` — admin sign-in · `ContactPage.dc.html` — Contact
+  - `ShopStudioTable.dc.html`, `404 Sketchbook.dc.html` + `RunnerGame Sketchbook.dc.html` — not built yet
 - Exact values live in inline `style="…"` attributes; component names in `data-component="…"`.
 - To view: `npx serve design/design_handoff_yurix_site/designs` and open `Overview Canvas.dc.html`.
 - **Not used**: HomeCollage, v3, v4, v5, v7, the "Directions" boards, `404 *`/`RunnerGame *` (until the 404 phase), and the Nocturne design system (`design/_ds/`, `design/nocturne.css`).
@@ -86,7 +88,7 @@ src/
   app/
     layout.tsx          root layout
     (site)/             public pages + layout (MainNav, Footer, MusicPlayer)
-    admin/              CMS routes (layout = AdminShell)
+    admin/              login/, reset-password/ (open) + (cms)/ screens (layout = AdminShell)
     api/
   components/{site,home,work,gallery,about,notfound,admin}/
     <ComponentName>/<ComponentName>.tsx + <ComponentName>.module.css
@@ -113,6 +115,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - `npm run db:generate` / `db:migrate` / `db:studio` — drizzle-kit (uses `DATABASE_URL_UNPOOLED`)
 - `npm run r2:check` — test Cloudflare R2 (upload, public read, delete)
 - `npm run db:seed` — fill a fresh database with categories + Home text (no sample artworks)
+- `npm run admin:create` — create the admin account, or set a new password for it (asks in the terminal)
 
 ## Environment
 
@@ -120,6 +123,8 @@ Component folders and files are named exactly as the design's `data-component`.
 - `DATABASE_URL` — pooled connection string (app)
 - `DATABASE_URL_UNPOOLED` — direct connection string (drizzle-kit migrations)
 - `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_PUBLIC_URL` — Cloudflare R2
+- `BETTER_AUTH_SECRET` (required), `BETTER_AUTH_URL` (optional) — admin sign-in
+- `RESEND_API_KEY`, `NOTIFY_EMAIL`, `EMAIL_FROM` — email (optional; logged without a key)
 
 ## Decisions log
 
@@ -153,4 +158,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-19 — At Yurix's request: all 16 placeholder artworks deleted from the production database (categories + Home content kept) and unused R2 files deleted (only the current hero video kept). Real artworks are added through the admin.
 - 2026-10-19 — At Yurix's request, **everything empty**: no placeholder images anywhere (`img()` in admin.ts returns "", Home stills "", stills cleared in the DB), no sample projects (`work.ts`, `admin.ts`), no sample Instagram posts. Frames show their fill color; the hero shows its dark fallback (or the uploaded video). Text copy stays. Backgrounds go through `bgImage()` (`src/lib/bgImage.ts`); empty `[slug]` lists use `slugParams()` (`src/lib/staticParams.ts`) because Next 16 needs ≥1 static param. `db:seed` now only seeds categories + Home text.
 - 2026-10-19 — Yurix's change: MainNav + MobileMenu show a "home" link first on every page except Home (not in the design).
+- 2026-10-19 — New design handoff (zip) replaced `design/design_handoff_yurix_site/`: adds AdminLogin, Contact, Shop, 404, admin Shop/404 screens. Already-built pages unchanged. Home stays v6 (the handoff's v7 "Cut & Paste" Home is not adopted unless Yurix says so).
+- 2026-10-19 — Admin sign-in built (Phase 8): Better Auth, sign-ups off, 5 tries / 15 min per IP (DB-stored), reset link 30 min. `/admin` gate = proxy **rewrite** to the sign-in screen (redirects broke behind Codespaces). All admin actions + `/api/uploads` require a session again (reverses the 2026-10-11 "open admin" state). Added (not in design): `/admin/reset-password` page and a sidebar "sign out".
+- 2026-10-19 — Contact page built (Phase 8): messages → `contact_messages`, Resend notification to `NOTIFY_EMAIL`, honeypot spam guard.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

@@ -122,3 +122,22 @@
   font-size: 12px;
   color: var(--text-muted);
 }
+
+.signOut {
+  margin-left: auto;
+  flex: none;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.signOut:hover {
+  background: var(--admin-bg);
+  color: var(--ink);
+}

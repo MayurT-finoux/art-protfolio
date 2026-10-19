@@ -1,3 +1,4 @@
+import { getAdminSession } from "@/lib/adminSession";
 import { r2PublicUrl, signUpload } from "@/lib/r2";
 import { checkUpload, FOLDER_PATTERN, UPLOAD_RULES, type UploadKind } from "@/lib/uploads";
 
@@ -7,10 +8,13 @@ type Body = { kind: UploadKind; folder: string; contentType: string; size: numbe
  * Signs one upload: the browser then PUTs the file straight to R2.
  * Returns { uploadUrl, publicUrl, key }.
  *
- * TODO (before launch): require the admin login. Open on every deployment for
- * now at Yurix's request (2026-10-11); type, size and folder are still checked.
+ * Admin only: requires a signed-in admin session.
  */
 export async function POST(request: Request) {
+  if (!(await getAdminSession(request.headers))) {
+    return Response.json({ error: "Please sign in again." }, { status: 401 });
+  }
+
   let body: Body;
   try {
     body = await request.json();

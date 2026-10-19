@@ -1,12 +1,13 @@
 "use server";
 
-// Admin server actions. TODO (before launch): check the admin session
-// (Better Auth) at the top of every action — they're open for now.
+// Admin server actions. Every action checks the admin session first
+// (server actions are reachable by direct POST, not just from the admin UI).
 import { and, count, eq, ne, sql } from "drizzle-orm";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { db } from "@/db";
 import { artworkImages, artworks, siteContent } from "@/db/schema";
+import { requireAdmin } from "@/lib/adminSession";
 import { CONTENT_TAG } from "@/lib/content/queries";
 import { MAX_FEATURED } from "@/lib/content/types";
 import { slugify } from "@/lib/placeholder/admin";
@@ -65,6 +66,7 @@ async function uniqueSlug(wanted: string, title: string, id?: number) {
 /** Create (no id) or update an artwork and replace its images. */
 export async function saveArtwork(raw: ArtworkInput): Promise<Result<{ slug: string }>> {
   try {
+    await requireAdmin();
     const input = artworkInput.parse(raw);
     const slug = await uniqueSlug(input.slug, input.title, input.id);
     const links = Object.fromEntries(Object.entries(input.links).filter(([, v]) => v));
@@ -108,6 +110,7 @@ export async function saveArtwork(raw: ArtworkInput): Promise<Result<{ slug: str
 /** ★ Feature on Home (max 8) or unfeature; positions stay contiguous. */
 export async function toggleFeatured(id: number): Promise<Result> {
   try {
+    await requireAdmin();
     const [art] = await db().select().from(artworks).where(eq(artworks.id, id));
     if (!art) return { ok: false, error: "Artwork not found." };
 
@@ -133,6 +136,7 @@ export async function toggleFeatured(id: number): Promise<Result> {
 
 export async function deleteArtwork(id: number): Promise<Result> {
   try {
+    await requireAdmin();
     const [art] = await db().select().from(artworks).where(eq(artworks.id, id));
     if (!art) return { ok: false, error: "Artwork not found." };
     await db().delete(artworks).where(eq(artworks.id, id));
@@ -171,6 +175,7 @@ const homeInput = z.object({
 
 export async function saveHome(raw: z.infer<typeof homeInput>): Promise<Result> {
   try {
+    await requireAdmin();
     const data = homeInput.parse(raw);
     await db()
       .insert(siteContent)
