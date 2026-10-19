@@ -1,6 +1,7 @@
 import type { AboutContent, AboutCopy, AboutLayout } from "@/lib/placeholder/about";
 import t from "../aboutType.module.css";
 import styles from "./ProcessSteps.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { layout: AboutLayout; content: AboutContent; copy: AboutCopy };
 
@@ -25,7 +26,7 @@ export function ProcessSteps({ layout, content: c, copy }: Props) {
               </div>
               <div
                 className={styles.edFrame}
-                style={{ backgroundImage: `url("${p.image}")`, backgroundPosition: p.position }}
+                style={{ backgroundImage: bgImage(p.image), backgroundPosition: p.position }}
                 aria-hidden
               />
               <p className={styles.edLine}>{p.line}</p>
@@ -55,7 +56,7 @@ export function ProcessSteps({ layout, content: c, copy }: Props) {
               <span className={styles.skTape} />
               <div
                 className={styles.skFrame}
-                style={{ backgroundImage: `url("${p.image}")`, backgroundPosition: p.position }}
+                style={{ backgroundImage: bgImage(p.image), backgroundPosition: p.position }}
                 aria-hidden
               />
               <div className={styles.skTitleRow}>

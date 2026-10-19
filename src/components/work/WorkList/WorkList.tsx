@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Project } from "@/lib/placeholder/work";
 import styles from "./WorkList.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = {
   label: string;
@@ -37,7 +38,7 @@ export function WorkList({ label, heading, intro, projects }: Props) {
               <div className={styles.frame}>
                 <div
                   className={styles.image}
-                  style={{ backgroundImage: `url("${p.thumb.url}")`, backgroundPosition: p.thumb.position }}
+                  style={{ backgroundImage: bgImage(p.thumb.url), backgroundPosition: p.thumb.position }}
                   role="img"
                   aria-label={p.title}
                 />

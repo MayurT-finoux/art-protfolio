@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useMediaQuery, useReducedMotion } from "../GalleryPage/useMediaQuery";
 import { isAnimation, type GalleryItem } from "../GalleryPage/types";
 import styles from "./ArtworkLightbox.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = {
   art: GalleryItem;
@@ -92,7 +93,7 @@ export function ArtworkLightbox({ art, view, position, onView, onPrev, onNext, o
       ) : (
         <div
           className={anim ? `${styles.image} ${styles.boil}` : styles.image}
-          style={{ backgroundImage: `url("${image.url}")` }}
+          style={{ backgroundImage: bgImage(image.url) }}
           role="img"
           aria-label={image.label ? `${art.title} · ${image.label}` : art.title}
         />
@@ -118,7 +119,7 @@ export function ArtworkLightbox({ art, view, position, onView, onPrev, onNext, o
     >
       <span
         className={j === view ? `${styles.thumbImg} ${styles.thumbOn}` : styles.thumbImg}
-        style={{ backgroundImage: `url("${im.url}")`, backgroundPosition: im.focus }}
+        style={{ backgroundImage: bgImage(im.url), backgroundPosition: im.focus }}
       />
       {!mobile && im.label && <span className={styles.thumbLabel}>{im.label}</span>}
     </button>

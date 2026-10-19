@@ -18,8 +18,14 @@ const FILES = {
 export type ImageKey = keyof typeof FILES;
 const KEYS = Object.keys(FILES) as ImageKey[];
 
-/** Placeholder image URL by key, `offset` steps along the key list. */
-export const img = (key: ImageKey, width = 400, offset = 0) =>
+/**
+ * Placeholder image URL by key. Returns "" — the placeholder paintings were
+ * removed at Yurix's request (2026-10-19); frames show their plain fill.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const img = (_key: ImageKey, _width = 400, _offset = 0) => "";
+/** The original Wikimedia placeholder (kept for reference / tests). */
+export const wikimediaImg = (key: ImageKey, width = 400, offset = 0) =>
   wm(FILES[KEYS[(KEYS.indexOf(key) + offset) % KEYS.length]], width);
 
 export const slugify = (s: string) =>
@@ -94,21 +100,14 @@ export type Project = {
   draft: boolean;
 };
 
+// Builder kept for when projects move to the database.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const proj = (
   title: string, kind: string, year: string, client: string, role: string, tools: string, imageKey: ImageKey,
   teaser: string, youtubeId: string, behance: boolean, draft = false,
 ): Project => ({ slug: slugify(title), title, kind, year, client, role, tools, imageKey, teaser, youtubeId, behance, draft });
 
-export const PROJECTS: Project[] = [
-  proj("moth lullaby", "music video", "2026", "Lalit & The Lamps", "Direction, animation", "Procreate Dreams, After Effects", "klimt", "A three-minute lullaby for a band that only plays after midnight.", "aqz-KE-bpKQ", true),
-  proj("ghost roommate", "short series", "2026", "Personal", "Writing, animation", "Procreate Dreams", "pearl", "Six tiny episodes about sharing a flat with someone who isn't there.", "", true),
-  proj("neon auto ride", "loop", "2026", "Mumbai Film Fest", "Animation", "Procreate Dreams", "starry", "A night ride through Bandra, drawn on the back of a rickshaw ticket.", "aqz-KE-bpKQ", false),
-  proj("static hearts", "album cover", "2025", "Static Hearts", "Illustration, lettering", "Procreate, gouache", "scream", "Cover, vinyl label and a sticker sheet nobody asked for.", "", true),
-  proj("sticker sheet 03", "merch", "2025", "Personal", "Illustration", "Procreate, risograph", "kand", "Forty stickers, two inks, one very tired risograph machine.", "", false),
-  proj("slow static", "music video", "2025", "Kavya", "Direction, animation", "Procreate Dreams, TVPaint", "wave", "Hand-drawn waves at 8 frames a second, on purpose.", "aqz-KE-bpKQ", true),
-  proj("monsoon diary", "editorial", "2025", "The Bombay Review", "Illustration", "Watercolour, Procreate", "venus", "A month of rain drawn as a daily diary for a weekly column.", "", false),
-  proj("tiny gods", "short film", "2024", "Festival short", "Writing, direction, animation", "TVPaint, After Effects", "monet", "Seven minutes about the gods who live in kitchen shelves.", "aqz-KE-bpKQ", false, true),
-];
+export const PROJECTS: Project[] = [];
 export const MAX_PROJECTS = 12;
 
 export type NavRow = { id: string; label: string; href: string; visible: boolean };
@@ -223,4 +222,4 @@ export const MICROCOPY = [
   },
 ];
 
-export const INSTAGRAM_POSTS: ImageKey[] = ["wave", "monet", "kand"];
+export const INSTAGRAM_POSTS: ImageKey[] = [];

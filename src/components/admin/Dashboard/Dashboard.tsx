@@ -7,10 +7,8 @@ import { MAX_FEATURED, type ArtworkData } from "@/lib/content/types";
 import { ButtonLink, Panel, PanelTitle, StatusDot, Thumb } from "../ui/AdminUI";
 import styles from "./Dashboard.module.css";
 
-// Project drafts stay placeholder until projects are in the database.
-const PROJECT_DRAFTS = [
-  { title: "tiny gods", meta: "Project · short film · no final pieces yet", image: img("monet", 120), href: "/admin/projects/tiny-gods" },
-];
+// Project drafts appear here once projects are in the database.
+const PROJECT_DRAFTS: { title: string; meta: string; image: string; href: string }[] = [];
 
 const RECENT = [
   { title: "clay ghost", where: "Artwork", when: "10 min ago", href: "/admin/artworks/clay-ghost" },

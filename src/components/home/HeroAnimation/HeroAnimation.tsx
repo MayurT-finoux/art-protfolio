@@ -1,4 +1,5 @@
 import styles from "./HeroAnimation.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = {
   /** Looping MP4 (1920×1080). Until one is uploaded, the still is shown. */
@@ -13,9 +14,9 @@ export function HeroAnimation({ video, still }: Props) {
   return (
     <div data-component="HeroAnimation" className={styles.hero} aria-hidden>
       <div className={styles.motion}>
-        <div className={video ? styles.stillUnderVideo : styles.still} style={{ backgroundImage: `url("${still}")` }} />
+        <div className={video ? styles.stillUnderVideo : styles.still} style={{ backgroundImage: bgImage(still) }} />
         {video && (
-          <video className={styles.video} src={video} poster={still} autoPlay muted loop playsInline preload="auto" />
+          <video className={styles.video} src={video} poster={still || undefined} autoPlay muted loop playsInline preload="auto" />
         )}
       </div>
       <div className={styles.wash} />

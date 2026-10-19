@@ -1,10 +1,9 @@
 // Placeholder content for the Home page, copied from the v6 design
 // (design/design_handoff_yurix_site/designs/HomePage.dc.html).
 // Shaped like the handoff data model so it can be swapped for database
-// queries in Phase 4. Images are the design's Wikimedia placeholders.
-
-const wm = (file: string, width = 900) =>
-  `https://commons.wikimedia.org/wiki/Special:FilePath/${file}?width=${width}`;
+// queries in Phase 4. No sample images or artworks: the placeholder
+// paintings were removed at Yurix's request (2026-10-19) — real images
+// come from the admin (database + R2).
 
 export type NavItem = { label: string; href: string };
 
@@ -76,7 +75,7 @@ export const music = {
 export const hero = {
   /** Loop MP4 from the CMS; none yet, so the still is shown. */
   video: null as string | null,
-  still: wm("Claude_Monet,_Impression,_soleil_levant.jpg", 1600),
+  still: "",
   label: "2D animator & illustrator · mumbai",
   heading: "Hi, I'm Yurix",
   intro: "I'm an animator and illustrator making hand-drawn loops, characters and music videos.",
@@ -89,16 +88,7 @@ export const selectedWork = {
   labelMobile: "proudest of",
   heading: "selected work",
   button: { label: "all work →", href: "/work" },
-  items: [
-    { title: "moth lullaby", kind: "music video", year: "2026", image: wm("Gustav_Klimt_016.jpg"), position: "center", pin: "2/3", animated: true },
-    { title: "ghost roommate", kind: "character", year: "2026", image: wm("Girl_with_a_Pearl_Earring.jpg"), position: "center 30%", pin: "1/1", animated: false },
-    { title: "neon auto ride", kind: "loop", year: "2026", image: wm("Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"), position: "center", pin: "3/4", animated: true },
-    { title: "static hearts", kind: "cover", year: "2025", image: wm("The_Scream.jpg"), position: "center 35%", pin: "9/14", animated: false },
-    { title: "sticker sheet 03", kind: "merch", year: "2025", image: wm("Vassily_Kandinsky,_1913_-_Composition_7.jpg"), position: "center", pin: "4/5", animated: false },
-    { title: "slow static", kind: "music video", year: "2025", image: wm("Tsunami_by_hokusai_19th_century.jpg"), position: "center", pin: "2/3", animated: true },
-    { title: "monsoon diary", kind: "illustration", year: "2025", image: wm("Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"), position: "center", pin: "5/4", animated: false },
-    { title: "tiny gods", kind: "short film", year: "2024", image: wm("Claude_Monet,_Impression,_soleil_levant.jpg", 1400), position: "center", pin: "3/4", animated: true },
-  ] satisfies SelectedArtwork[],
+  items: [] as SelectedArtwork[],
 };
 
 const igUrl = `https://www.instagram.com/${site.instagramHandle}/`;
@@ -108,20 +98,13 @@ export const freshWork = {
   heading: "fresh",
   followButton: `follow @${site.instagramHandle} ↗`,
   followHref: igUrl,
-  items: [
-    { title: "frog choir", when: "2 days ago", image: wm("Vassily_Kandinsky,_1913_-_Composition_7.jpg", 500), position: "left center", isNew: true },
-    { title: `@${site.instagramHandle}`, when: "on instagram · 1d", image: wm("The_Scream.jpg", 500), position: "center", instagram: true, href: igUrl },
-    { title: "bus stop sketch", when: "5 days ago", image: wm("Girl_with_a_Pearl_Earring.jpg", 500), position: "center top" },
-    { title: `@${site.instagramHandle}`, when: "on instagram · 3d", image: wm("Claude_Monet,_Impression,_soleil_levant.jpg", 500), position: "left center", instagram: true, href: igUrl },
-    { title: "night shift", when: "1 week ago", image: wm("Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg", 500), position: "right center" },
-    { title: `@${site.instagramHandle}`, when: "on instagram · 6d", image: wm("Tsunami_by_hokusai_19th_century.jpg", 500), position: "right center", instagram: true, href: igUrl },
-  ] satisfies FreshItem[],
+  items: [] as FreshItem[],
 };
 
 export const aboutSection = {
   /** Window loop MP4 from the CMS; none yet, so the still is shown. */
   video: null as string | null,
-  still: wm("Girl_with_a_Pearl_Earring.jpg"),
+  still: "",
   windowLabel: "me_at_work.mp4",
   label: "about me",
   paragraphs: [

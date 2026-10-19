@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useReducedMotion } from "../GalleryPage/useMediaQuery";
 import { isAnimation, type GalleryItem } from "../GalleryPage/types";
 import styles from "./ArtworkCard.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { art: GalleryItem; onOpen: () => void };
 
@@ -41,7 +42,7 @@ export function ArtworkCard({ art, onOpen }: Props) {
     }
   };
 
-  const bg = { backgroundImage: `url("${cover.url}")`, backgroundPosition: cover.focus };
+  const bg = { backgroundImage: bgImage(cover.url), backgroundPosition: cover.focus };
 
   return (
     <article

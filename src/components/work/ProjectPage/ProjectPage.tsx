@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Project, projectPage } from "@/lib/placeholder/work";
 import { ProjectVideo } from "@/components/work/ProjectVideo/ProjectVideo";
 import styles from "./ProjectPage.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = {
   project: Project;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const pad = (n: number) => String(n).padStart(2, "0");
-const bg = (url: string, position: string) => ({ backgroundImage: `url("${url}")`, backgroundPosition: position });
+const bg = (url: string, position: string) => ({ backgroundImage: bgImage(url), backgroundPosition: position });
 
 export function ProjectPage({ project: p, n, next, copy }: Props) {
   const meta = [

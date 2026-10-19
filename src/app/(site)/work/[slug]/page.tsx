@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ProjectPage } from "@/components/work/ProjectPage/ProjectPage";
 import { liveProjects, projectPage } from "@/lib/placeholder/work";
+import { slugParams } from "@/lib/staticParams";
 
 export function generateStaticParams() {
-  return liveProjects().map((p) => ({ slug: p.slug }));
+  return slugParams(liveProjects().map((p) => p.slug));
 }
 
 // The slug is read inside <Suspense> (Next 16 Cache Components).

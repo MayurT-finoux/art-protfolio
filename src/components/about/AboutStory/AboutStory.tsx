@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { AboutContent, AboutCopy, AboutLayout } from "@/lib/placeholder/about";
 import t from "../aboutType.module.css";
 import styles from "./AboutStory.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { layout: AboutLayout; content: AboutContent; copy: AboutCopy };
 
@@ -72,7 +73,7 @@ export function AboutStory({ layout, content: c, copy }: Props) {
               <span className={styles.tape} />
               <div
                 className={styles.frame}
-                style={{ aspectRatio: s.ratio, backgroundImage: `url("${s.image}")`, backgroundPosition: s.position }}
+                style={{ aspectRatio: s.ratio, backgroundImage: bgImage(s.image), backgroundPosition: s.position }}
                 aria-hidden
               />
               <span className={styles.caption}>{s.caption}</span>

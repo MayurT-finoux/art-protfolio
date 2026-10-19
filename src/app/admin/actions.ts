@@ -151,7 +151,7 @@ export async function deleteArtwork(id: number): Promise<Result> {
 
 const homeInput = z.object({
   heroVideo: url.nullable(),
-  heroStill: url,
+  heroStill: z.union([url, z.literal("")]),
   heroLabel: text(120),
   heroHeading: text(120).min(1),
   heroIntro: text(600),
@@ -162,7 +162,7 @@ const homeInput = z.object({
   freshHeading: text(80),
   followButton: text(80),
   aboutVideo: url.nullable(),
-  aboutStill: url,
+  aboutStill: z.union([url, z.literal("")]),
   aboutWindowLabel: text(80),
   aboutLabel: text(80),
   aboutParagraph1: text(1200),

@@ -3,6 +3,7 @@
 import type { FreshItem } from "@/lib/placeholder/home";
 import { useImageReady } from "@/lib/hooks/useImageReady";
 import styles from "./FreshWork.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 export function FreshWorkCard({ item }: { item: FreshItem }) {
   const ready = useImageReady(item.image);
@@ -14,7 +15,7 @@ export function FreshWorkCard({ item }: { item: FreshItem }) {
           <>
             <div
               className={styles.image}
-              style={{ backgroundImage: `url("${item.image}")`, backgroundPosition: item.position }}
+              style={{ backgroundImage: bgImage(item.image), backgroundPosition: item.position }}
               role="img"
               aria-label={item.title}
             />

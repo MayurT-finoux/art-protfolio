@@ -57,6 +57,8 @@ const FILTERS = ["grayscale(1) contrast(1.15)", "grayscale(1) contrast(1.15)", "
 // No real Behance profile yet; the design links to "#".
 const BEHANCE_PLACEHOLDER = "#";
 
+// Builder kept for when projects move to the database.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const project = (
   order: number, title: string, kind: string, year: string, client: string, role: string, tools: string,
   key: ImageKey, teaser: string, youtubeId: string, behance: boolean,
@@ -103,16 +105,8 @@ export const projectPage = {
   next: "next project",
 };
 
-export const PROJECTS: Project[] = [
-  project(0, "moth lullaby", "music video", "2026", "Lalit & The Lamps", "Direction, animation", "Procreate Dreams, After Effects", "klimt", "A three-minute lullaby for a band that only plays after midnight.", "aqz-KE-bpKQ", true),
-  project(1, "ghost roommate", "short series", "2026", "Personal", "Writing, animation", "Procreate Dreams", "pearl", "Six tiny episodes about sharing a flat with someone who isn't there.", "", true),
-  project(2, "neon auto ride", "loop", "2026", "Mumbai Film Fest", "Animation", "Procreate Dreams", "starry", "A night ride through Bandra, drawn on the back of a rickshaw ticket.", "aqz-KE-bpKQ", false),
-  project(3, "static hearts", "album cover", "2025", "Static Hearts", "Illustration, lettering", "Procreate, gouache", "scream", "Cover, vinyl label and a sticker sheet nobody asked for.", "", true),
-  project(4, "sticker sheet 03", "merch", "2025", "Personal", "Illustration", "Procreate, risograph", "kand", "Forty stickers, two inks, one very tired risograph machine.", "", false),
-  project(5, "slow static", "music video", "2025", "Kavya", "Direction, animation", "Procreate Dreams, TVPaint", "wave", "Hand-drawn waves at 8 frames a second, on purpose.", "aqz-KE-bpKQ", true),
-  project(6, "monsoon diary", "editorial", "2025", "The Bombay Review", "Illustration", "Watercolour, Procreate", "venus", "A month of rain drawn as a daily diary for a weekly column.", "", false),
-  project(7, "tiny gods", "short film", "2024", "Festival short", "Writing, direction, animation", "TVPaint, After Effects", "monet", "Seven minutes about the gods who live in kitchen shelves.", "aqz-KE-bpKQ", true),
-];
+// Sample projects removed at Yurix's request (2026-10-19).
+export const PROJECTS: Project[] = [];
 
 /** Live projects in CMS order. */
 export const liveProjects = () =>

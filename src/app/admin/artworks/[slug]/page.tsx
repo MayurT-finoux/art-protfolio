@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArtworkEditor } from "@/components/admin/ArtworkEditor/ArtworkEditor";
 import { featuredOrder, getArtworks, getCategories } from "@/lib/content/queries";
+import { slugParams } from "@/lib/staticParams";
 
 export async function generateStaticParams() {
-  return (await getArtworks()).map((a) => ({ slug: a.slug }));
+  return slugParams((await getArtworks()).map((a) => a.slug));
 }
 
 // The slug is read inside <Suspense> so navigation into the editor stays instant.

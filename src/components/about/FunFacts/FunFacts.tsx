@@ -1,6 +1,7 @@
 import type { AboutContent, AboutCopy, AboutLayout } from "@/lib/placeholder/about";
 import t from "../aboutType.module.css";
 import styles from "./FunFacts.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { layout: AboutLayout; content: AboutContent; copy: AboutCopy };
 
@@ -9,7 +10,7 @@ const NOTE_ROT = ["-2deg", "1.5deg", "1deg", "-1.5deg"];
 
 // Workspace photo + question/answer notes.
 export function FunFacts({ layout, content: c, copy }: Props) {
-  const desk = { backgroundImage: `url("${c.deskImage}")` };
+  const desk = { backgroundImage: bgImage(c.deskImage) };
 
   if (layout === "editorial") {
     return (

@@ -3,6 +3,7 @@
 import type { SelectedArtwork } from "@/lib/placeholder/home";
 import { useImageReady } from "@/lib/hooks/useImageReady";
 import styles from "./SelectedWork.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 export function SelectedWorkCard({ item, n }: { item: SelectedArtwork; n: string }) {
   const ready = useImageReady(item.image);
@@ -14,7 +15,7 @@ export function SelectedWorkCard({ item, n }: { item: SelectedArtwork; n: string
           <>
             <div
               className={styles.image}
-              style={{ backgroundImage: `url("${item.image}")`, backgroundPosition: item.position }}
+              style={{ backgroundImage: bgImage(item.image), backgroundPosition: item.position }}
               role="img"
               aria-label={item.title}
             />

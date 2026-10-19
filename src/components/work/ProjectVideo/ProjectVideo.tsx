@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ProjectImage } from "@/lib/placeholder/work";
 import styles from "./ProjectVideo.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = {
   heading: string;
@@ -40,7 +41,7 @@ export function ProjectVideo({ heading, hint, title, youtubeId, poster }: Props)
           >
             <span
               className={styles.poster}
-              style={{ backgroundImage: `url("${poster.url}")`, backgroundPosition: poster.position }}
+              style={{ backgroundImage: bgImage(poster.url), backgroundPosition: poster.position }}
             />
             <span className={styles.circle}>
               <svg className={styles.icon} viewBox="0 0 14 14" aria-hidden>

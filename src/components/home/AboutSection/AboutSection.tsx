@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./AboutSection.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = {
   video: string | null;
@@ -26,9 +27,9 @@ export function AboutSection({ video, still, windowLabel, label, paragraphs, but
             </span>
           </div>
           {video ? (
-            <video className={styles.media} src={video} poster={still} autoPlay muted loop playsInline aria-hidden />
+            <video className={styles.media} src={video} poster={still || undefined} autoPlay muted loop playsInline aria-hidden />
           ) : (
-            <div className={`${styles.media} ${styles.still}`} style={{ backgroundImage: `url("${still}")` }} aria-hidden />
+            <div className={`${styles.media} ${styles.still}`} style={{ backgroundImage: bgImage(still) }} aria-hidden />
           )}
         </div>
       </div>

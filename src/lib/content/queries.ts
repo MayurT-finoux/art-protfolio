@@ -4,7 +4,6 @@ import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, hasDatabase } from "@/db";
 import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
-import { seedArtworks } from "./seedData";
 import { DEFAULT_CATEGORIES, DEFAULT_HOME, type ArtworkData, type HomeContent } from "./types";
 
 export const CONTENT_TAG = "content";
@@ -23,7 +22,7 @@ export async function getArtworks(): Promise<ArtworkData[]> {
   "use cache";
   cacheTag(CONTENT_TAG);
   cacheLife("hours");
-  if (!hasDatabase()) return seedArtworks();
+  if (!hasDatabase()) return [];
 
   const [rows, images] = await Promise.all([
     db().select().from(artworks).orderBy(desc(artworks.createdAt), desc(artworks.id)),

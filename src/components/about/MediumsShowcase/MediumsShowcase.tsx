@@ -3,12 +3,13 @@ import type { CSSProperties } from "react";
 import type { AboutContent, AboutCopy, AboutLayout, AboutMedium } from "@/lib/placeholder/about";
 import t from "../aboutType.module.css";
 import styles from "./MediumsShowcase.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { layout: AboutLayout; content: AboutContent; copy: AboutCopy };
 
 const ROT = ["-2deg", "1.5deg", "-1deg", "2.2deg", "-1.6deg", "1deg"];
 const num = (i: number) => `0${i + 1}`;
-const bg = (m: AboutMedium) => ({ backgroundImage: `url("${m.image}")`, backgroundPosition: m.position });
+const bg = (m: AboutMedium) => ({ backgroundImage: bgImage(m.image), backgroundPosition: m.position });
 
 // One card / row per medium. Mediums flagged `soon` show a tag and no link.
 export function MediumsShowcase({ layout, content: c, copy }: Props) {

@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ProjectEditor } from "@/components/admin/ProjectEditor/ProjectEditor";
 import { PROJECTS } from "@/lib/placeholder/admin";
+import { slugParams } from "@/lib/staticParams";
 
 export function generateStaticParams() {
-  return PROJECTS.map((p) => ({ slug: p.slug }));
+  return slugParams(PROJECTS.map((p) => p.slug));
 }
 
 // The slug is read inside <Suspense> so navigation into the editor stays instant.

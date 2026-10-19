@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./GuideCharacter.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { image: string; lines: string[] };
 
@@ -26,7 +27,7 @@ export function GuideCharacter({ image, lines }: Props) {
 
   return (
     <div data-component="GuideCharacter" className={styles.guide} aria-hidden>
-      <div data-motion="" className={styles.avatar} style={{ backgroundImage: `url("${image}")` }} />
+      <div data-motion="" className={styles.avatar} style={{ backgroundImage: bgImage(image) }} />
       <div className={styles.bubble}>{lines[index] ?? lines[0]}</div>
     </div>
   );

@@ -1,5 +1,6 @@
 import type { AboutContent, AboutLayout } from "@/lib/placeholder/about";
 import styles from "./AboutHero.module.css";
+import { bgImage } from "@/lib/bgImage";
 
 type Props = { layout: AboutLayout; content: AboutContent };
 
@@ -7,7 +8,7 @@ function Portrait({ c, className }: { c: AboutContent; className: string }) {
   return c.portraitVideo ? (
     <video className={className} src={c.portraitVideo} poster={c.portraitImage} autoPlay muted loop playsInline aria-hidden />
   ) : (
-    <div className={className} style={{ backgroundImage: `url("${c.portraitImage}")` }} aria-hidden />
+    <div className={className} style={{ backgroundImage: bgImage(c.portraitImage) }} aria-hidden />
   );
 }
 

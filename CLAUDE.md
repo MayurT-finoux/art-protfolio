@@ -112,7 +112,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - `npm run db:check` — test the database connection (both URLs)
 - `npm run db:generate` / `db:migrate` / `db:studio` — drizzle-kit (uses `DATABASE_URL_UNPOOLED`)
 - `npm run r2:check` — test Cloudflare R2 (upload, public read, delete)
-- `npm run db:seed` — fill empty tables with the placeholder content (**don't run on production**: the placeholder artworks were removed on purpose and it would add them back)
+- `npm run db:seed` — fill a fresh database with categories + Home text (no sample artworks)
 
 ## Environment
 
@@ -151,4 +151,5 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-11 — Gallery (DB artworks, live only), Work + project pages (placeholder `work.ts`) and About (both layouts, `ABOUT_LAYOUT` in `about.ts`) built. Gallery questions: one mobile menu (Home's) + active page in purple; live only; lightbox shrinks to fit; no lightbox URL.
 - 2026-10-11 — Yurix's change: normal system cursor; the design's custom cursor (dot + labels) is removed. `data-cursor` attributes stay in the markup but do nothing.
 - 2026-10-19 — At Yurix's request: all 16 placeholder artworks deleted from the production database (categories + Home content kept) and unused R2 files deleted (only the current hero video kept). Real artworks are added through the admin.
+- 2026-10-19 — At Yurix's request, **everything empty**: no placeholder images anywhere (`img()` in admin.ts returns "", Home stills "", stills cleared in the DB), no sample projects (`work.ts`, `admin.ts`), no sample Instagram posts. Frames show their fill color; the hero shows its dark fallback (or the uploaded video). Text copy stays. Backgrounds go through `bgImage()` (`src/lib/bgImage.ts`); empty `[slug]` lists use `slugParams()` (`src/lib/staticParams.ts`) because Next 16 needs ≥1 static param. `db:seed` now only seeds categories + Home text.
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.
