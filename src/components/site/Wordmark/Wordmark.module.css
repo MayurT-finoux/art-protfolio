@@ -1,0 +1,26 @@
+.wrap {
+  padding: 70px var(--gutter) 0;
+  overflow: hidden;
+}
+
+.text {
+  font-family: var(--font-display);
+  font-size: 254px;
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: var(--wordmark);
+  white-space: nowrap;
+  /* 3 clicks open /admin; don't select the text. */
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    padding: 30px 16px 0;
+  }
+
+  .text {
+    font-size: 120px;
+  }
+}

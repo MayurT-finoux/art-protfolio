@@ -1,0 +1,14 @@
+.home {
+  position: relative;
+}
+
+/* Content scrolls over the fixed hero (z 0–1), under the nav. */
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.spacer {
+  height: 100vh;
+  height: 100svh;
+}

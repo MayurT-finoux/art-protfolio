@@ -1,0 +1,515 @@
+@keyframes pf-boil {
+  0% { transform: scale(1.04) translate(0, 0) rotate(0); }
+  33% { transform: scale(1.045) translate(-1.5px, 1px) rotate(-0.5deg); }
+  66% { transform: scale(1.04) translate(1.5px, -1px) rotate(0.5deg); }
+  100% { transform: scale(1.045) translate(0, 0) rotate(0); }
+}
+
+@keyframes pf-blink {
+  0%,
+  100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding: 0 clamp(16px, 3.9cqw, 56px);
+  margin-bottom: clamp(28px, 3.5cqw, 52px);
+}
+
+/* Image that "boils" (line-boil jitter) on hover. */
+.jitter {
+  position: absolute;
+  inset: -8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.jitter:hover {
+  animation: pf-boil 0.33s steps(1) infinite;
+}
+
+/* ---------- Sketchbook ---------- */
+
+.sk {
+  position: relative;
+  padding: clamp(56px, 7cqw, 110px) 0;
+}
+
+.skGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 44px 32px;
+  padding: 12px 56px 0;
+}
+
+.skCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 14px 22px;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(19, 19, 22, 0.06), 0 20px 44px rgba(19, 19, 22, 0.1);
+  color: var(--ink);
+  transform: rotate(var(--rot));
+  transition: transform 280ms var(--ease-ui);
+}
+
+.skCard:hover {
+  color: var(--ink);
+  transform: rotate(0deg) translateY(-6px);
+}
+
+.skTape {
+  position: absolute;
+  z-index: 2;
+  top: -11px;
+  left: 50%;
+  width: 92px;
+  height: 24px;
+  margin-left: -46px;
+  background: rgba(90, 75, 196, 0.22);
+  transform: rotate(-3deg);
+}
+
+.skFrame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--surface-placeholder);
+}
+
+.skLoop {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.skLoopDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  animation: pf-blink 1s steps(1) infinite;
+}
+
+.skNameRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.skName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.04em;
+  text-transform: lowercase;
+}
+
+.skWhat {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.skLine {
+  margin: 0;
+  padding: 0 4px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-body-strong);
+  text-wrap: pretty;
+}
+
+.skCount {
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.skSoon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  padding: 24px;
+  border: 2px dashed rgba(90, 75, 196, 0.4);
+  border-radius: 6px;
+  transform: rotate(var(--rot));
+}
+
+.skSoonName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.04em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+}
+
+.stamp {
+  padding: 8px 14px;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  transform: rotate(-8deg);
+}
+
+.skSoonLine {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.skSwipe {
+  padding: 0 16px;
+}
+
+@media (max-width: 767px) {
+  .skGrid {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 14px 16px 26px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 16px;
+  }
+
+  .skItem {
+    flex: none;
+    width: 252px;
+    scroll-snap-align: start;
+  }
+
+  .skCard {
+    gap: 10px;
+    padding: 10px 10px 16px;
+    box-shadow: 0 2px 4px rgba(19, 19, 22, 0.06), 0 14px 30px rgba(19, 19, 22, 0.1);
+    transform: rotate(var(--rotM));
+    transition: none;
+  }
+
+  .skCard:hover {
+    transform: rotate(var(--rotM));
+  }
+
+  .skTape {
+    top: -9px;
+    width: 70px;
+    height: 20px;
+    margin-left: -35px;
+  }
+
+  .jitter:hover {
+    animation: none;
+  }
+
+  .skLoop {
+    top: 8px;
+    left: 8px;
+    padding: 3px 7px;
+    border-radius: 6px;
+  }
+
+  .skLoopDot,
+  .skWhat,
+  .skSoonLine {
+    display: none;
+  }
+
+  .skNameRow {
+    padding: 0 2px;
+  }
+
+  .skName {
+    font-size: 26px;
+  }
+
+  .skLine {
+    padding: 0 2px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .skCount {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 2px;
+  }
+
+  .skSoon {
+    gap: 12px;
+    height: 330px;
+    min-height: 0;
+    padding: 20px;
+    transform: none;
+  }
+
+  .skSoonName {
+    font-size: 26px;
+  }
+
+  .stamp {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ---------- Editorial ---------- */
+
+.ed {
+  position: relative;
+  padding: clamp(64px, 8cqw, 120px) 0;
+}
+
+.edHeader {
+  margin-bottom: clamp(28px, 4cqw, 56px);
+}
+
+.edRows {
+  display: flex;
+  flex-direction: column;
+  padding: 0 56px;
+}
+
+.edRow {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 340px 200px 150px;
+  align-items: center;
+  gap: 28px;
+  padding: 22px 16px;
+  margin: 0 -16px;
+  border-top: 1px solid var(--line-12);
+  border-radius: 18px;
+  color: var(--ink);
+  transition: background 220ms ease;
+}
+
+a.edRow:hover {
+  background: var(--surface-card);
+  color: var(--ink);
+}
+
+.edRowSoon {
+  padding: 22px 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.edNum,
+.edNumSoon {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.edNumSoon {
+  color: var(--text-disabled);
+}
+
+.edName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 76px;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  text-transform: lowercase;
+}
+
+.edNameSoon {
+  color: #d4d4da;
+}
+
+.edInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edWhat {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.edLine {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-body-strong);
+}
+
+.edLineSoon {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.edThumb {
+  position: relative;
+  height: 130px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-placeholder);
+}
+
+.edThumbSoon {
+  height: 130px;
+  border-radius: 14px;
+  border: 1.5px dashed var(--border-dashed);
+}
+
+.edCount {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.soonTag {
+  justify-self: end;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.edScroller,
+.edSwipe {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .edRows {
+    display: none;
+  }
+
+  .edScroller {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 0 16px 14px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 16px;
+  }
+
+  .edSwipe {
+    display: block;
+    padding: 4px 16px 0;
+  }
+}
+
+.edCardWrap {
+  flex: none;
+  width: 264px;
+  scroll-snap-align: start;
+}
+
+.edCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--ink);
+}
+
+.edCard:hover {
+  color: var(--ink);
+}
+
+.edCardImg {
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  background-color: var(--surface-placeholder);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.edCardRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.edCardName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
+}
+
+.edCardNameSoon {
+  color: var(--text-faint);
+}
+
+.edCardNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.edCardLine {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-body-strong);
+}
+
+.edCardCount {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.edCardSoon {
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  border: 1.5px dashed var(--border-dashed);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}

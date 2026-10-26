@@ -1,0 +1,267 @@
+.section {
+  position: relative;
+  padding: 28px var(--gutter) 96px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  color: var(--ink);
+}
+
+.follow {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-20);
+  background: var(--white);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--ink);
+}
+
+.card:hover {
+  color: var(--ink);
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-placeholder);
+}
+
+.image {
+  position: absolute;
+  inset: -6px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (hover: hover) {
+  .image:hover {
+    animation: pf-boil 0.33s steps(1) infinite;
+  }
+}
+
+.new,
+.ig {
+  position: absolute;
+  top: 10px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.new {
+  left: 10px;
+  background: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.ig {
+  right: 10px;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-skeleton);
+  animation: pf-pulse 1.4s ease-in-out infinite;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 2px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.when {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.captionSkeleton {
+  width: 60%;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--surface-skeleton);
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 24px 0 56px;
+  }
+
+  .header {
+    display: block;
+    margin-bottom: 0;
+    padding: 0 16px 16px;
+  }
+
+  .titles {
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 10.5px;
+  }
+
+  .heading {
+    font-size: 48px;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+  }
+
+  .follow {
+    display: none;
+  }
+
+  /* Horizontal scroll-snap strip of 156px cards. */
+  .grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 16px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 16px;
+    scrollbar-width: none;
+  }
+
+  .grid::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .card {
+    flex: none;
+    width: 156px;
+    scroll-snap-align: start;
+    gap: 8px;
+  }
+
+  .image {
+    inset: 0;
+  }
+
+  .new,
+  .ig {
+    top: 8px;
+    padding: 3px 7px;
+    border-radius: 6px;
+    font-size: 9px;
+  }
+
+  .new {
+    left: 8px;
+  }
+
+  .ig {
+    right: 8px;
+  }
+
+  .caption {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 0;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .when {
+    font-size: 10px;
+    white-space: normal;
+  }
+
+  .captionSkeleton {
+    width: 70%;
+    height: 14px;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: inline;
+  }
+}
+
+/* Keyframes live in this module so CSS Modules renames name and definition together. */
+@keyframes pf-boil {
+  0% { transform: scale(1.04) translate(0, 0) rotate(0); }
+  33% { transform: scale(1.045) translate(-1.5px, 1px) rotate(-0.5deg); }
+  66% { transform: scale(1.04) translate(1.5px, -1px) rotate(0.5deg); }
+  100% { transform: scale(1.045) translate(0, 0) rotate(0); }
+}
+
+@keyframes pf-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}

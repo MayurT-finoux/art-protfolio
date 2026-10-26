@@ -1,0 +1,283 @@
+/* ---------- Sketchbook ---------- */
+
+.sk {
+  position: relative;
+  padding: clamp(56px, 7cqw, 110px) clamp(16px, 3.9cqw, 56px);
+}
+
+.skHeader,
+.edHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.skHeader {
+  margin-bottom: clamp(32px, 4cqw, 60px);
+}
+
+.skTrack {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.skLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 77px;
+  border-top: 2px dashed rgba(90, 75, 196, 0.4);
+}
+
+.skItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skYear {
+  height: 56px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 56px;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+}
+
+.skDot {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 3px solid var(--accent);
+}
+
+.skNote {
+  position: relative;
+  padding: 18px 16px;
+  border-radius: 4px;
+  box-shadow: 0 10px 24px rgba(19, 19, 22, 0.07);
+  transform: rotate(-1.2deg);
+}
+
+.skItem[data-odd] .skNote {
+  transform: rotate(1.4deg);
+}
+
+.skTape {
+  position: absolute;
+  top: -8px;
+  left: 18px;
+  width: 54px;
+  height: 18px;
+  background: rgba(90, 75, 196, 0.2);
+  transform: rotate(-4deg);
+}
+
+.skTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.skDesc {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-body-strong);
+}
+
+@media (max-width: 767px) {
+  .skTrack {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    padding-left: 40px;
+  }
+
+  .skLine {
+    left: 11px;
+    right: auto;
+    top: 8px;
+    bottom: 8px;
+    border-top: 0;
+    border-left: 2px dashed rgba(90, 75, 196, 0.4);
+  }
+
+  .skItem {
+    gap: 8px;
+    transition-delay: 0ms !important;
+  }
+
+  .skDot {
+    position: absolute;
+    left: -36px;
+    top: 10px;
+  }
+
+  .skYear {
+    height: auto;
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  .skNote {
+    padding: 14px 16px;
+    box-shadow: 0 8px 18px rgba(19, 19, 22, 0.06);
+    transform: rotate(-0.8deg);
+  }
+
+  .skItem[data-odd] .skNote {
+    transform: rotate(0.8deg);
+  }
+
+  .skTape {
+    display: none;
+  }
+
+  .skTitle {
+    line-height: normal;
+  }
+
+  .skDesc {
+    margin-top: 6px;
+    font-size: 15px;
+  }
+}
+
+/* ---------- Editorial ---------- */
+
+.ed {
+  position: relative;
+  padding: clamp(64px, 8cqw, 120px) clamp(16px, 3.9cqw, 56px);
+}
+
+.edHeader {
+  margin-bottom: clamp(32px, 4.5cqw, 64px);
+}
+
+.edTrack {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.edLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 87px;
+  height: 2px;
+  background: var(--ink);
+}
+
+.edItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edYear {
+  height: 64px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 64px;
+  letter-spacing: -0.06em;
+  color: var(--ink);
+}
+
+.edDot {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 2px solid var(--ink);
+}
+
+.edItem[data-current] .edYear {
+  color: var(--accent);
+}
+
+.edItem[data-current] .edDot {
+  background: var(--accent);
+}
+
+.edText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.edTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.edDesc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-body-strong);
+}
+
+@media (max-width: 767px) {
+  .edTrack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .edLine {
+    left: 7px;
+    right: auto;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    height: auto;
+  }
+
+  .edItem {
+    position: relative;
+    gap: 6px;
+    padding: 0 0 28px 36px;
+    transition-delay: 0ms !important;
+  }
+
+  .edDot {
+    position: absolute;
+    left: 0;
+    top: 10px;
+  }
+
+  .edYear {
+    height: auto;
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .edText {
+    padding-top: 0;
+  }
+
+  .edTitle {
+    font-size: 21px;
+    line-height: normal;
+  }
+
+  .edDesc {
+    font-size: 15px;
+  }
+}

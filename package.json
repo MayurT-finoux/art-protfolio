@@ -1,0 +1,46 @@
+{
+  "name": "yurix-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:check": "node --env-file=.env.local scripts/db-check.mts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "r2:check": "node --env-file=.env.local scripts/r2-check.mts",
+    "db:seed": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/db-seed.mts",
+    "admin:create": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/admin-create.mts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1147.0",
+    "@aws-sdk/s3-request-presigner": "^3.1147.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@neondatabase/serverless": "^1.2.0",
+    "better-auth": "^1.7.11",
+    "drizzle-orm": "^0.45.3",
+    "gsap": "^3.15.0",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "resend": "^6.34.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

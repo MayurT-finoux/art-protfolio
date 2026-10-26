@@ -1,0 +1,128 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  height: var(--nav-height);
+  pointer-events: none;
+}
+
+/* Backdrop blur without a hard edge; appears at the very end of the hero. */
+.blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -48px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%);
+  opacity: clamp(0, (var(--p) - 0.85) * 8, 1);
+}
+
+.bar {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 var(--gutter);
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.item {
+  --t: clamp(0, (var(--p) - var(--start)) * 3, 1);
+  pointer-events: auto;
+  padding: 6px 2px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: var(--t);
+  transform: translateY(calc((1 - var(--t)) * var(--move) * -24px));
+}
+
+.item:hover {
+  color: var(--accent);
+}
+
+/* Current page: purple, weight 800, dot underneath (Gallery/Work/About designs). */
+.item[data-active] {
+  position: relative;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.item[data-active]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+
+.menuButton {
+  --t: clamp(0, (var(--p) - 0.5) * 3, 1);
+  display: none;
+  pointer-events: auto;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  border: 0;
+  padding: 0;
+  background: var(--ink);
+  opacity: var(--t);
+  transform: scale(calc(1 - (1 - var(--t)) * var(--move) * 0.4)) rotate(calc((1 - var(--t)) * var(--move) * -90deg));
+}
+
+.menuLineTop,
+.menuLineBottom {
+  position: absolute;
+  left: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--white);
+}
+
+.menuLineTop {
+  right: 14px;
+  top: 19px;
+}
+
+.menuLineBottom {
+  right: 19px;
+  top: 27px;
+}
+
+@media (max-width: 767px) {
+  .blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .bar {
+    padding: 0 12px 0 20px;
+  }
+
+  .items {
+    display: none;
+  }
+
+  .menuButton {
+    display: block;
+  }
+}

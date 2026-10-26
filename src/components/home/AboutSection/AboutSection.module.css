@@ -1,0 +1,207 @@
+.section {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 72px;
+  align-items: center;
+  padding: 56px var(--gutter) 110px;
+}
+
+.tilt {
+  position: relative;
+  padding: 24px 12px;
+  transform: rotate(-2deg);
+}
+
+.window {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  background: var(--surface-placeholder);
+  box-shadow: var(--shadow-window);
+  animation: pf-float 6s ease-in-out infinite;
+}
+
+.titleBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid var(--line-08);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.loop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+}
+
+.loopDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  animation: pf-blink 1s steps(1) infinite;
+}
+
+.media {
+  position: absolute;
+  inset: 30px -10px -10px;
+  width: calc(100% + 20px);
+  height: calc(100% - 20px);
+  object-fit: cover;
+  background-position: center 30%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: var(--surface-window-fallback);
+}
+
+/* Placeholder still "boils" like a hand-drawn loop until a video exists. */
+.still {
+  animation: pf-boil 0.5s steps(1) infinite;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.paragraph {
+  font-size: 18px;
+  line-height: 1.65;
+  font-weight: 400;
+  color: var(--text-body-strong);
+  text-wrap: pretty;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.primary,
+.primary:hover {
+  border: 0;
+  background: var(--ink);
+  color: var(--white);
+}
+
+.secondary {
+  border: 1px solid var(--line-20);
+  background: var(--white);
+  color: var(--ink);
+}
+
+.secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 767px) {
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
+    padding: 32px 20px 56px;
+  }
+
+  .tilt {
+    padding: 10px 6px;
+  }
+
+  .window {
+    border-radius: var(--radius-panel);
+  }
+
+  .titleBar {
+    height: 36px;
+  }
+
+  .media {
+    inset: 26px -10px -10px;
+    height: calc(100% - 16px);
+  }
+
+  .text {
+    gap: 14px;
+    max-width: none;
+  }
+
+  .label {
+    font-size: 10.5px;
+  }
+
+  .paragraph {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .primary {
+    height: 52px;
+  }
+
+  .secondary {
+    display: none;
+  }
+}
+
+/* Keyframes live in this module so CSS Modules renames name and definition together. */
+@keyframes pf-boil {
+  0% { transform: scale(1.04) translate(0, 0) rotate(0); }
+  33% { transform: scale(1.045) translate(-1.5px, 1px) rotate(-0.5deg); }
+  66% { transform: scale(1.04) translate(1.5px, -1px) rotate(0.5deg); }
+  100% { transform: scale(1.045) translate(0, 0) rotate(0); }
+}
+
+@keyframes pf-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes pf-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(1deg); }
+}

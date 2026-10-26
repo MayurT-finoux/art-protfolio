@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<script src="runner-engine.js"></script>
+<style>
+  @keyframes pf-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes pf-pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: none; opacity: 1; } }
+  @keyframes pf-fade { 0%, 82% { opacity: 1; } 100% { opacity: 0; } }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible { outline: 2px solid #5a4bc4; outline-offset: 3px; }
+</style>
+</helmet>
+<div data-component="RunnerGame" ref="{{ rootRef }}" onPointerEnter="{{ activate }}" style="position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; border-radius: 24px; overflow: hidden; background: #ffffff; box-shadow: 0 2px 6px rgba(19,19,22,0.06), 0 24px 60px rgba(19,19,22,0.16); container-type: inline-size; font-family: 'Inter', system-ui, sans-serif; color: #131316;">
+  <div data-component="GameHUD" style="flex: none; height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 6px 0 16px; background: rgba(255,255,255,0.92); border-bottom: 1px solid rgba(19,19,22,0.08); font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316;">
+    <span style="display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap;"><span style="width: 6px; height: 6px; border-radius: 999px; background: #5a4bc4; animation: pf-blink 1s steps(1) infinite;"></span><sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">page_404.dreams</sc-if><sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">404.dreams</sc-if></span>
+    <span style="flex: 1;"></span>
+    <sc-if value="{{ notStill }}" hint-placeholder-val="{{ true }}">
+      <span style="display: flex; align-items: baseline; gap: 6px; font-variant-numeric: tabular-nums;"><span style="color: #63636d;">frame</span><span style="font-size: 17px; letter-spacing: 0; font-weight: 500;">{{ scoreText }}</span></span>
+      <span style="display: flex; align-items: baseline; gap: 6px; font-variant-numeric: tabular-nums; color: #63636d;"><span>hi</span><span style="font-size: 13px; letter-spacing: 0; color: #55555d;">{{ bestText }}</span></span>
+      <div style="flex: none; display: flex; gap: 6px;">
+        <button onClick="{{ toggleSound }}" aria-label="{{ soundAria }}" data-cursor="sound" style="position: relative; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.14); background: #ffffff; padding: 0; font-size: 17px; color: #131316;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">♪<sc-if value="{{ soundOff }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; left: 10px; right: 10px; top: 21px; height: 2px; border-radius: 2px; background: currentColor; transform: rotate(-45deg);"></span></sc-if></button>
+        <button onClick="{{ pauseGame }}" disabled="{{ notPlaying }}" aria-label="Pause" data-cursor="pause" style="width: 44px; height: 44px; border-radius: 999px; border: 0; background: {{ pauseBg }}; color: #ffffff; padding: 0; font-size: 11px; letter-spacing: -1px;" style-hover="background: #5a4bc4;">❚❚</button>
+      </div>
+    </sc-if>
+  </div>
+  <div data-cursor="{{ cursorLabel }}" onPointerDown="{{ onDown }}" onPointerMove="{{ onPMove }}" onPointerUp="{{ onUp }}" onPointerCancel="{{ onUp }}" style="position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; background: #ffffff; touch-action: {{ touchAction }}; user-select: none; -webkit-user-select: none;">
+    <sc-if value="{{ notStill }}" hint-placeholder-val="{{ true }}">
+      <canvas ref="{{ canvasRef }}" aria-label="Endless runner game" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
+    </sc-if>
+    <span data-cname="" style="position: absolute; right: 12px; bottom: 10px; z-index: 2; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap; pointer-events: none;">RunnerGame</span>
+    <sc-if value="{{ showToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; top: 14px; left: 50%; z-index: 4; transform: translateX(-50%); pointer-events: none;"><span style="display: block; padding: 7px 12px; border-radius: 999px; background: #5a4bc4; color: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; animation: pf-pop 420ms cubic-bezier(.2,.8,.2,1) both;">{{ toast }}</span></div>
+    </sc-if>
+
+    <sc-if value="{{ showHint }}" hint-placeholder-val="{{ false }}">
+      <div data-component="GameControlsHint" style="position: absolute; left: 16px; bottom: 10px; z-index: 3; pointer-events: none; animation: pf-fade 3.4s ease both;">
+        <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;">
+            <span style="display: flex; align-items: center; gap: 6px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 26px; padding: 0 7px; box-sizing: border-box; border-radius: 7px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; color: #131316;">space</kbd><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 26px; padding: 0 7px; box-sizing: border-box; border-radius: 7px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; color: #131316;">↑</kbd><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">jump</span></span>
+            <span style="display: flex; align-items: center; gap: 6px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 26px; padding: 0 7px; box-sizing: border-box; border-radius: 7px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; color: #131316;">↓</kbd><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">duck</span></span>
+            <span style="display: flex; align-items: center; gap: 6px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 26px; padding: 0 7px; box-sizing: border-box; border-radius: 7px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; color: #131316;">P</kbd><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">pause</span></span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">tap = jump · swipe ↓ = duck</span>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isIdle }}" hint-placeholder-val="{{ true }}">
+      <div data-component="GameControlsHint" style="position: absolute; inset: 0 0 18% 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 0 20px; text-align: center; pointer-events: none;">
+        <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(28px, 2.6cqw, 38px); line-height: 1; letter-spacing: -0.04em;">press <span style="color: #5a4bc4;">space</span> to play</span>
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px 22px;">
+            <span style="display: flex; align-items: center; gap: 7px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 30px; padding: 0 9px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">space</kbd><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 30px; padding: 0 9px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">↑</kbd><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">jump</span></span>
+            <span style="display: flex; align-items: center; gap: 7px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 30px; padding: 0 9px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">↓</kbd><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">duck</span></span>
+            <span style="display: flex; align-items: center; gap: 7px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 30px; padding: 0 9px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">P</kbd><kbd style="display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 30px; padding: 0 9px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">esc</kbd><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">pause</span></span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; line-height: 1; letter-spacing: -0.04em;"><span style="color: #5a4bc4;">tap</span> to play</span>
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px 18px;">
+            <span style="display: flex; align-items: center; gap: 7px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; height: 30px; padding: 0 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">tap</kbd><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">jump</span></span>
+            <span style="display: flex; align-items: center; gap: 7px;"><kbd style="display: inline-flex; align-items: center; justify-content: center; height: 30px; padding: 0 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid rgba(19,19,22,0.2); border-bottom-width: 2px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 12px; color: #131316;">swipe ↓</kbd><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #55555d;">duck</span></span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasBest }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #63636d;">your best · {{ bestText }}</span>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPaused }}" hint-placeholder-val="{{ false }}">
+      <div data-component="GamePauseOverlay" style="position: absolute; inset: 0; z-index: 6; overflow-y: auto; display: grid; place-items: center; padding: 16px; box-sizing: border-box; background: rgba(255,255,255,0.62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);">
+        <div role="dialog" aria-label="Game paused" style="width: min(100%, 380px); box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #ffffff; border: 1px solid rgba(19,19,22,0.08); box-shadow: 0 2px 6px rgba(19,19,22,0.06), 0 24px 60px rgba(19,19,22,0.16);">
+          <span style="display: flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #443a97;"><span style="width: 7px; height: 7px; border-radius: 999px; background: #5a4bc4; animation: pf-blink 1s steps(1) infinite;"></span><sc-if value="{{ autoPaused }}" hint-placeholder-val="{{ false }}">paused · you looked away</sc-if><sc-if value="{{ manualPaused }}" hint-placeholder-val="{{ true }}">paused</sc-if></span>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; line-height: 0.95; letter-spacing: -0.045em;">take a breather.</h2>
+          <span style="font-family: 'DM Mono', monospace; font-size: 13px; color: #55555d;">score {{ scoreText }} · best {{ bestText }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px;">
+            <button onClick="{{ resumeGame }}" data-cursor="resume" style="min-height: 52px; border: 0; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;" style-hover="background: #5a4bc4;">resume</button>
+            <a href="HomePage.dc.html" data-cursor="home" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); color: #131316; font-size: 15px; font-weight: 600;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">back to home</a>
+          </div>
+          <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">P or esc to resume</span></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isOver }}" hint-placeholder-val="{{ false }}">
+      <div data-component="GameOverScreen" style="position: absolute; inset: 0; z-index: 6; display: flex; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 16px; box-sizing: border-box; background: rgba(255,255,255,0.28);">
+        <div role="dialog" aria-label="Game over" style="width: min(100%, 420px); box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px 28px 24px; border-radius: 24px; background: #ffffff; border: 1px solid rgba(19,19,22,0.08); box-shadow: 0 2px 6px rgba(19,19,22,0.06), 0 24px 60px rgba(19,19,22,0.16); ">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #63636d;">game over</span>
+            <sc-if value="{{ newBest }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 999px; background: #5a4bc4; color: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; animation: pf-pop 600ms cubic-bezier(.2,.8,.2,1) 200ms both;">★ new high score!</span></sc-if>
+          </div>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(30px, 3cqw, 40px); line-height: 0.95; letter-spacing: -0.045em; text-wrap: balance;">{{ hitLine }}</h2>
+          <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; padding: 14px 0; border-top: 1px solid rgba(19,19,22,0.1); border-bottom: 1px solid rgba(19,19,22,0.1); font-family: 'DM Mono', monospace; font-variant-numeric: tabular-nums;">
+            <span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #63636d;">score</span><span style="font-size: 30px; font-weight: 500; color: #131316;">{{ scoreText }}</span></span>
+            <span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #63636d;">best</span><span style="font-size: 30px; font-weight: 500; color: {{ bestColor }};">{{ bestText }}</span></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button onClick="{{ playAgain }}" data-cursor="again" style="flex: 1 1 150px; min-height: 52px; border: 0; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;" style-hover="background: #5a4bc4;">play again</button>
+            <a href="HomePage.dc.html" data-cursor="home" style="flex: 1 1 150px; display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); color: #131316; font-size: 15px; font-weight: 600;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">back to home</a>
+          </div>
+          <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">space to play again</span></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isStill }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; inset: 12px; z-index: 3; display: flex; flex-direction: column; gap: 14px;">
+        <div style="position: relative; flex: 1 1 auto; min-height: 150px; border-radius: 24px; overflow: hidden; background: #efeef6; color: #63636d; ">
+          <image-slot id="nf-b-still-{{ sfx }}" shape="rect" placeholder="Drop a still: you, waving, in the finished painted world" style="position: absolute; inset: 0; width: 100%; height: 100%;"></image-slot>
+          <span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 8px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #131316; pointer-events: none;">still · motion is off</span>
+        </div>
+        <sc-if value="{{ canPlayAnyway }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;">
+            <button onClick="{{ playAnyway }}" data-cursor="play" style="flex: none; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); background: #ffffff; color: #131316; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">▶ play anyway</button>
+            <span style="flex: 1 1 220px; font-size: 13px; line-height: 1.5; color: #55555d;">Your device asks for less motion, so the game never starts by itself.</span>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ showLayers }}" hint-placeholder-val="{{ true }}">
+    <div aria-label="Drawing stage" style="flex: none; display: flex; flex-direction: column; gap: 8px; padding: 10px 16px 14px; border-top: 1px solid rgba(19,19,22,0.08);">
+      <div style="display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868f;"><span>layers</span><span style="color: #443a97;">{{ stageLabel }}</span></div>
+      <div style="position: relative; display: flex; gap: 3px; height: 30px;">
+        <sc-for list="{{ layers }}" as="l" hint-placeholder-count="3">
+          <div style="flex: {{ l.grow }} 1 0; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 10px; box-sizing: border-box; border-radius: 8px; background: {{ l.bg }}; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: {{ l.fg }}; white-space: nowrap; overflow: hidden;"><span style="flex: none; width: 7px; height: 7px; border-radius: 999px; background: {{ l.dot }};"></span>{{ l.k }}</div>
+        </sc-for>
+        <span style="position: absolute; top: -4px; bottom: -4px; left: {{ playhead }}; width: 2px; margin-left: -1px; border-radius: 2px; background: #5a4bc4; pointer-events: none;"><span style="position: absolute; top: -5px; left: -4px; width: 10px; height: 10px; border-radius: 999px; background: #5a4bc4;"></span></span>
+      </div>
+    </div>
+  </sc-if>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 600}, &quot;mobile&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;landscape&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;compact&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;state&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;&quot;, &quot;idle&quot;, &quot;playing&quot;, &quot;paused&quot;, &quot;over&quot;, &quot;reduced&quot;], &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;atScore&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 0, &quot;tsType&quot;: &quot;number&quot;}, &quot;newBest&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;best&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: null, &quot;tsType&quot;: &quot;number&quot;}, &quot;hit&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;jar&quot;, &quot;pencil&quot;, &quot;eraser&quot;, &quot;clay&quot;, &quot;can&quot;, &quot;plane&quot;, &quot;brush&quot;, &quot;moth&quot;], &quot;default&quot;: &quot;eraser&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;autoPaused&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;difficulty&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;easy&quot;, &quot;normal&quot;, &quot;hard&quot;], &quot;default&quot;: &quot;normal&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;gameOn&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;assetLabels&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;reduced&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+const THEME = "frame";
+const KEY = "yurix-404-best";
+const LINES = { jar: "painted into a corner.", pencil: "pencil-tackled.", eraser: "you got erased.", clay: "stuck in the clay.", can: "tagged out.", plane: "paper-planed.", brush: "brushed off.", moth: "moth'd." };
+const TOAST = { ink: "now inking…", paint: "now painting…" };
+const STAGE_KEYS = ["sketch", "ink", "paint"];
+const pad = (n) => String(Math.floor(n || 0)).padStart(5, "0");
+
+class Component extends DCLogic {
+  state = { mode: "idle", score: 0, best: this.props.best != null ? this.props.best : 0, sound: true, stage: "sketch", auto: false, newBest: false, hit: "eraser", anyway: false, toast: "", hint: false, osReduced: false };
+  demo = this.props.state != null && this.props.state !== "";
+  canvasRef = (n) => { if (n) { this.cv = n; this.boot(); } else if (this.g) { this.g.destroy(); this.g = null; this.cv = null; } };
+  rootRef = (n) => { this.root = n; this.observe(n); };
+  componentDidMount() {
+    const p = this.props;
+    this.demo = p.state != null && p.state !== "";
+    let best = this.state.best;
+    if (p.best == null) { try { best = +localStorage.getItem(KEY) || 0; } catch (e) {} }
+    this.mq = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    this.setState({ best, osReduced: !this.demo && !!(this.mq && this.mq.matches) });
+    if (!window.__yrxActive) window.__yrxActive = this;
+    this.kd = (e) => this.key(e, true); this.ku = (e) => this.key(e, false);
+    window.addEventListener("keydown", this.kd); window.addEventListener("keyup", this.ku);
+    this.vis = () => { if (document.hidden && !this.demo) this.pause(true); this.sync(); };
+    document.addEventListener("visibilitychange", this.vis);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.kd); window.removeEventListener("keyup", this.ku);
+    document.removeEventListener("visibilitychange", this.vis);
+    if (this.io) this.io.disconnect();
+    if (this.g) this.g.destroy();
+    if (window.__yrxActive === this) window.__yrxActive = null;
+    clearTimeout(this.bt); clearTimeout(this.tt); clearTimeout(this.ht);
+    this.duck(false);
+  }
+  componentDidUpdate(pp) {
+    const p = this.props;
+    if (!this.g) return;
+    if (pp.assetLabels !== p.assetLabels) this.g.setLabels(!!p.assetLabels);
+    if (pp.difficulty !== p.difficulty) this.g.setDifficulty(p.difficulty || "normal");
+    if (pp.state !== p.state || pp.atScore !== p.atScore || pp.newBest !== p.newBest || pp.hit !== p.hit) { this.demo = p.state != null && p.state !== ""; this.applyState(); }
+  }
+  observe(n) {
+    if (this.io) { this.io.disconnect(); this.io = null; }
+    if (!n || typeof IntersectionObserver === "undefined") return;
+    this.io = new IntersectionObserver((es) => {
+      this.inView = es[es.length - 1].isIntersecting;
+      if (!this.inView && !this.demo) this.pause(true);
+      this.sync();
+    }, { threshold: 0.2 });
+    this.io.observe(n);
+  }
+  sync() { if (this.g) this.g.setRunning(this.inView !== false && !document.hidden); }
+  boot() {
+    clearTimeout(this.bt);
+    if (!window.YurixRunner) { this.bt = setTimeout(() => this.boot(), 60); return; }
+    if (this.g || !this.cv) return;
+    const p = this.props;
+    this.g = window.YurixRunner.create(this.cv, {
+      theme: THEME, difficulty: p.difficulty || "normal", labels: !!p.assetLabels, seed: p.seed || 7,
+      onScore: (s) => this.tick(s), onHit: (k, s) => this.over(k, s), onStage: (st) => this.stageUp(st), onSound: (n) => this.snd(n)
+    });
+    this.applyState();
+    this.sync();
+  }
+  applyState() {
+    const g = this.g, p = this.props;
+    if (!g) return;
+    this.demo = p.state != null && p.state !== "";
+    const st = this.demo ? p.state : "idle";
+    if (st === "playing") { g.prime(p.atScore || 0); g.setAutopilot(true); g.resume(); this.setState({ mode: "playing", score: g.score, stage: g.stage, newBest: false }); }
+    else if (st === "paused") { g.prime(p.atScore || 0); this.setState({ mode: "paused", score: g.score, stage: g.stage, auto: !!p.autoPaused }); }
+    else if (st === "over") {
+      g.prime(p.atScore || 0); const k = p.hit || "eraser"; g.forceHit(k);
+      const nb = !!p.newBest; if (nb) g.celebrate();
+      this.setState({ mode: "over", score: g.score, stage: g.stage, hit: k, newBest: nb, best: nb ? Math.floor(g.score) : this.state.best });
+    } else { g.reset(); this.setState({ mode: "idle", score: 0, stage: "sketch" }); }
+  }
+  tick(s) {
+    const now = performance.now();
+    if (now - (this.lt || 0) < 90) return;
+    this.lt = now; this.setState({ score: s });
+  }
+  stageUp(st) {
+    clearTimeout(this.tt);
+    this.setState({ stage: st, toast: TOAST[st] || "" });
+    this.tt = setTimeout(() => this.setState({ toast: "" }), 1800);
+  }
+  snd(n) { if (this.state.sound && this.userPlayed && window.YurixRunner) window.YurixRunner.sfx(n); }
+  duck(on) {
+    if (this.demo && !this.userPlayed) return;
+    try { window.dispatchEvent(new CustomEvent("yurix:music-duck", { detail: { duck: !!on && this.state.sound } })); } catch (e) {}
+  }
+  over(k, s) {
+    const nb = s > this.state.best && s >= 1;
+    const best = Math.max(this.state.best, Math.floor(s));
+    if (nb && !this.demo) { try { localStorage.setItem(KEY, String(best)); } catch (e) {} }
+    if (nb && this.g) this.g.celebrate();
+    this.overAt = performance.now();
+    this.setState({ mode: "over", score: s, best, newBest: nb, hit: k, hint: false, toast: "" });
+    this.duck(false);
+  }
+  start() {
+    if (!this.g) return;
+    this.userPlayed = true; this.g.setAutopilot(false); this.g.start();
+    clearTimeout(this.ht); this.ht = setTimeout(() => this.setState({ hint: false }), 3400);
+    this.setState({ mode: "playing", score: 0, stage: "sketch", newBest: false, hint: true, auto: false, toast: "" });
+    this.duck(true);
+  }
+  pause(auto) {
+    if (this.state.mode !== "playing" || !this.g) return;
+    this.g.pause(); this.setState({ mode: "paused", auto: !!auto, hint: false }); this.duck(false);
+  }
+  resume() {
+    if (this.state.mode !== "paused" || !this.g) return;
+    this.g.resume(); this.setState({ mode: "playing" }); this.duck(true);
+  }
+  takeOver() { if (this.g) { this.g.setAutopilot(false); this.userPlayed = true; } }
+  isStill() {
+    const p = this.props;
+    if (p.gameOn === false) return true;
+    const red = (this.demo ? p.state === "reduced" : (p.reduced || this.state.osReduced));
+    return red && !this.state.anyway;
+  }
+  key(e, down) {
+    if (window.__yrxActive !== this || !this.g || this.isStill()) return;
+    const tg = e.target;
+    if (tg && /^(INPUT|TEXTAREA|SELECT|BUTTON|A)$/.test(tg.tagName || "")) return;
+    const m = this.state.mode, k = e.key;
+    if (k === " " || k === "ArrowUp") {
+      e.preventDefault(); if (!down) return;
+      if (m === "idle") this.start();
+      else if (m === "over") { if (!e.repeat && performance.now() - (this.overAt || 0) > 500) this.start(); }
+      else if (m === "paused") { if (!e.repeat) this.resume(); }
+      else { this.takeOver(); this.g.jump(); }
+    } else if (k === "ArrowDown") {
+      if (m === "playing") { e.preventDefault(); this.takeOver(); this.g.duck(down); }
+    } else if ((k === "p" || k === "P" || k === "Escape") && down) {
+      if (m === "playing") this.pause(false); else if (m === "paused") this.resume();
+    }
+  }
+  onDown(e) {
+    window.__yrxActive = this;
+    if (e.target && e.target.closest && e.target.closest("button,a,image-slot")) return;
+    if (this.isStill() || !this.g) return;
+    const m = this.state.mode;
+    if (m === "idle") { this.start(); return; }
+    if (m !== "playing") return;
+    this.ptr = { y: e.clientY, duck: false };
+  }
+  onPMove(e) {
+    if (this.ptr && !this.ptr.duck && e.clientY - this.ptr.y > 18) { this.ptr.duck = true; this.takeOver(); this.g.duck(true); }
+  }
+  onUp() {
+    if (!this.ptr || !this.g) return;
+    if (this.ptr.duck) this.g.duck(false); else { this.takeOver(); this.g.jump(); }
+    this.ptr = null;
+  }
+  renderVals() {
+    const p = this.props, s = this.state, m = !!p.mobile;
+    const still = this.isStill(), mode = s.mode;
+    const si = STAGE_KEYS.indexOf(s.stage);
+    const play = !still && mode === "playing";
+    const pr = Math.min(100, (s.score / 740) * 100);
+    return {
+      rootRef: this.rootRef, canvasRef: this.canvasRef,
+      activate: () => { window.__yrxActive = this; },
+      onDown: (e) => this.onDown(e), onPMove: (e) => this.onPMove(e), onUp: (e) => this.onUp(e),
+      isD: !m, isM: m, sfx: m ? (p.landscape ? "l" : "m") : "d",
+      compact: !!p.compact, notCompact: !p.compact,
+      isStill: still, notStill: !still, canPlayAnyway: still && p.gameOn !== false,
+      playAnyway: () => this.setState({ anyway: true }, () => { this.userPlayed = true; }),
+      isIdle: !still && mode === "idle", isPlaying: play, isPaused: !still && mode === "paused", isOver: !still && mode === "over",
+      showHud: !still && mode !== "idle",
+      cursorLabel: still ? "" : mode === "idle" ? "play" : mode === "playing" ? "jump" : "",
+      touchAction: play ? "none" : "pan-y",
+      scoreText: pad(s.score), bestText: pad(Math.max(s.best, mode === "over" ? s.score : 0)), hasBest: s.best > 0,
+      bestColor: s.newBest ? "#5a4bc4" : "#131316",
+      stages: STAGE_KEYS.map((k, i) => ({ k, sep: i > 0, bg: si >= i ? "#5a4bc4" : "rgba(19,19,22,0.16)", line: si >= i ? "#5a4bc4" : "rgba(19,19,22,0.16)", fg: i === si ? "#131316" : "#86868f" })),
+      stageLabel: s.stage === "paint" ? "colour" : s.stage === "sketch" ? "rough" : "ink",
+      showLayers: !p.compact && !still && !(m && mode === "over"), notPlaying: !play, pauseBg: play ? "#131316" : "rgba(19,19,22,0.2)",
+      layers: [["rough", 30, 0], ["ink", 51, 1], ["colour", 19, 2]].map(([k, grow, i]) => ({ k, grow, bg: si >= i ? "#efedfb" : "#f5f5f7", fg: si >= i ? "#443a97" : "#86868f", dot: si >= i ? "#5a4bc4" : "rgba(19,19,22,0.18)" })),
+      playhead: pr + "%",
+      soundOff: !s.sound, soundAria: s.sound ? "Turn sound off" : "Turn sound on",
+      toggleSound: (e) => (e && e.currentTarget && e.detail > 0 && e.currentTarget.blur(), this.setState({ sound: !s.sound }, () => { if (this.state.mode === "playing") this.duck(true); })),
+      pauseGame: () => this.pause(false), resumeGame: () => this.resume(), playAgain: () => this.start(),
+      autoPaused: s.auto, manualPaused: !s.auto,
+      hitLine: LINES[s.hit] || "splat.", newBest: s.newBest,
+      showToast: play && !!s.toast, toast: s.toast,
+      showHint: play && s.hint
+    };
+  }
+}
+</script>
+</body>
+</html>

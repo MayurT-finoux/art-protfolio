@@ -1,0 +1,98 @@
+@import "../styles/tokens.css";
+
+/*
+ * Hero scroll variables (set by HeroScroll on <html>):
+ *   --p     hero transition progress 0→1
+ *   --w     wash-to-white progress below the hero 0→1
+ *   --hide  MusicPlayer hidden 0/1
+ *   --blur / --move / --wash  motion settings (reduced motion: 0px / 0 / 0.84)
+ * Pages without the hero show the finished state: nav in, player hidden.
+ */
+:root {
+  --p: 1;
+  --w: 1;
+  --hide: 1;
+  --blur: 20px;
+  --move: 1;
+  --wash: 0.72;
+}
+
+:root:has([data-home]) {
+  --p: 0;
+  --w: 0;
+  --hide: 0;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --blur: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --blur: 0px;
+    --move: 0;
+    --wash: 0.84;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@keyframes mp-eq {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}

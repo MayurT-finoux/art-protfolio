@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  @keyframes pf-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes pf-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pf-stamp { 0% { opacity: 0; transform: scale(1.6) rotate(-24deg); } 60% { opacity: 1; transform: scale(0.94) rotate(-12deg); } 100% { opacity: 1; transform: scale(1) rotate(-12deg); } }
+  body { margin: 0; }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, label:focus-within { outline: 2px solid #5a4bc4; outline-offset: 2px; }
+  [data-artboard="d"], [data-artboard="d"] * { cursor: none !important; }
+  [data-annot="off"] [data-cname], [data-annot="off"] [data-admin] { display: none !important; }
+  [data-scroller] { scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { width: 0; height: 0; }
+  textarea::placeholder, input::placeholder { color: #9d9da5; }
+  @media (prefers-reduced-motion: reduce) { [data-motion] { animation: none !important; transition: none !important; } }
+</style>
+</helmet>
+<div data-artboard="{{ boardMode }}" ref="{{ rootRef }}" data-annot="{{ annot }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="position: relative; width: 100%; height: {{ rootH }}; overflow: hidden; background: #ffffff; font-family: 'Inter', system-ui, sans-serif; color: #131316; font-weight: 300; container-type: inline-size;">
+  <div data-scroller="" ref="{{ scrollRef }}" style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;">
+    <div data-component="ContactPage" data-screen-label="Contact">
+
+      <section data-component="ContactIntro" style="position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 40px; padding: clamp(96px, 9cqi, 130px) clamp(16px, 3.9cqi, 56px) 0;">
+        <span data-cname="" style="position: absolute; top: clamp(70px, 6.5cqi, 96px); left: clamp(16px, 3.9cqi, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ContactIntro</span>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: clamp(10.5px, 0.85cqi, 12px); letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">contact · mumbai, IN</span>
+          <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(96px, 13.9cqi, 200px); line-height: 0.8; letter-spacing: -0.065em;">say hi</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; max-width: 440px;">
+          <span data-component="AvailabilityBadge" style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 10px; border-radius: 999px; background: {{ av.bg }}; border: {{ av.bd }}; color: {{ av.fg }}; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;"><span style="width: 7px; height: 7px; border-radius: 999px; background: {{ av.dot }};"></span>{{ av.label }}</span>
+          <p style="margin: 0; font-size: clamp(16px, 1.25cqi, 18px); line-height: 1.6; color: #4b4b54; text-wrap: pretty;">Commissions, music videos, a thing you want painted, or just a hello. Tell me what it's about and I'll know where to start.</p>
+        </div>
+      </section>
+
+      <section style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: clamp(28px, 4cqi, 56px); padding: clamp(36px, 3.4cqi, 50px) clamp(16px, 3.9cqi, 56px) 0;">
+        <div style="position: relative; flex: 999 1 620px; min-width: 0; border-radius: clamp(18px, 1.7cqi, 24px); background-color: #f5f5f7; background-image: linear-gradient(rgba(90,75,196,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(90,75,196,0.07) 1px, transparent 1px); background-size: 32px 32px; background-position: -1px -1px; padding: clamp(30px, 3.4cqi, 50px) clamp(10px, 3cqi, 44px) clamp(24px, 3cqi, 44px);">
+          <span data-cname="" style="position: absolute; top: 10px; left: 12px; z-index: 3; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ContactForm · postcard</span>
+          <span data-admin="" style="position: absolute; top: 10px; right: 12px; z-index: 3; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">→ admin › inbox</span>
+
+          <div style="position: relative; border-radius: 6px; background: #ffffff; box-shadow: 0 1px 2px rgba(19,19,22,0.06), 0 18px 40px rgba(19,19,22,0.1); transform: rotate(-0.5deg);">
+            <span style="position: absolute; top: -10px; left: 8%; z-index: 2; width: 84px; height: 22px; background: rgba(90,75,196,0.2); transform: rotate(-4deg);"></span>
+            <span style="position: absolute; top: -10px; right: 8%; z-index: 2; width: 84px; height: 22px; background: rgba(90,75,196,0.2); transform: rotate(3deg);"></span>
+
+            <sc-if value="{{ editing }}" hint-placeholder-val="{{ true }}">
+              <form onSubmit="{{ submit }}" noValidate="{{ true }}" style="display: flex; flex-wrap: wrap; margin: 0;">
+                <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding: clamp(22px, 2.6cqi, 36px);">
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">what's it about?</span>
+                    <div role="radiogroup" aria-label="Topic" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                      <sc-for list="{{ topics }}" as="t" hint-placeholder-count="6">
+                        <button type="button" role="radio" onClick="{{ t.pick }}" aria-checked="{{ t.pressed }}" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid {{ t.bd }}; background: {{ t.bg }}; color: {{ t.fg }}; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px;" style-hover="border-color: #5a4bc4;">{{ t.label }}</button>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ fh.topic }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.topic }}</span></sc-if>
+                  </div>
+                  <label style="display: flex; flex-direction: column; gap: 6px;">
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">your message</span>
+                    <textarea value="{{ f.message }}" onChange="{{ on.message }}" rows="6" placeholder="{{ msgHint }}" style="min-height: 192px; padding: 0 2px; border: 0; border-bottom: 1px solid {{ fb.message }}; border-radius: 0; background: repeating-linear-gradient(180deg, transparent 0 31px, rgba(90,75,196,0.16) 31px 32px); font: 400 16px/32px 'Inter', sans-serif; color: #131316; resize: vertical; box-sizing: border-box;"></textarea>
+                    <sc-if value="{{ fh.message }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.message }}</span></sc-if>
+                  </label>
+                </div>
+
+                <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+                  <div style="flex: none; width: 0; margin: 30px 0; border-left: 1.5px dashed #d6d5d0;"></div>
+                </sc-if>
+                <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex: 1 1 100%; height: 0; margin: 0 22px; border-top: 1.5px dashed #d6d5d0;"></div>
+                </sc-if>
+
+                <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding: clamp(22px, 2.6cqi, 36px);">
+                  <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+                    <span aria-hidden="true" style="display: grid; place-items: center; width: 88px; height: 88px; border-radius: 999px; border: 1.5px solid rgba(90,75,196,0.5); color: #5a4bc4; transform: rotate(-12deg); text-align: center; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.5;"><span>mumbai<br>{{ postDate }}</span></span>
+                    <span aria-hidden="true" style="flex: none; display: flex; flex-direction: column; gap: 4px; padding: 5px 5px 4px; background: #ffffff; box-shadow: 0 0 0 1px rgba(19,19,22,0.12), 0 4px 10px rgba(19,19,22,0.08); transform: rotate(3deg);">
+                      <span style="display: block; width: 62px; height: 72px; background: url({{ stampImg }}) center / cover no-repeat #efeef6;"></span>
+                      <span style="font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 0.06em; color: #63636d; text-align: right;">₹5 · yurix</span>
+                    </span>
+                  </div>
+                  <label style="display: flex; flex-direction: column; gap: 4px;">
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">from</span>
+                    <input value="{{ f.name }}" onChange="{{ on.name }}" autocomplete="name" placeholder="your name" style="min-height: 44px; padding: 0 2px; border: 0; border-bottom: 1px solid {{ fb.name }}; border-radius: 0; background: transparent; font: 400 16px 'Inter', sans-serif; color: #131316;">
+                    <sc-if value="{{ fh.name }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.name }}</span></sc-if>
+                  </label>
+                  <label style="display: flex; flex-direction: column; gap: 4px;">
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">reply to</span>
+                    <input type="email" value="{{ f.email }}" onChange="{{ on.email }}" autocomplete="email" placeholder="you@email.com" style="min-height: 44px; padding: 0 2px; border: 0; border-bottom: 1px solid {{ fb.email }}; border-radius: 0; background: transparent; font: 400 16px 'Inter', sans-serif; color: #131316;">
+                    <sc-if value="{{ fh.email }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #c0392b;">{{ fe.email }}</span></sc-if>
+                  </label>
+
+                  <sc-if value="{{ showBudget }}" hint-placeholder-val="{{ false }}">
+                    <div data-motion="" style="display: flex; flex-direction: column; gap: 18px; animation: pf-fade 220ms ease both;">
+                      <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">budget</span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                          <sc-for list="{{ budgetChips }}" as="c" hint-placeholder-count="5">
+                            <button type="button" onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="min-height: 40px; padding: 0 13px; border-radius: 999px; border: 1px solid {{ c.bd }}; background: {{ c.bg }}; color: {{ c.fg }}; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 13.5px;" style-hover="border-color: #5a4bc4;">{{ c.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">when do you need it?</span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                          <sc-for list="{{ whenChips }}" as="c" hint-placeholder-count="3">
+                            <button type="button" onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="min-height: 40px; padding: 0 13px; border-radius: 999px; border: 1px solid {{ c.bd }}; background: {{ c.bg }}; color: {{ c.fg }}; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 13.5px;" style-hover="border-color: #5a4bc4;">{{ c.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ showOrder }}" hint-placeholder-val="{{ false }}">
+                    <label data-motion="" style="display: flex; flex-direction: column; gap: 4px; animation: pf-fade 220ms ease both;">
+                      <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">order number · optional</span>
+                      <input value="{{ f.order }}" onChange="{{ on.order }}" placeholder="from your confirmation email" style="min-height: 44px; padding: 0 2px; border: 0; border-bottom: 1px solid rgba(19,19,22,0.18); border-radius: 0; background: transparent; font: 400 16px 'DM Mono', monospace; color: #131316;">
+                      <span style="font-size: 13px; line-height: 1.5; color: #86868f;">Shipping and returns are in the shop's <a href="#">small print</a>.</span>
+                    </label>
+                  </sc-if>
+
+                  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; padding-top: 4px;">
+                    <sc-if value="{{ failed }}" hint-placeholder-val="{{ false }}">
+                      <div role="alert" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #fbeeec; color: #8f2a20; font-size: 13.5px; line-height: 1.5;"><span style="flex: none; width: 20px; height: 20px; border-radius: 999px; background: #c0392b; color: #fff; display: grid; place-items: center; font-family: 'DM Mono', monospace; font-size: 11px;">!</span><span>A couple of things to fix above, then it's ready to go.</span></div>
+                    </sc-if>
+                    <button type="submit" data-cursor="send" style="height: 54px; border: 0; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; opacity: {{ sendOpacity }};" style-hover="background: #5a4bc4;">{{ submitLabel }}</button>
+                    <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.02em; color: #86868f; text-align: center;">goes straight to my inbox · reply within a day</span>
+                  </div>
+                </div>
+              </form>
+            </sc-if>
+
+            <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-wrap: wrap;">
+                <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: clamp(26px, 3cqi, 44px) clamp(22px, 2.6cqi, 36px);">
+                  <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef7f1; color: #2f8a57; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;"><span style="width: 6px; height: 6px; border-radius: 999px; background: #2f8a57;"></span>sent</span>
+                  <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 4cqi, 58px); line-height: 0.92; letter-spacing: -0.05em; text-wrap: balance;">postcard's in the mail, {{ nameOr }}.</h2>
+                  <p style="margin: 0; max-width: 460px; font-size: 16px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">I'll write back to {{ emailOr }} within a day. If it's a commission, I'll come back with questions, a rough timeline and a quote.</p>
+                  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 4px;">
+                    <button onClick="{{ again }}" style="height: 52px; padding: 0 24px; border-radius: 999px; border: 0; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;" style-hover="background: #5a4bc4;">write another</button>
+                    <a href="#" data-cursor="open" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">meanwhile, the gallery →</a>
+                  </div>
+                </div>
+                <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+                  <div style="flex: none; width: 0; margin: 30px 0; border-left: 1.5px dashed #d6d5d0;"></div>
+                </sc-if>
+                <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex: 1 1 100%; height: 0; margin: 0 22px; border-top: 1.5px dashed #d6d5d0;"></div>
+                </sc-if>
+                <div style="position: relative; flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: clamp(26px, 3cqi, 44px) clamp(22px, 2.6cqi, 36px);">
+                  <span data-motion="" aria-hidden="true" style="position: absolute; top: 18px; right: 22px; display: grid; place-items: center; width: 104px; height: 104px; border-radius: 999px; border: 3px solid #5a4bc4; color: #5a4bc4; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.03em; opacity: 0.85; animation: pf-stamp 520ms cubic-bezier(.2,.8,.2,1) 120ms both;">sent!</span>
+                  <dl style="display: flex; flex-direction: column; margin: 110px 0 0;">
+                    <sc-for list="{{ summary }}" as="sm" hint-placeholder-count="3">
+                      <div style="display: grid; grid-template-columns: 96px minmax(0,1fr); gap: 12px; padding: 11px 0; border-top: 1px solid rgba(19,19,22,0.08);"><dt style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f; padding-top: 2px;">{{ sm.k }}</dt><dd style="margin: 0; font-size: 15px; line-height: 1.45; overflow-wrap: anywhere;">{{ sm.v }}</dd></div>
+                    </sc-for>
+                  </dl>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+
+        <aside data-component="DirectLines" style="position: relative; flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding-top: clamp(4px, 1cqi, 14px);">
+          <span data-cname="" style="position: absolute; top: -22px; left: 0; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">DirectLines</span>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(34px, 3.3cqi, 48px); line-height: 0.9; letter-spacing: -0.05em;">or skip the form</h2>
+          <div style="display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 76px; padding: 10px 0; border-top: 1px solid rgba(19,19,22,0.1);">
+              <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0;"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">email</span><a href="mailto:hey@aditi.art" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(19px, 1.5cqi, 22px); letter-spacing: -0.02em; color: #131316;" style-hover="color: #5a4bc4;">hey@aditi.art</a></span>
+              <button onClick="{{ copyEmail }}" data-cursor="copy" style="flex: none; height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.16); background: #ffffff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #131316;" style-hover="border-color: #5a4bc4; color: #5a4bc4;">{{ copyLabel }}</button>
+            </div>
+            <a href="#" data-cursor="dm" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 76px; padding: 10px 0; border-top: 1px solid rgba(19,19,22,0.1); color: #131316;" style-hover="color: #5a4bc4;">
+              <span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">instagram · DMs open, a bit slower</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(19px, 1.5cqi, 22px); letter-spacing: -0.02em;">@yurix.draws</span></span>
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 999px; background: #f5f5f7; display: grid; place-items: center; font-size: 16px;">↗</span>
+            </a>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 76px; padding: 10px 0; border-top: 1px solid rgba(19,19,22,0.1); border-bottom: 1px solid rgba(19,19,22,0.1);">
+              <span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">studio · mumbai, IN</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(19px, 1.5cqi, 22px); letter-spacing: -0.02em;">it's {{ clock }} here</span></span>
+              <span style="flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; background: {{ awake.bg }}; color: {{ awake.fg }}; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.04em;"><span style="width: 6px; height: 6px; border-radius: 999px; background: {{ awake.dot }};"></span>{{ awake.label }}</span>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #55555d; text-wrap: pretty;">I reply to everything, Monday to Saturday. Agencies and studios: a brief or a deck helps a lot.</p>
+        </aside>
+      </section>
+
+      <section data-component="GoodToKnow" style="position: relative; padding: clamp(64px, 7.6cqi, 110px) clamp(16px, 3.9cqi, 56px) clamp(40px, 5cqi, 72px);">
+        <span data-cname="" style="position: absolute; top: clamp(40px, 5.5cqi, 82px); left: clamp(16px, 3.9cqi, 56px); padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">GoodToKnow</span>
+        <h2 style="margin: 0 0 clamp(22px, 2.6cqi, 36px); font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(40px, 4.4cqi, 64px); line-height: 0.9; letter-spacing: -0.05em;">before you write</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 0 clamp(24px, 3cqi, 48px);">
+          <sc-for list="{{ facts }}" as="x" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 0 24px; border-top: 1px solid rgba(19,19,22,0.12);">
+              <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #5a4bc4;">{{ x.n }}</span>
+              <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 1.8cqi, 26px); letter-spacing: -0.03em;">{{ x.k }}</span>
+              <span style="font-size: 15px; line-height: 1.6; color: #4b4b54; text-wrap: pretty;">{{ x.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+
+    <dc-import name="SiteFooter" mobile="{{ isM }}" hint-size="100%,400px"></dc-import>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 84px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 34px; padding: 0 56px;">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+          <sc-if value="{{ n.on }}" hint-placeholder-val="{{ false }}">
+            <button style="position: relative; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: #5a4bc4;">{{ n.label }}<span style="position: absolute; left: 50%; bottom: -6px; width: 6px; height: 6px; margin-left: -3px; border-radius: 999px; background: #5a4bc4;"></span></button>
+          </sc-if>
+          <sc-if value="{{ n.off }}" hint-placeholder-val="{{ true }}">
+            <button data-cursor="go" style="padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316;" style-hover="color: #5a4bc4;">{{ n.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+    </nav>
+  </sc-if>
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 68px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -40px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 0; padding: 0; background: #131316;">
+        <span style="position: absolute; left: 14px; right: 14px; top: 19px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+        <span style="position: absolute; left: 14px; right: 19px; top: 27px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+      </button>
+    </nav>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-component="MobileMenu" style="position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; padding: 0 12px 28px 20px; box-sizing: border-box; background-color: #ffffff; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.14) 39px 40px);">
+        <div style="display: flex; justify-content: flex-end; align-items: center; height: 68px;">
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); padding: 0; background: #ffffff;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; margin-top: 48px; padding-right: 8px;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ closeMenu }}" data-motion="" style="display: flex; align-items: baseline; justify-content: space-between; min-height: 72px; padding: 0; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: {{ n.color }}; animation: pf-up 460ms cubic-bezier(.2,.8,.2,1) {{ n.delay }} both;">{{ n.label }}<span style="font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #86868f;">{{ n.num }}</span></button>
+          </sc-for>
+        </nav>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" data-motion="" style="position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; background: #131316; color: #ffffff; font-size: 14px; white-space: nowrap; box-shadow: 0 10px 30px rgba(19,19,22,0.18); animation: pf-fade 200ms ease both;"><span style="width: 8px; height: 8px; border-radius: 999px; background: #8be0a6;"></span>{{ toast }}</div>
+  </sc-if>
+
+  <div ref="{{ cursorRef }}" style="position: absolute; left: 0; top: 0; z-index: 95; pointer-events: none; opacity: 0;"><div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; transform: translate(-50%,-50%); border-radius: 999px; background: #fff; mix-blend-mode: difference; display: grid; place-items: center; transition: width 220ms cubic-bezier(.2,.8,.2,1), height 220ms cubic-bezier(.2,.8,.2,1), background 220ms ease;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity 160ms ease;"></span></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;formState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;error&quot;,&quot;success&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;availability&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;open&quot;,&quot;booked&quot;],&quot;default&quot;:&quot;open&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const WM = (f, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + f + "?width=" + (w || 200);
+const TOPICS = [
+  { k: "commission", label: "illustration commission", budget: true, hint: "who it's for, where it'll live, the vibe you're after…" },
+  { k: "animation", label: "animation / music video", budget: true, hint: "the song or idea, how long, when it needs to be out…" },
+  { k: "custom", label: "custom object", budget: true, hint: "what's the object, who it's for, colours they love…" },
+  { k: "order", label: "a shop order", order: true, hint: "what you ordered and what you need help with…" },
+  { k: "collab", label: "collab / press", hint: "who you are and what we could make together…" },
+  { k: "hi", label: "just saying hi", hint: "hello is plenty." },
+  { k: "other", label: "other", hint: "tell me what's on your mind…" }
+];
+const BUDGET = ["under ₹10k", "₹10–25k", "₹25–50k", "₹50k+", "not sure yet"];
+const WHEN = ["no rush", "within a month", "it's urgent"];
+const FACTS = [
+  { k: "rates", v: "Illustrations start around ₹8,000. Animation is quoted per second of finished footage. [your rates]" },
+  { k: "turnaround", v: "Illustrations take 1–2 weeks, animation 3–8. Rush jobs are possible if the calendar allows. Ask." },
+  { k: "usage", v: "You get the rights your project needs. I keep the right to show the work in my portfolio, unless we agree otherwise." }
+];
+const NAV = ["work", "gallery", "shop", "about", "contact"];
+const AV = {
+  open: { label: "open for commissions · booking november", bg: "#ffffff", bd: "1px solid rgba(47,138,87,0.35)", fg: "#2f8a57", dot: "#2f8a57" },
+  booked: { label: "booked until january · hellos still welcome", bg: "#ffffff", bd: "1px dashed #b5b5bc", fg: "#63636d", dot: "#b5b5bc" }
+};
+
+class Component extends DCLogic {
+  state = this.init();
+  blank() { return { topic: "", message: "", name: "", email: "", budget: "", when: "", order: "", file: "" }; }
+  init() {
+    const fs = this.props.formState || "idle";
+    const filled = { topic: "animation", message: "We're a two-piece band from Pune and want a 3-minute hand-drawn video for our next single. Lots of rain, lots of cats.", name: "Rhea", email: fs === "error" ? "rhea@gmail" : "rhea@gmail.com", budget: "₹25–50k", when: "within a month", order: "", file: "" };
+    return {
+      form: fs === "idle" ? this.blank() : filled,
+      errors: fs === "error" ? { email: "that email looks unfinished. check for a typo?" } : {},
+      status: fs === "success" ? "sent" : fs === "error" ? "failed" : "idle",
+      menu: false, toast: "", copied: false, now: Date.now()
+    };
+  }
+  componentDidMount() {
+    if (this.root && !this.root.closest("[data-fid]") && !this.root.parentElement.closest("[data-dc-mount], dc-import") && this.root.parentElement.clientHeight < 50) this.setState({ standalone: true });
+    this.clk = setInterval(() => this.setState({ now: Date.now() }), 30000);
+  }
+  componentDidUpdate(pp) { if (pp.formState !== this.props.formState) this.setState(this.init()); }
+  componentWillUnmount() { clearInterval(this.clk); clearTimeout(this.tt); clearTimeout(this.st); clearTimeout(this.ct); }
+  flash(t) { clearTimeout(this.tt); this.setState({ toast: t }); this.tt = setTimeout(() => this.setState({ toast: "" }), 2000); }
+  setF(k, v) { this.setState((s) => { const e = Object.assign({}, s.errors); delete e[k]; return { form: Object.assign({}, s.form, { [k]: v }), errors: e }; }); }
+  submit(ev) {
+    if (ev) ev.preventDefault();
+    const f = this.state.form, e = {};
+    if (!f.topic) e.topic = "pick one, so I know where to start";
+    if (f.message.trim().length < (f.topic === "hi" ? 2 : 10)) e.message = f.topic === "hi" ? "even a “hi” works" : "a sentence or two, please";
+    if (!f.name.trim()) e.name = "what should I call you?";
+    if (!/^\S+@\S+\.\S+$/.test(f.email)) e.email = f.email ? "that email looks unfinished. check for a typo?" : "I need this to write back";
+    if (Object.keys(e).length) return this.setState({ errors: e, status: "failed" });
+    this.setState({ errors: {}, status: "sending" });
+    clearTimeout(this.st);
+    this.st = setTimeout(() => { this.setState({ status: "sent" }); if (this.scroller) this.scroller.scrollTo({ top: 0, behavior: "smooth" }); }, 900);
+  }
+  copyEmail() {
+    try { navigator.clipboard && navigator.clipboard.writeText("hey@aditi.art"); } catch (e) {}
+    clearTimeout(this.ct); this.setState({ copied: true }); this.flash("email copied");
+    this.ct = setTimeout(() => this.setState({ copied: false }), 2000);
+  }
+  moveCursor(e) {
+    const ab = this.root, c = this.cursor;
+    if (!ab || !c) return;
+    const r = ab.getBoundingClientRect(), sc = r.width / ab.offsetWidth || 1;
+    const x = (e.clientX - r.left) / sc, y = (e.clientY - r.top) / sc;
+    const t = e.target && e.target.closest ? e.target.closest("[data-cursor]") : null;
+    const label = t && ab.contains(t) ? t.getAttribute("data-cursor") : "";
+    c.style.opacity = "1"; c.style.transform = "translate(" + x + "px," + y + "px)";
+    const blob = c.firstElementChild, lab = blob.firstElementChild;
+    if (label) { blob.style.width = blob.style.height = "84px"; blob.style.background = "#5a4bc4"; blob.style.mixBlendMode = "normal"; lab.textContent = label; lab.style.opacity = "1"; }
+    else { blob.style.width = blob.style.height = "16px"; blob.style.background = "#fff"; blob.style.mixBlendMode = "difference"; lab.style.opacity = "0"; }
+  }
+  renderVals() {
+    const m = !!this.props.mobile, s = this.state, f = s.form, er = s.errors;
+    const topic = TOPICS.find((t) => t.k === f.topic);
+    const chipSet = (key, opts) => opts.map((v) => { const on = f[key] === v; return { label: v, pressed: on ? "true" : "false", bg: on ? "#131316" : "#ffffff", fg: on ? "#ffffff" : "#131316", bd: on ? "#131316" : "rgba(19,19,22,0.16)", pick: () => this.setF(key, on ? "" : v) }; });
+    const fe = {}, fh = {}, fb = {};
+    ["topic", "message", "name", "email"].forEach((k) => { fe[k] = er[k] || ""; fh[k] = !!er[k]; fb[k] = er[k] ? "#c0392b" : "rgba(19,19,22,0.18)"; });
+    const d = new Date(s.now);
+    const parts = new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", hour: "numeric", minute: "2-digit", hour12: true }).formatToParts(d);
+    const hr = Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "numeric", hour12: false }).format(d));
+    const clock = parts.map((p) => p.value).join("").replace(/\s?(am|pm)/i, (x) => " " + x.trim().toLowerCase());
+    const up = hr >= 9 && hr < 24;
+    const postDate = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "2-digit" }).format(d).toUpperCase();
+    const av = AV[this.props.availability === "booked" ? "booked" : "open"];
+    return {
+      rootRef: (n) => { this.root = n; }, scrollRef: (n) => { this.scroller = n; }, cursorRef: (n) => { this.cursor = n; },
+      boardMode: m ? "m" : "d", rootH: s.standalone ? "100vh" : "100%",
+      onMove: m ? null : (e) => this.moveCursor(e), onLeave: () => { if (this.cursor) this.cursor.style.opacity = "0"; },
+      annot: this.props.showAnnotations === false ? "off" : "on",
+      isD: !m, isM: m, av,
+      editing: s.status !== "sent", sent: s.status === "sent", failed: s.status === "failed" && Object.keys(er).length > 0,
+      topics: TOPICS.map((t) => { const on = f.topic === t.k, bad = !!er.topic; return { label: t.label, pressed: on ? "true" : "false", bg: on ? "#131316" : "#ffffff", fg: on ? "#ffffff" : "#131316", bd: on ? "#131316" : bad ? "#c0392b" : "rgba(19,19,22,0.16)", pick: () => this.setF("topic", t.k) }; }),
+      msgHint: topic ? topic.hint : "pick a topic above, then tell me everything…",
+      showBudget: !!(topic && topic.budget), showOrder: !!(topic && topic.order),
+      budgetChips: chipSet("budget", BUDGET), whenChips: chipSet("when", WHEN),
+      f, fe, fh, fb,
+      on: { message: (e) => this.setF("message", e.target.value), name: (e) => this.setF("name", e.target.value), email: (e) => this.setF("email", e.target.value), order: (e) => this.setF("order", e.target.value), file: (e) => this.setF("file", ((e.target.files || [])[0] || {}).name || "") },
+      fileLabel: f.file ? "attached · " + f.file : "add a reference or brief",
+      submit: (e) => this.submit(e),
+      submitLabel: s.status === "sending" ? "sending…" : "send it →", sendOpacity: s.status === "sending" ? "0.6" : "1",
+      stampImg: WM("Gustav_Klimt_016.jpg", 160), postDate,
+      nameOr: f.name || "friend", emailOr: f.email || "your email",
+      summary: [["about", topic ? topic.label : ""], ["budget", topic && topic.budget ? f.budget : ""], ["when", topic && topic.budget ? f.when : ""], ["order", topic && topic.order ? f.order : ""], ["attached", f.file]].filter((x) => x[1]).map((x) => ({ k: x[0], v: x[1] })),
+      again: () => this.setState({ form: this.blank(), errors: {}, status: "idle" }),
+      copyEmail: () => this.copyEmail(), copyLabel: s.copied ? "copied ✓" : "copy",
+      clock, awake: up ? { label: "awake, probably drawing", bg: "#eef7f1", fg: "#2f8a57", dot: "#2f8a57" } : { label: "asleep · replies at 9", bg: "#f5f5f7", fg: "#63636d", dot: "#b5b5bc" },
+      facts: FACTS.map((x, i) => Object.assign({ n: "0" + (i + 1) }, x)),
+      hasToast: !!s.toast, toast: s.toast,
+      nav: NAV.map((l, i) => ({ label: l, on: l === "contact", off: l !== "contact", num: "0" + (i + 1), delay: (60 + i * 50) + "ms", color: l === "contact" ? "#5a4bc4" : "#131316" })),
+      menuOpen: s.menu, openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

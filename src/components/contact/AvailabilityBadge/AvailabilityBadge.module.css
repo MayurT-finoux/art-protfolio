@@ -1,0 +1,30 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 1px solid rgba(47, 138, 87, 0.35);
+  color: var(--ok);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--ok);
+}
+
+.badge[data-status="booked"] {
+  border: 1px dashed var(--text-faint);
+  color: var(--text-secondary);
+}
+
+.badge[data-status="booked"] .dot {
+  background: var(--text-faint);
+}

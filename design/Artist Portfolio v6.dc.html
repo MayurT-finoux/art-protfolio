@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #ecebe8; font-family: 'Inter', system-ui, sans-serif; color: #131316; }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  .dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}
+</style>
+</helmet>
+<section class="dv-turn" id="t5">
+  <div class="dv-thd"><a class="dv-tid" href="#t5">5</a><span class="dv-tname">About</span></div>
+  <div class="dv-olabel" style="margin: 0 0 32px;">Two directions, same content. Edited from Admin → About page (<a href="#4m">4m</a>).</div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">Sketchbook + guide</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Ruled paper, taped polaroids, stickers, doodles that draw themselves in. A small character talks you through each section.</div>
+    <div class="dv-opts" style="margin-bottom: 40px;">
+      <div class="dv-opt" id="5a">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#5a">5a</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="About Sketchbook" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="5b">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#5b">5b</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="About Sketchbook" mobile="{{ true }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">Editorial</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Huge type, numbered chapters, index-style lists, lots of white space. Ends on a dark call-to-action panel.</div>
+    <div class="dv-opts">
+      <div class="dv-opt" id="5c">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#5c">5c</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="About Editorial" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="5d">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#5d">5d</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="About Editorial" mobile="{{ true }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+</section>
+<section class="dv-turn" id="t4">
+  <div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">Admin</span></div>
+  <div class="dv-olabel" style="margin: 0 0 32px;">Desktop admin. Every frame is live: sidebar, stars, toggles, ↑↓ reorder, save. About page is now editable (<a href="#4m">4m</a>). Shop, Contact page, 404 game and Loader are listed as "soon".</div>
+    <div class="dv-opts">
+      <div class="dv-opt" id="4a">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4a">4a</a><span class="dv-olabel">Dashboard</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="dashboard" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4b">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4b">4b</a><span class="dv-olabel">Artworks list · ★ = featured</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="artworks" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4c">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4c">4c</a><span class="dv-olabel">ArtworkEditor · handmade, 3 views</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="artwork" artwork="{{ 3 }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4d">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4d">4d</a><span class="dv-olabel">ArtworkEditor · animation (preview loop)</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="artwork" artwork="{{ 2 }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4e">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4e">4e</a><span class="dv-olabel">Projects · reorder</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="projects" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4f">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4f">4f</a><span class="dv-olabel">ProjectEditor</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="project" project="{{ 0 }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4g">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4g">4g</a><span class="dv-olabel">Categories</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="categories" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4h">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4h">4h</a><span class="dv-olabel">Home page</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="home" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4i">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4i">4i</a><span class="dv-olabel">Navigation</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="nav" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4j">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4j">4j</a><span class="dv-olabel">Music playlist</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="music" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4k">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4k">4k</a><span class="dv-olabel">Footer &amp; social</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="footer" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4l">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4l">4l</a><span class="dv-olabel">Microcopy</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="microcopy" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="4m">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#4m">4m</a><span class="dv-olabel">About page · sections, lists, layout</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="Admin" screen="about" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+    </div>
+</section>
+<section class="dv-turn" id="t3">
+  <div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Work, Project &amp; Gallery</span></div>
+  <div class="dv-olabel" style="margin: 0 0 32px;">Nav is now Work · Gallery · Shop · About · Contact (Home updated below too). Every frame is live: click cards, chips, arrows.</div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">WorkPage</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Curated projects (6–12). Click any card to open its ProjectPage.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="3a">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3a">3a</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="WorkPage" show-annotations="{{ annot }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="3b">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3b">3b</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="WorkPage" mobile="{{ true }}" show-annotations="{{ annot }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">ProjectPage</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Story → process → optional YouTube (click play) → final pieces → optional Behance → next project.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="3c">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3c">3c</a><span class="dv-olabel">Desktop · moth lullaby</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="WorkPage" project="{{ 0 }}" show-annotations="{{ annot }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="3d">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3d">3d</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="WorkPage" mobile="{{ true }}" project="{{ 0 }}" show-annotations="{{ annot }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">GalleryPage</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">GalleryFilters + masonry GalleryGrid. Animation cards play a muted preview when in view or on hover. Mobile: chips swipe, 2 columns.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="3e">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3e">3e</a><span class="dv-olabel">Desktop · All</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="GalleryPage" show-annotations="{{ annot }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="3f">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3f">3f</a><span class="dv-olabel">Mobile · All</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="GalleryPage" mobile="{{ true }}" show-annotations="{{ annot }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="3g">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3g">3g</a><span class="dv-olabel">Desktop · Animation filter</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="GalleryPage" filter="Animation" show-annotations="{{ annot }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">ArtworkLightbox</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Multiple views (front / side / detail, before / after), materials, links shown only if available. Esc closes, ← → steps.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="3h">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3h">3h</a><span class="dv-olabel">Desktop · handmade, 3 views</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="GalleryPage" open="{{ 3 }}" show-annotations="{{ annot }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="3i">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#3i">3i</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="GalleryPage" mobile="{{ true }}" open="{{ 3 }}" show-annotations="{{ annot }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+</section>
+<section class="dv-turn" id="t2">
+  <div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Home — scroll-driven hero</span></div>
+  <div class="dv-olabel" style="margin: 0 0 32px;">Every frame is live: scroll inside it. Desktop and mobile side by side.</div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">Resting state A · start</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Loop + intro only, no menu. Stop under 20% of the transition and it eases back here.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="2a">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2a">2a</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="HomePage" start="top" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="2b">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2b">2b</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="HomePage" mobile="{{ true }}" start="top" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">In motion · frozen for review (snap off)</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Live, the hero never rests here: 300–800ms after you stop scrolling it snaps to A or B.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="2c">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2c">2c</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="HomePage" start="mid" snap="{{ false }}" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="2d">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2d">2d</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="HomePage" mobile="{{ true }}" start="mid" snap="{{ false }}" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">Resting state B · finished</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Past 20% it completes: blur maxed, intro hidden, menu in place, Selected Work risen under the menu. Scroll back up past 20% to return to A.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="2e">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2e">2e</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="HomePage" start="settled" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="2f">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2f">2f</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="HomePage" mobile="{{ true }}" start="settled" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">Mobile menu + reduced motion</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Menu button opens a full-screen menu. Reduced motion: still frame, no blur or movement, fades only, snaps instantly.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="2g">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2g">2g</a><span class="dv-olabel">Mobile · menu open</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="HomePage" mobile="{{ true }}" start="settled" menu-open="{{ true }}" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="2h">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2h">2h</a><span class="dv-olabel">Desktop · reduced motion · A</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="HomePage" start="top" reduced="{{ true }}" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="2i">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2i">2i</a><span class="dv-olabel">Mobile · reduced motion · B</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="HomePage" mobile="{{ true }}" start="settled" reduced="{{ true }}" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div class="dv-olabel" style="margin: 0 0 4px; font-size: 13px; color: #131316; font-weight: 600;">States · images loading</div>
+    <div class="dv-olabel" style="margin: 0 0 14px;">Skeletons for Selected Work and Fresh. Scroll down for Fresh.</div>
+    <div class="dv-opts" style="margin-bottom: 56px;">
+      <div class="dv-opt" id="2j">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2j">2j</a><span class="dv-olabel">Desktop</span></div>
+        <div class="dv-card" style="width: 1440px; height: 900px; max-width: none;"><dc-import name="HomePage" start="selected" img-state="loading" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 1440px; height: 900px;" hint-size="1440px,900px"></dc-import></div>
+      </div>
+      <div class="dv-opt" id="2k">
+        <div style="display: flex; align-items: baseline; gap: 8px;"><a class="dv-oid" href="#2k">2k</a><span class="dv-olabel">Mobile</span></div>
+        <div class="dv-card" style="width: 390px; height: 844px; max-width: none;"><dc-import name="HomePage" mobile="{{ true }}" start="selected" img-state="loading" show-annotations="{{ annot }}" blur-d="{{ blurD }}" blur-m="{{ blurM }}" style="display: block; width: 390px; height: 844px;" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;blurDesktop&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:20,&quot;min&quot;:0,&quot;max&quot;:40,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scroll&quot;},&quot;blurMobile&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:8,&quot;min&quot;:0,&quot;max&quot;:20,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scroll&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      annot: this.props.showAnnotations !== false,
+      blurD: this.props.blurDesktop ?? 20,
+      blurM: this.props.blurMobile ?? 8
+    };
+  }
+}
+</script>
+</body>
+</html>

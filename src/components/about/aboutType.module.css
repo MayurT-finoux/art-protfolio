@@ -1,0 +1,71 @@
+/* Shared section type for the About sections (both layouts). */
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+/* Sketchbook section heading */
+.skH2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 6.4cqw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+}
+
+/* Editorial section heading */
+.edH2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(48px, 7.4cqw, 108px);
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+}
+
+/* Sketchbook: header stack (label + heading) */
+.skHead {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Editorial: header stack (label + heading) */
+.edHead {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Editorial sections: hairline on top */
+.edRule {
+  border-top: 1px solid var(--line-12);
+}
+
+/* Taped corner (Sketchbook polaroids / notes). Size and tilt set per use. */
+.tape {
+  position: absolute;
+  z-index: 2;
+  background: rgba(90, 75, 196, 0.22);
+}
+
+/* Mobile "swipe →" hint under horizontal scrollers */
+.swipe {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (max-width: 767px) {
+  .swipe {
+    display: block;
+  }
+}

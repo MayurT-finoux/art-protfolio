@@ -1,0 +1,185 @@
+.lines {
+  position: relative;
+  flex: 1 1 300px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: clamp(4px, 1cqi, 14px);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(34px, 3.3cqi, 48px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 76px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(19, 19, 22, 0.1);
+}
+
+.last {
+  border-bottom: 1px solid rgba(19, 19, 22, 0.1);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(19px, 1.5cqi, 22px);
+  letter-spacing: -0.02em;
+}
+
+a.value {
+  color: var(--ink);
+}
+
+a.value:hover {
+  color: var(--accent);
+}
+
+.copy {
+  flex: none;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-16);
+  background: var(--white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.copy:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.link {
+  color: var(--ink);
+}
+
+.link:hover {
+  color: var(--accent);
+}
+
+.arrow {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+
+/* Awake badge: hidden until the client knows the time (no flash of the wrong state). */
+.awake {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
+  background: #eef7f1;
+  color: var(--ok);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  visibility: hidden;
+}
+
+.awakeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--ok);
+}
+
+.awake[data-awake] {
+  visibility: visible;
+}
+
+.awake[data-awake="0"] {
+  background: var(--surface-card);
+  color: var(--text-secondary);
+}
+
+.awake[data-awake="0"] .awakeDot {
+  background: var(--text-faint);
+}
+
+.note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+
+/* "email copied" toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 90;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--white);
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-toast);
+  animation: pf-fade 200ms ease both;
+}
+
+.toastDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--toast-dot);
+}
+
+@keyframes pf-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,48 @@
+.intro {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px 40px;
+  padding: clamp(96px, 9cqi, 130px) clamp(16px, 3.9cqi, 56px) 0;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: clamp(10.5px, 0.85cqi, 12px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(96px, 13.9cqi, 200px);
+  line-height: 0.8;
+  letter-spacing: -0.065em;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 440px;
+}
+
+.text {
+  margin: 0;
+  font-size: clamp(16px, 1.25cqi, 18px);
+  line-height: 1.6;
+  color: var(--text-body-strong);
+  text-wrap: pretty;
+}

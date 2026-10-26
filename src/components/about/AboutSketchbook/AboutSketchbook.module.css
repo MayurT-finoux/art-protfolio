@@ -1,0 +1,4 @@
+/* Ruled notebook paper behind the whole page. */
+.paper {
+  background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90, 75, 196, 0.07) 39px 40px);
+}

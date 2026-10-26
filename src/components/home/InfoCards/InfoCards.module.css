@@ -1,0 +1,83 @@
+.section {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 var(--gutter) 84px;
+}
+
+.card {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 26px;
+  background: var(--surface-card);
+  border: 1px solid transparent;
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 220ms var(--ease-ui),
+    border-color 220ms ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+  border-color: rgba(90, 75, 196, 0.45);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: lowercase;
+  color: var(--ink);
+}
+
+.text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 767px) {
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 20px 40px;
+  }
+
+  .card {
+    gap: 6px;
+    padding: 20px;
+    border: 0;
+    border-radius: 18px;
+    box-shadow: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .label {
+    font-size: 10.5px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .text {
+    line-height: 1.55;
+  }
+}

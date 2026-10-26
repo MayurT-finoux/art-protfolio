@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  @keyframes pf-boil { 0% { transform: scale(1.04) translate(0,0) rotate(0); } 33% { transform: scale(1.045) translate(-1.5px,1px) rotate(-0.5deg); } 66% { transform: scale(1.04) translate(1.5px,-1px) rotate(0.5deg); } 100% { transform: scale(1.045) translate(0,0) rotate(0); } }
+  @keyframes pf-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes pf-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  a { color: #5a4bc4; text-decoration: none; }
+  a:hover { color: #443a97; }
+  button:focus-visible, a:focus-visible { outline: 2px solid #5a4bc4; outline-offset: 2px; }
+  [data-artboard], [data-artboard] * { cursor: none !important; }
+  [data-annot="off"] [data-cname], [data-annot="off"] [data-admin] { display: none !important; }
+  [data-scroller] { scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { width: 0; height: 0; }
+  @media (prefers-reduced-motion: reduce) { [data-motion], [data-jitter], [data-jitter]:hover { animation: none !important; } }
+</style>
+</helmet>
+<div data-artboard="" ref="{{ rootRef }}" data-annot="{{ annot }}" onMouseMove="{{ onMove }}" onMouseLeave="{{ onLeave }}" style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; font-family: 'Inter', system-ui, sans-serif; color: #131316; font-weight: 300;">
+  <div data-scroller="" ref="{{ scrollRef }}" style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;">
+
+    <sc-if value="{{ showList }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+        <section data-component="WorkList" style="position: relative; padding: 130px 56px 100px;">
+          <span data-cname="" style="position: absolute; top: 100px; left: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">WorkPage · ProjectCard ×8</span>
+          <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 56px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">selected projects · {{ countLabel }}</span>
+              <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 200px; line-height: 0.8; letter-spacing: -0.065em;">work</h1>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px; max-width: 440px;">
+              <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #4b4b54; text-align: right; text-wrap: pretty;">The long ones. Music videos, short films and series, each with the messy middle left in.</p>
+              <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">admin · projects (6–12), drag to order</span>
+            </div>
+          </header>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); column-gap: 24px; row-gap: 64px;">
+            <sc-for list="{{ projects }}" as="p" hint-placeholder-count="8">
+              <article onClick="{{ p.open }}" data-cursor="open" style="grid-column: span {{ p.span }}; display: flex; flex-direction: column; gap: 16px;">
+                <div style="position: relative; aspect-ratio: {{ p.ratio }}; border-radius: 20px; overflow: hidden; background: #efeef6; transition: transform 260ms cubic-bezier(.2,.8,.2,1);" style-hover="transform: scale(1.01) rotate(-0.4deg);">
+                  <div data-jitter="" style="position: absolute; inset: -8px; background: url({{ p.cover }}) {{ p.pos }} / cover no-repeat;" style-hover="animation: pf-boil 0.33s steps(1) infinite;"></div>
+                  <span style="position: absolute; top: 14px; left: 14px; padding: 5px 9px; border-radius: 8px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;">{{ p.kind }}</span>
+                  <sc-if value="{{ p.hasVideo }}" hint-placeholder-val="{{ false }}">
+                    <span style="position: absolute; bottom: 14px; right: 14px; display: flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 8px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;"><span data-motion="" style="width: 6px; height: 6px; border-radius: 999px; background: #ffffff; animation: pf-blink 1s steps(1) infinite;"></span>video</span>
+                  </sc-if>
+                </div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 0 4px;">
+                  <span style="display: flex; align-items: baseline; gap: 14px;"><span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #86868f;">{{ p.n }}</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 38px; letter-spacing: -0.04em;">{{ p.title }}</span></span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: #63636d; white-space: nowrap;">{{ p.client }} · {{ p.year }}</span>
+                </div>
+                <p style="margin: -6px 4px 0; font-size: 15px; line-height: 1.55; color: #63636d; max-width: 560px;">{{ p.teaser }}</p>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+      <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+        <section data-component="WorkList" style="position: relative; padding: 96px 16px 64px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">selected projects · {{ countLabel }}</span>
+          <h1 style="margin: 8px 0 14px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 104px; line-height: 0.82; letter-spacing: -0.06em;">work</h1>
+          <p style="margin: 0 0 32px; font-size: 16px; line-height: 1.6; color: #4b4b54;">The long ones. Music videos, short films and series, each with the messy middle left in.</p>
+          <div style="display: flex; flex-direction: column; gap: 36px;">
+            <sc-for list="{{ projects }}" as="p" hint-placeholder-count="8">
+              <article onClick="{{ p.open }}" style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="position: relative; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; background: #efeef6;">
+                  <div style="position: absolute; inset: 0; background: url({{ p.cover }}) {{ p.pos }} / cover no-repeat;"></div>
+                  <span style="position: absolute; top: 10px; left: 10px; padding: 4px 8px; border-radius: 7px; background: #ffffff; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;">{{ p.kind }}</span>
+                  <sc-if value="{{ p.hasVideo }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; bottom: 10px; right: 10px; padding: 4px 8px; border-radius: 7px; background: #5a4bc4; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;">video</span></sc-if>
+                </div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+                  <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.04em;">{{ p.title }}</span>
+                  <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; color: #63636d; white-space: nowrap;">{{ p.year }}</span>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ showProject }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+        <article data-component="ProjectPage" style="position: relative; padding: 120px 0 0; animation: pf-up 420ms cubic-bezier(.2,.8,.2,1) both;" data-motion="">
+          <span data-cname="" style="position: absolute; top: 96px; left: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">ProjectPage</span>
+          <div style="padding: 0 56px;">
+            <button onClick="{{ back }}" data-cursor="back" style="height: 44px; padding: 0; border: 0; background: transparent; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #5a4bc4;">← all work</button>
+            <header style="display: grid; grid-template-columns: minmax(0,8fr) minmax(0,4fr); gap: 56px; align-items: end; margin-top: 18px;">
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ pr.n }} · {{ pr.kind }} · {{ pr.year }}</span>
+                <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 136px; line-height: 0.84; letter-spacing: -0.06em; text-wrap: balance;">{{ pr.title }}</h1>
+              </div>
+              <div style="display: flex; flex-direction: column;">
+                <sc-for list="{{ pr.meta }}" as="m" hint-placeholder-count="4">
+                  <div style="display: grid; grid-template-columns: 90px minmax(0,1fr); gap: 16px; padding: 12px 0; border-top: 1px solid rgba(19,19,22,0.1);">
+                    <span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">{{ m.k }}</span>
+                    <span style="font-size: 15px; color: #131316;">{{ m.v }}</span>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ pr.behance }}" hint-placeholder-val="{{ false }}">
+                  <a href="#" data-cursor="open" style="align-self: flex-start; display: inline-flex; align-items: center; height: 44px; margin-top: 10px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.2); font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; color: #131316;">view on behance ↗</a>
+                </sc-if>
+              </div>
+            </header>
+          </div>
+          <div style="position: relative; margin: 48px 56px 0; aspect-ratio: 21/9; border-radius: 24px; overflow: hidden; background: #efeef6;">
+            <div data-motion="" style="position: absolute; inset: -10px; background: url({{ pr.cover }}) {{ pr.pos }} / cover no-repeat; animation: pf-boil 0.5s steps(1) infinite;"></div>
+            <span data-admin="" style="position: absolute; top: 16px; left: 16px; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · cover (image or muted loop)</span>
+          </div>
+          <section style="display: grid; grid-template-columns: minmax(0,4fr) minmax(0,8fr); gap: 56px; padding: 96px 56px 40px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">the story</span>
+            <div style="display: flex; flex-direction: column; gap: 22px; max-width: 820px;">
+              <sc-for list="{{ pr.story }}" as="t" hint-placeholder-count="2">
+                <p style="margin: 0; font-size: 24px; line-height: 1.5; color: #131316; text-wrap: pretty;">{{ t }}</p>
+              </sc-for>
+              <span data-admin="" style="align-self: flex-start; padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · story (rich text)</span>
+            </div>
+          </section>
+          <section style="padding: 60px 56px 40px;">
+            <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 24px;">
+              <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 64px; line-height: 0.9; letter-spacing: -0.05em;">process</h2>
+              <span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #63636d;">thumbnail → final</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px;">
+              <sc-for list="{{ pr.process }}" as="s" hint-placeholder-count="4">
+                <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px;">
+                  <div style="position: relative; aspect-ratio: 4/5; border-radius: 16px; overflow: hidden; background: #efeef6;">
+                    <div data-jitter="" style="position: absolute; inset: -6px; background: url({{ s.img }}) {{ s.pos }} / cover no-repeat; filter: {{ s.filter }};" style-hover="animation: pf-boil 0.33s steps(1) infinite;"></div>
+                  </div>
+                  <figcaption style="display: flex; gap: 10px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;"><span style="color: #86868f;">{{ s.n }}</span>{{ s.label }}</figcaption>
+                </figure>
+              </sc-for>
+            </div>
+          </section>
+          <sc-if value="{{ pr.hasVideo }}" hint-placeholder-val="{{ false }}">
+            <section data-component="ProjectVideo" style="padding: 60px 56px 40px;">
+              <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 24px;">
+                <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 64px; line-height: 0.9; letter-spacing: -0.05em;">watch it move</h2>
+                <span data-admin="" style="padding: 3px 7px; border-radius: 5px; background: #fff; border: 1px dashed #5a4bc4; color: #443a97; font: 500 10px/1.2 'DM Mono', monospace;">admin · optional YouTube URL</span>
+              </div>
+              <div style="position: relative; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; background: #131316;">
+                <sc-if value="{{ videoOff }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ playVideo }}" data-cursor="play" aria-label="Play video" style="position: absolute; inset: 0; border: 0; padding: 0; background: transparent;">
+                    <div style="position: absolute; inset: 0; background: url({{ pr.cover }}) {{ pr.pos }} / cover no-repeat; opacity: 0.55;"></div>
+                    <span style="position: absolute; left: 50%; top: 50%; width: 104px; height: 104px; margin: -52px 0 0 -52px; border-radius: 999px; background: #ffffff; display: grid; place-items: center;"><svg width="30" height="30" viewBox="0 0 14 14"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="#131316"></path></svg></span>
+                    <span style="position: absolute; left: 24px; bottom: 22px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;">{{ pr.title }} · on youtube</span>
+                  </button>
+                </sc-if>
+                <sc-if value="{{ videoOn }}" hint-placeholder-val="{{ false }}">
+                  <iframe src="{{ videoSrc }}" title="{{ pr.title }}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen="" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"></iframe>
+                </sc-if>
+              </div>
+            </section>
+          </sc-if>
+          <section style="padding: 60px 56px 40px;">
+            <h2 style="margin: 0 0 24px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 64px; line-height: 0.9; letter-spacing: -0.05em;">final pieces</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px;">
+              <sc-for list="{{ pr.finals }}" as="f" hint-placeholder-count="3">
+                <div style="grid-column: span {{ f.span }}; position: relative; aspect-ratio: {{ f.ratio }}; border-radius: 20px; overflow: hidden; background: #efeef6;">
+                  <div style="position: absolute; inset: 0; background: url({{ f.img }}) {{ f.pos }} / cover no-repeat;"></div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+          <sc-if value="{{ pr.behance }}" hint-placeholder-val="{{ false }}">
+            <section style="display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 40px 56px 0; padding: 32px 36px; border-radius: 20px; background: #f5f5f7;">
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.04em;">the full case study lives on behance</span>
+                <span style="font-size: 15px; color: #63636d;">Every frame, colour script and the bits that didn't make it.</span>
+              </div>
+              <a href="#" data-cursor="open" style="display: inline-flex; align-items: center; height: 50px; padding: 0 22px; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; white-space: nowrap;">view on behance ↗</a>
+            </section>
+          </sc-if>
+          <button onClick="{{ next }}" data-cursor="next" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; width: calc(100% - 112px); margin: 80px 56px 0; padding: 32px 0 20px; border: 0; border-top: 1px solid rgba(19,19,22,0.1); background: transparent; text-align: left; font-family: inherit; color: #131316;" style-hover="color: #5a4bc4;">
+            <span style="display: flex; flex-direction: column; gap: 10px;"><span style="font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">next project</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 96px; line-height: 0.86; letter-spacing: -0.055em;">{{ nextTitle }}</span></span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 96px; line-height: 0.86;">→</span>
+          </button>
+        </article>
+      </sc-if>
+      <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+        <article data-component="ProjectPage" data-motion="" style="position: relative; padding: 84px 0 0; animation: pf-up 420ms cubic-bezier(.2,.8,.2,1) both;">
+          <div style="padding: 0 16px;">
+            <button onClick="{{ back }}" style="height: 44px; padding: 0; border: 0; background: transparent; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #5a4bc4;">← all work</button>
+            <div style="margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">{{ pr.n }} · {{ pr.kind }} · {{ pr.year }}</div>
+            <h1 style="margin: 10px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 64px; line-height: 0.86; letter-spacing: -0.055em;">{{ pr.title }}</h1>
+          </div>
+          <div style="position: relative; margin: 24px 16px 0; aspect-ratio: 4/3; border-radius: 18px; overflow: hidden; background: #efeef6;">
+            <div data-motion="" style="position: absolute; inset: -10px; background: url({{ pr.cover }}) {{ pr.pos }} / cover no-repeat; animation: pf-boil 0.5s steps(1) infinite;"></div>
+          </div>
+          <div style="display: flex; flex-direction: column; margin: 20px 16px 0;">
+            <sc-for list="{{ pr.meta }}" as="m" hint-placeholder-count="4">
+              <div style="display: grid; grid-template-columns: 80px minmax(0,1fr); gap: 12px; padding: 10px 0; border-top: 1px solid rgba(19,19,22,0.1);">
+                <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">{{ m.k }}</span>
+                <span style="font-size: 14px;">{{ m.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <section style="display: flex; flex-direction: column; gap: 16px; padding: 40px 16px 20px;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #443a97;">the story</span>
+            <sc-for list="{{ pr.story }}" as="t" hint-placeholder-count="2">
+              <p style="margin: 0; font-size: 18px; line-height: 1.55; text-wrap: pretty;">{{ t }}</p>
+            </sc-for>
+          </section>
+          <section style="padding: 30px 0 10px;">
+            <h2 style="margin: 0 16px 16px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.9; letter-spacing: -0.05em;">process</h2>
+            <div data-scroller="" style="display: flex; gap: 12px; overflow-x: auto; padding: 0 16px; scroll-snap-type: x mandatory; scroll-padding: 16px;">
+              <sc-for list="{{ pr.process }}" as="s" hint-placeholder-count="4">
+                <figure style="flex: none; width: 220px; margin: 0; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px;">
+                  <div style="position: relative; aspect-ratio: 4/5; border-radius: 14px; overflow: hidden; background: #efeef6;"><div style="position: absolute; inset: 0; background: url({{ s.img }}) {{ s.pos }} / cover no-repeat; filter: {{ s.filter }};"></div></div>
+                  <figcaption style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #63636d;">{{ s.n }} {{ s.label }}</figcaption>
+                </figure>
+              </sc-for>
+            </div>
+          </section>
+          <sc-if value="{{ pr.hasVideo }}" hint-placeholder-val="{{ false }}">
+            <section style="padding: 30px 16px 10px;">
+              <h2 style="margin: 0 0 16px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.9; letter-spacing: -0.05em;">watch it move</h2>
+              <div style="position: relative; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; background: #131316;">
+                <sc-if value="{{ videoOff }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ playVideo }}" aria-label="Play video" style="position: absolute; inset: 0; border: 0; padding: 0; background: transparent;">
+                    <div style="position: absolute; inset: 0; background: url({{ pr.cover }}) {{ pr.pos }} / cover no-repeat; opacity: 0.55;"></div>
+                    <span style="position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 999px; background: #ffffff; display: grid; place-items: center;"><svg width="20" height="20" viewBox="0 0 14 14"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="#131316"></path></svg></span>
+                  </button>
+                </sc-if>
+                <sc-if value="{{ videoOn }}" hint-placeholder-val="{{ false }}">
+                  <iframe src="{{ videoSrc }}" title="{{ pr.title }}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen="" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"></iframe>
+                </sc-if>
+              </div>
+            </section>
+          </sc-if>
+          <section style="display: flex; flex-direction: column; gap: 12px; padding: 30px 16px 10px;">
+            <h2 style="margin: 0 0 4px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.9; letter-spacing: -0.05em;">final pieces</h2>
+            <sc-for list="{{ pr.finals }}" as="f" hint-placeholder-count="3">
+              <div style="position: relative; aspect-ratio: 4/5; border-radius: 16px; overflow: hidden; background: #efeef6;"><div style="position: absolute; inset: 0; background: url({{ f.img }}) {{ f.pos }} / cover no-repeat;"></div></div>
+            </sc-for>
+          </section>
+          <sc-if value="{{ pr.behance }}" hint-placeholder-val="{{ false }}">
+            <a href="#" style="display: flex; align-items: center; justify-content: center; height: 52px; margin: 24px 16px 0; border-radius: 999px; background: #131316; color: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px;">view on behance ↗</a>
+          </sc-if>
+          <button onClick="{{ next }}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: calc(100% - 32px); margin: 48px 16px 0; padding: 24px 0 12px; border: 0; border-top: 1px solid rgba(19,19,22,0.1); background: transparent; text-align: left; font-family: inherit; color: #131316;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868f;">next project</span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 48px; line-height: 0.9; letter-spacing: -0.05em;">{{ nextTitle }} →</span>
+          </button>
+        </article>
+      </sc-if>
+    </sc-if>
+
+    <dc-import name="SiteFooter" mobile="{{ isM }}" hint-size="100%,400px"></dc-import>
+  </div>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ true }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 84px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -48px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <div style="position: relative; height: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 34px; padding: 0 56px;">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+          <sc-if value="{{ n.on }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ n.go }}" style="position: relative; padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: #5a4bc4;">{{ n.label }}<span style="position: absolute; left: 50%; bottom: -6px; width: 6px; height: 6px; margin-left: -3px; border-radius: 999px; background: #5a4bc4;"></span></button>
+          </sc-if>
+          <sc-if value="{{ n.off }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ n.go }}" data-cursor="go" style="padding: 6px 2px; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #131316;" style-hover="color: #5a4bc4;">{{ n.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+      <span data-cname="" style="position: absolute; top: 88px; right: 56px; padding: 3px 7px; border-radius: 5px; background: #131316; color: #fff; font: 500 10px/1.2 'DM Mono', monospace; white-space: nowrap;">MainNav</span>
+    </nav>
+  </sc-if>
+  <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+    <nav data-component="MainNav" style="position: absolute; top: 0; left: 0; right: 0; z-index: 30; height: 68px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: -40px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); pointer-events: none;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 0; padding: 0; background: #131316;">
+        <span style="position: absolute; left: 14px; right: 14px; top: 19px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+        <span style="position: absolute; left: 14px; right: 19px; top: 27px; height: 2px; border-radius: 2px; background: #ffffff;"></span>
+      </button>
+    </nav>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div data-component="MobileMenu" style="position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; padding: 0 12px 28px 20px; box-sizing: border-box; background-color: #ffffff; background-image: repeating-linear-gradient(180deg, transparent 0 39px, rgba(90,75,196,0.14) 39px 40px);">
+        <div style="display: flex; justify-content: flex-end; align-items: center; height: 68px;">
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="position: relative; width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(19,19,22,0.18); padding: 0; background: #ffffff;">
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(45deg);"></span>
+            <span style="position: absolute; left: 14px; right: 14px; top: 22px; height: 2px; border-radius: 2px; background: #131316; transform: rotate(-45deg);"></span>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; margin-top: 48px; padding-right: 8px;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ n.go }}" data-motion="" style="display: flex; align-items: baseline; justify-content: space-between; min-height: 72px; padding: 0; border: 0; background: transparent; font-family: 'Bricolage Grotesque', sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: {{ n.color }}; animation: pf-up 460ms cubic-bezier(.2,.8,.2,1) {{ n.delay }} both;">{{ n.label }}<span style="font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #86868f;">{{ n.num }}</span></button>
+          </sc-for>
+        </nav>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <div ref="{{ cursorRef }}" style="position: absolute; left: 0; top: 0; z-index: 95; pointer-events: none; opacity: 0;"><div style="position: absolute; left: 0; top: 0; width: 16px; height: 16px; transform: translate(-50%,-50%); border-radius: 999px; background: #fff; mix-blend-mode: difference; display: grid; place-items: center; transition: width 220ms cubic-bezier(.2,.8,.2,1), height 220ms cubic-bezier(.2,.8,.2,1), background 220ms ease;"><span style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity 160ms ease;"></span></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;project&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:-1,&quot;min&quot;:-1,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;},&quot;menuOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const WM = (f, w) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + f + "?width=" + (w || 1200);
+const IMG = {
+  klimt: "Gustav_Klimt_016.jpg", pearl: "Girl_with_a_Pearl_Earring.jpg", starry: "Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+  scream: "The_Scream.jpg", kand: "Vassily_Kandinsky,_1913_-_Composition_7.jpg", wave: "Tsunami_by_hokusai_19th_century.jpg",
+  venus: "Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg", monet: "Claude_Monet,_Impression,_soleil_levant.jpg"
+};
+const ORDER = ["klimt", "pearl", "starry", "scream", "kand", "wave", "venus", "monet"];
+const P = (title, kind, year, client, role, tools, key, teaser, youtube, behance) => ({ title, kind, year, client, role, tools, key, teaser, youtube, behance });
+const PROJECTS = [
+  P("moth lullaby", "music video", "2026", "Lalit & The Lamps", "Direction, animation", "Procreate Dreams, After Effects", "klimt", "A three-minute lullaby for a band that only plays after midnight.", "aqz-KE-bpKQ", true),
+  P("ghost roommate", "short series", "2026", "Personal", "Writing, animation", "Procreate Dreams", "pearl", "Six tiny episodes about sharing a flat with someone who isn't there.", "", true),
+  P("neon auto ride", "loop", "2026", "Mumbai Film Fest", "Animation", "Procreate Dreams", "starry", "A night ride through Bandra, drawn on the back of a rickshaw ticket.", "aqz-KE-bpKQ", false),
+  P("static hearts", "album cover", "2025", "Static Hearts", "Illustration, lettering", "Procreate, gouache", "scream", "Cover, vinyl label and a sticker sheet nobody asked for.", "", true),
+  P("sticker sheet 03", "merch", "2025", "Personal", "Illustration", "Procreate, risograph", "kand", "Forty stickers, two inks, one very tired risograph machine.", "", false),
+  P("slow static", "music video", "2025", "Kavya", "Direction, animation", "Procreate Dreams, TVPaint", "wave", "Hand-drawn waves at 8 frames a second, on purpose.", "aqz-KE-bpKQ", true),
+  P("monsoon diary", "editorial", "2025", "The Bombay Review", "Illustration", "Watercolour, Procreate", "venus", "A month of rain drawn as a daily diary for a weekly column.", "", false),
+  P("tiny gods", "short film", "2024", "Festival short", "Writing, direction, animation", "TVPaint, After Effects", "monet", "Seven minutes about the gods who live in kitchen shelves.", "aqz-KE-bpKQ", true)
+];
+const POS = ["center", "center 30%", "left center", "right center", "center top", "center bottom"];
+const STEPS = ["thumbnails", "animatic", "line", "colour"];
+
+class Component extends DCLogic {
+  state = { project: this.props.project ?? -1, menu: !!this.props.menuOpen, video: false };
+
+  componentDidUpdate(prev) {
+    if (prev.project !== this.props.project) this.setState({ project: this.props.project ?? -1, video: false });
+    if (prev.menuOpen !== this.props.menuOpen) this.setState({ menu: !!this.props.menuOpen });
+  }
+  openProject(i) {
+    this.setState({ project: i, video: false, menu: false });
+    if (this.scroller) this.scroller.scrollTop = 0;
+  }
+  moveCursor(e) {
+    const ab = this.root, c = this.cursor;
+    if (!ab || !c) return;
+    const r = ab.getBoundingClientRect();
+    const sc = r.width / ab.offsetWidth || 1;
+    const x = (e.clientX - r.left) / sc, y = (e.clientY - r.top) / sc;
+    const t = e.target && e.target.closest ? e.target.closest("[data-cursor]") : null;
+    const label = t && ab.contains(t) ? t.getAttribute("data-cursor") : "";
+    c.style.opacity = "1";
+    c.style.transform = "translate(" + x + "px," + y + "px)";
+    const blob = c.firstElementChild, lab = blob.firstElementChild;
+    if (label) {
+      blob.style.width = blob.style.height = "84px"; blob.style.background = "#5a4bc4"; blob.style.mixBlendMode = "normal";
+      lab.textContent = label; lab.style.opacity = "1";
+    } else {
+      blob.style.width = blob.style.height = "16px"; blob.style.background = "#fff"; blob.style.mixBlendMode = "difference";
+      lab.style.opacity = "0";
+    }
+  }
+  detail(i) {
+    const p = PROJECTS[i];
+    const base = ORDER.indexOf(p.key);
+    const k = (o) => ORDER[(base + o) % ORDER.length];
+    return Object.assign({}, p, {
+      n: String(i + 1).padStart(2, "0"),
+      cover: WM(IMG[p.key], 1800), pos: "center",
+      hasVideo: !!p.youtube,
+      meta: [{ k: "client", v: p.client }, { k: "role", v: p.role }, { k: "tools", v: p.tools }, { k: "year", v: p.year }],
+      story: [
+        "It started as a voice note and a single sketch on a train. The brief was loose: make something that feels like the song sounds at 2am. So I drew the first frame before writing anything down.",
+        "Everything is hand-drawn, frame by frame. I kept the boil in the lines on purpose so it never sits still, and painted the backgrounds flat so the characters do the moving."
+      ],
+      process: STEPS.map((s, j) => ({ n: "0" + (j + 1), label: s, img: WM(IMG[j < 3 ? p.key : k(j)], 700), pos: POS[j], filter: j < 2 ? "grayscale(1) contrast(1.15)" : j === 2 ? "grayscale(0.6)" : "none" })),
+      finals: [
+        { img: WM(IMG[p.key], 1600), pos: "center", span: 2, ratio: "16/9" },
+        { img: WM(IMG[k(1)], 900), pos: "center", span: 1, ratio: "4/5" },
+        { img: WM(IMG[k(2)], 900), pos: "center", span: 1, ratio: "4/5" }
+      ]
+    });
+  }
+  renderVals() {
+    const m = !!this.props.mobile;
+    const cur = this.state.project;
+    const inProject = cur >= 0 && cur < PROJECTS.length;
+    const NAV = ["work", "gallery", "shop", "about", "contact"];
+    return {
+      rootRef: (n) => { this.root = n; },
+      scrollRef: (n) => { this.scroller = n; },
+      cursorRef: (n) => { this.cursor = n; },
+      onMove: (e) => this.moveCursor(e),
+      onLeave: () => { if (this.cursor) this.cursor.style.opacity = "0"; },
+      annot: this.props.showAnnotations === false ? "off" : "on",
+      isD: !m, isM: m,
+      showList: !inProject, showProject: inProject,
+      countLabel: String(PROJECTS.length).padStart(2, "0"),
+      projects: PROJECTS.map((p, i) => ({
+        title: p.title, kind: p.kind, year: p.year, client: p.client, teaser: p.teaser,
+        n: String(i + 1).padStart(2, "0"), cover: WM(IMG[p.key]), pos: "center",
+        span: i === 0 ? 2 : 1, ratio: i === 0 ? "21/9" : "4/3", hasVideo: !!p.youtube,
+        open: () => this.openProject(i)
+      })),
+      pr: inProject ? this.detail(cur) : this.detail(0),
+      back: () => this.openProject(-1),
+      next: () => this.openProject(((cur < 0 ? 0 : cur) + 1) % PROJECTS.length),
+      nextTitle: PROJECTS[((cur < 0 ? 0 : cur) + 1) % PROJECTS.length].title,
+      videoOn: this.state.video, videoOff: !this.state.video,
+      videoSrc: inProject && PROJECTS[cur].youtube ? "https://www.youtube-nocookie.com/embed/" + PROJECTS[cur].youtube + "?autoplay=1&rel=0" : "",
+      playVideo: () => this.setState({ video: true }),
+      menuOpen: this.state.menu,
+      openMenu: () => this.setState({ menu: true }),
+      closeMenu: () => this.setState({ menu: false }),
+      nav: NAV.map((l, i) => {
+        const on = l === "work";
+        return { label: l, on, off: !on, num: "0" + (i + 1), delay: (60 + i * 50) + "ms", color: on ? "#5a4bc4" : "#131316",
+          go: () => { if (l === "work") this.openProject(-1); else this.setState({ menu: false }); } };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

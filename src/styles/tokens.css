@@ -1,0 +1,82 @@
+/* Design tokens — from design/design_handoff_yurix_site/README.md and the v6 page files. */
+
+:root {
+  /* Ink and text */
+  --ink: #131316;
+  --text-body: #55555d;
+  --text-body-strong: #4b4b54;
+  --text-secondary: #63636d;
+  --text-muted: #86868f;
+  --text-disabled: #9d9da5;
+  --text-faint: #b5b5bc;
+  --border-dashed: #c6c6cc;
+
+  /* Accent */
+  --accent: #5a4bc4;
+  --accent-dark: #443a97;
+  --accent-tint: #efedfb;
+
+  /* Surfaces */
+  --white: #ffffff;
+  --surface-card: #f5f5f7;
+  --surface-placeholder: #efeef6;
+  --surface-skeleton: #e8e7f0;
+  --surface-window-fallback: #d9d6e8;
+  --wordmark: #ebebef;
+  --hero-fallback: #2a2838;
+
+  /* Admin */
+  --admin-bg: #f4f3ef;
+  --admin-toggle-off: #d6d5d0;
+  --admin-row-hover: #faf9f6;
+
+  /* Status */
+  --ok: #2f8a57;
+  --error: #c0392b;
+  --toast-dot: #8be0a6;
+
+  /* Hairlines */
+  --line-06: rgba(19, 19, 22, 0.06);
+  --line-08: rgba(19, 19, 22, 0.08);
+  --line-12: rgba(19, 19, 22, 0.12);
+  --line-14: rgba(19, 19, 22, 0.14);
+  --line-16: rgba(19, 19, 22, 0.16);
+  --line-18: rgba(19, 19, 22, 0.18);
+  --line-20: rgba(19, 19, 22, 0.2);
+
+  /* Type (set by next/font in src/app/layout.tsx) */
+  --font-display: var(--font-bricolage), sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  /* Radius */
+  --radius-tag: 5px;
+  --radius-sm: 8px;
+  --radius-input: 12px;
+  --radius-card: 16px;
+  --radius-panel: 20px;
+  --radius-media: 24px;
+  --radius-pill: 999px;
+
+  /* Spacing */
+  --gutter: 56px;
+  --gutter-mobile: 16px;
+
+  /* Shadows */
+  --shadow-window: 0 2px 6px rgba(19, 19, 22, 0.06), 0 24px 60px rgba(19, 19, 22, 0.16);
+  --shadow-card: 0 1px 2px rgba(19, 19, 22, 0.06), 0 2px 8px rgba(19, 19, 22, 0.05);
+  --shadow-player: 0 8px 24px rgba(19, 19, 22, 0.1);
+  --shadow-toast: 0 10px 30px rgba(19, 19, 22, 0.18);
+
+  /* Motion */
+  --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Layout */
+  --nav-height: 84px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --nav-height: 68px;
+  }
+}
