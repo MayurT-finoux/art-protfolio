@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { authClient } from "@/lib/authClient";
+import { usePathname } from "next/navigation";
 import { ADMIN_USER, PROJECTS } from "@/lib/placeholder/admin";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { SoonTag } from "../ui/AdminUI";
@@ -12,13 +11,7 @@ type Item = { label: string; href?: string; count?: number };
 
 export function AdminSidebar({ artworkCount }: { artworkCount: number }) {
   const pathname = usePathname();
-  const router = useRouter();
 
-  const signOut = async () => {
-    await authClient.signOut();
-    router.replace("/admin/login");
-    router.refresh();
-  };
   const { categories } = useAdmin();
 
   const groups: { name: string; items: Item[] }[] = [
@@ -88,10 +81,7 @@ export function AdminSidebar({ artworkCount }: { artworkCount: number }) {
           <span className={styles.userName}>{ADMIN_USER.name}</span>
           <span className={styles.userEmail}>{ADMIN_USER.email}</span>
         </div>
-        {/* Not in the design: needed now that the admin has a sign-in. */}
-        <button type="button" className={styles.signOut} onClick={signOut}>
-          sign out
-        </button>
+
       </div>
     </aside>
   );

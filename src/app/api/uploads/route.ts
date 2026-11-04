@@ -1,4 +1,4 @@
-import { getAdminSession } from "@/lib/adminSession";
+import { isAdmin } from "@/lib/adminSession";
 import { r2PublicUrl, signUpload } from "@/lib/r2";
 import { checkUpload, FOLDER_PATTERN, UPLOAD_RULES, type UploadKind } from "@/lib/uploads";
 
@@ -8,10 +8,10 @@ type Body = { kind: UploadKind; folder: string; contentType: string; size: numbe
  * Signs one upload: the browser then PUTs the file straight to R2.
  * Returns { uploadUrl, publicUrl, key }.
  *
- * Admin only: requires a signed-in admin session.
+ * Admin only (open while admin sign-in is switched off — see src/lib/adminSession.ts).
  */
 export async function POST(request: Request) {
-  if (!(await getAdminSession(request.headers))) {
+  if (!(await isAdmin(request.headers))) {
     return Response.json({ error: "Please sign in again." }, { status: 401 });
   }
 

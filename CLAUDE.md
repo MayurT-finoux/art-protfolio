@@ -21,7 +21,7 @@ The design files from Claude Design are the finalized design and the **single so
 - Styling: CSS Modules (no Tailwind, no UI libraries)
 - Database: Neon Postgres (project "art-portfolio", id `lucky-hat-31537393`, database `portfolio`, branch `production`, Postgres 18, AWS Singapore `aws-ap-southeast-1`)
 - ORM: Drizzle ORM + drizzle-kit + `@neondatabase/serverless` (neon-http driver)
-- Admin login: Better Auth (single admin account, sign-ups disabled) — `src/lib/auth.ts`, gate in `src/proxy.ts`
+- Admin login: Better Auth (single admin account, sign-ups disabled) — `src/lib/auth.ts`. **Switched off** for now (`ADMIN_LOGIN_ENABLED = false` in `src/lib/adminSession.ts`): /admin opens directly.
 - Media storage: Cloudflare R2 via `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` (presigned browser uploads)
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
@@ -88,7 +88,7 @@ src/
   app/
     layout.tsx          root layout
     (site)/             public pages + layout (MainNav, Footer, MusicPlayer)
-    admin/              login/, reset-password/ (open) + (cms)/ screens (layout = AdminShell)
+    admin/              (cms)/ screens (layout = AdminShell); no sign-in screen while login is off
     api/
   components/{site,home,work,gallery,about,notfound,admin}/
     <ComponentName>/<ComponentName>.tsx + <ComponentName>.module.css
@@ -162,4 +162,6 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-19 — Admin sign-in built (Phase 8): Better Auth, sign-ups off, 5 tries / 15 min per IP (DB-stored), reset link 30 min. `/admin` gate = proxy **rewrite** to the sign-in screen (redirects broke behind Codespaces). All admin actions + `/api/uploads` require a session again (reverses the 2026-10-11 "open admin" state). Added (not in design): `/admin/reset-password` page and a sidebar "sign out".
 - 2026-10-19 — Contact page built (Phase 8): messages → `contact_messages`, Resend notification to `NOTIFY_EMAIL`, honeypot spam guard.
 - 2026-10-19 — Bug fix: admin "Footer & social" now saves (site_content "footer": wordmark, say-hi label, location, email, copyright, Instagram/Behance/YouTube URLs). Used by the footer, mobile menu, Home follow button and Contact page; empty social links are hidden. Instagram connection panel is still placeholder. About page SocialLinks still come from `about.ts`.
+- 2026-11-04 — At Yurix's request: **admin sign-in removed** — /admin opens directly. `ADMIN_LOGIN_ENABLED = false` makes `requireAdmin()` / `isAdmin()` pass; removed `src/proxy.ts`, `/admin/login`, `/admin/reset-password`, `AdminLogin`, sidebar sign-out (restore from git commit fb47038 + set the flag to true). Auth tables, `src/lib/auth.ts`, `/api/auth` and `npm run admin:create` are kept; the admin account (mayurt.finoux@gmail.com) stays in the DB. ⚠️ Anyone can edit content/upload until it's back on.
+- 2026-11-04 — Security: Next.js 16.4.0 → **16.4.5** (critical RCE advisories; builds were blocked) + zod patched via `npm audit fix`. Remaining: 4 moderate advisories in drizzle-kit's esbuild (dev tool only; the suggested fix is a downgrade).
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.

@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// /admin/login and /admin/reset-password render without the CMS shell;
-// everything else is in (cms) with AdminShell. Access is checked in src/proxy.ts.
+// Admin screens live in (cms) with AdminShell. Sign-in is switched off for now
+// (see src/lib/adminSession.ts), so /admin opens directly.
 export default function AdminRootLayout({ children }: LayoutProps<"/admin">) {
   return children;
 }
