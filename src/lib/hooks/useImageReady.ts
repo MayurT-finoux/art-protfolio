@@ -2,22 +2,24 @@
 
 import { useEffect, useState } from "react";
 
-/** True once the image has loaded (or failed), so skeletons can be swapped for it. */
+/**
+ * True once the image has loaded (or failed), so skeletons can be swapped for it.
+ * An empty src is ready right away: the frame shows its plain fill.
+ */
 export function useImageReady(src: string) {
-  const [ready, setReady] = useState(false);
+  const [loaded, setLoaded] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!src) return;
     const img = new Image();
-    const done = () => setReady(true);
-    img.onload = done;
-    img.onerror = done;
+    const done = () => setLoaded(src);
+    img.onload = img.onerror = done;
     img.src = src;
     if (img.complete) done();
     return () => {
-      img.onload = null;
-      img.onerror = null;
+      img.onload = img.onerror = null;
     };
   }, [src]);
 
-  return ready;
+  return !src || loaded === src;
 }
