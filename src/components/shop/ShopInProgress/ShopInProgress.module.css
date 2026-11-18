@@ -1,0 +1,67 @@
+/* Header styles from WorkList (same label / 200px heading / intro). */
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 70vh;
+  padding: 130px var(--gutter) 100px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 200px;
+  line-height: 0.8;
+  letter-spacing: -0.065em;
+}
+
+.intro {
+  max-width: 440px;
+  margin-top: 28px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-body-strong);
+  text-wrap: pretty;
+}
+
+.button {
+  margin-top: 12px;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .section {
+    gap: 0;
+    padding: 96px var(--gutter-mobile) 64px;
+  }
+
+  .label {
+    font-size: 10.5px;
+  }
+
+  .heading {
+    margin: 8px 0 14px;
+    font-size: 104px;
+    line-height: 0.82;
+    letter-spacing: -0.06em;
+  }
+
+  .intro {
+    margin: 0 0 24px;
+    font-size: 16px;
+  }
+}

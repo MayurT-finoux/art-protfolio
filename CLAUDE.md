@@ -90,7 +90,7 @@ src/
     (site)/             public pages + layout (MainNav, Footer, MusicPlayer)
     admin/              (cms)/ screens (layout = AdminShell); no sign-in screen while login is off
     api/
-  components/{site,home,work,gallery,about,notfound,admin}/
+  components/{site,home,work,gallery,about,contact,shop,notfound,admin}/
     <ComponentName>/<ComponentName>.tsx + <ComponentName>.module.css
   components/admin/ui/  shared admin controls (AdminUI: Panel, Field, TextInput, Toggle, Chip…; Sortable: dnd-kit)
   styles/tokens.css     design tokens
@@ -175,3 +175,4 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-11-18 — Dashboard shows real drafts and "recently edited"; Instagram panels say "not connected" until the API is built. Sidebar shows the admin account from the database.
 - 2026-11-18 — `npm audit`: remaining findings are dev tools only (picomatch ReDoS via ESLint, no fix released yet; esbuild via drizzle-kit, fix = downgrade). Re-check later.
 - 2026-11-18 — Yurix's answers: **B5** — instead of hiding empty sections, show temporary sample content everywhere (reverses the 2026-10-19 "everything empty"): `npm run db:samples` added 16 sample artworks (7 featured, 1 draft) + 6 live projects to the production DB and Home stills; default Home/About content uses sample images from `src/lib/placeholder/images.ts` (Wikimedia public-domain paintings, `SAMPLE_IMAGES_ON`); Fresh shows 3 sample Instagram posts. Remove later with `npm run db:samples -- --remove` + `SAMPLE_IMAGES_ON = false`. **B7** — music player left as is. **B8** — new branch `pre-prod` (phase-1 + phase-2); `main` unchanged until development is complete.
+- 2026-11-18 — Yurix's change: `/shop` shows an "in progress" page (`ShopInProgress`, not in the design; reuses the Work header styles) until the Shop is built. 404 stays the plain default page (no game for now).
