@@ -57,7 +57,7 @@ The design files from Claude Design are the finalized design and the **single so
 9. 404 runner game
 10. SEO, performance, and deployment
 
-Each phase has its own folder: `docs/phase-1/` (Phase 1 notes, the old Phase1–8 plans) and `docs/phase-2/PLAN.md`.
+Each phase has its own folder: `docs/phase-1/` (Phase 1 notes, the old Phase1–8 plans), `docs/phase-2/PLAN.md`, `docs/phase-3/PLAN.md`. **All open points live in one file: `docs/NOTES.md`** — keep it updated.
 
 ## Design files
 
