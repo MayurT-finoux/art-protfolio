@@ -138,7 +138,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-10-08 — `/gallery/{slug}` behaviour: decide later.
 - 2026-10-08 — Contact email `hey@yurix.art` (replaces "hey@aditi.art" in the design). Instagram `@yurix.draws`.
 - 2026-10-08 — Neon setup: skipped `neon config init`, `neon.ts` and `neon deploy` (they manage Neon Functions / buckets, which the brief excludes, and add `@neon/config`).
-- 2026-10-08 — Neon agent skills in `.claude/skills/` include neon-auth, neon-functions and neon-object-storage. Ignore them: the brief excludes those products.
+- 2026-10-08 — Neon agent skills: neon-auth, neon-functions, neon-object-storage, neon-ai-gateway were removed from `.claude/skills/` (2026-11-18); the brief excludes those products.
 - 2026-10-08 — Neon CLI uses the API-key profile `default`; run CLI commands with `--profile default`.
 - 2026-10-08 — Home built first, inside Phase 1 (Phase 1b), with placeholder data in `src/lib/placeholder/home.ts`.
 - 2026-10-08 — Responsive breakpoint: mobile ≤ 767px. Between 768 and 1440 the desktop values apply.
