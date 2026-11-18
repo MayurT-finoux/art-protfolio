@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ProjectEditor } from "@/components/admin/ProjectEditor/ProjectEditor";
-import { PROJECTS } from "@/lib/placeholder/admin";
+import { getProjects } from "@/lib/content/queries";
 import { slugParams } from "@/lib/staticParams";
 
-export function generateStaticParams() {
-  return slugParams(PROJECTS.map((p) => p.slug));
+export async function generateStaticParams() {
+  return slugParams((await getProjects()).map((p) => p.slug));
 }
 
 // The slug is read inside <Suspense> so navigation into the editor stays instant.
@@ -19,7 +19,7 @@ export default function ProjectPage({ params }: PageProps<"/admin/projects/[slug
 
 async function Editor({ params }: { params: PageProps<"/admin/projects/[slug]">["params"] }) {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = (await getProjects()).find((p) => p.slug === slug);
   if (!project) notFound();
-  return <ProjectEditor key={slug} project={project} />;
+  return <ProjectEditor key={project.id} project={project} />;
 }

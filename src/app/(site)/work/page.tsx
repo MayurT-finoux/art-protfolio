@@ -1,13 +1,14 @@
 import { WorkList } from "@/components/work/WorkList/WorkList";
-import { liveProjects, workPage } from "@/lib/placeholder/work";
+import { liveProjects } from "@/lib/content/work";
+import { workPage } from "@/lib/placeholder/work";
 
-export default function WorkPage() {
+export default async function WorkPage() {
   return (
     <WorkList
       label={workPage.label}
       heading={workPage.heading}
       intro={workPage.intro}
-      projects={liveProjects()}
+      projects={await liveProjects()}
     />
   );
 }

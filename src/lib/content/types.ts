@@ -167,3 +167,31 @@ export const DEFAULT_MICROCOPY: MicrocopyContent = {
   cursorView: "view",
   cursorOpen: "open",
 };
+
+/** One Work project as the admin uses it (projects table). */
+export type ProjectData = {
+  id: number;
+  slug: string;
+  title: string;
+  kind: string;
+  year: string;
+  client: string;
+  role: string;
+  tools: string;
+  teaser: string;
+  coverUrl: string;
+  coverIsVideo: boolean;
+  story: string[];
+  process: { label: string; url: string }[];
+  finals: string[];
+  youtubeId: string | null;
+  behanceUrl: string | null;
+  behanceText: string;
+  position: number;
+  status: "draft" | "live";
+  seoTitle: string | null;
+  seoDescription: string | null;
+};
+
+/** Work shows 6–12 projects. */
+export const MAX_PROJECTS = 12;

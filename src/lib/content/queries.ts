@@ -3,7 +3,7 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, hasDatabase } from "@/db";
-import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
+import { artworkImages, artworks, categories, projects, siteContent } from "@/db/schema";
 import { ABOUT_CONTENT, type AboutContent } from "@/lib/placeholder/about";
 import {
   DEFAULT_CATEGORIES,
@@ -18,6 +18,7 @@ import {
   type MicrocopyContent,
   type MusicContent,
   type NavContent,
+  type ProjectData,
 } from "./types";
 
 export const CONTENT_TAG = "content";
@@ -102,6 +103,16 @@ export async function getArtworks(): Promise<ArtworkData[]> {
       .filter((im) => im.artworkId === a.id)
       .map(({ url, label, width, height, focus }) => ({ url, label, width, height, focus })),
   }));
+}
+
+/** All projects (drafts too) in Work order. */
+export async function getProjects(): Promise<ProjectData[]> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  if (!hasDatabase()) return [];
+  const rows = await db().select().from(projects).orderBy(asc(projects.position), asc(projects.id));
+  return rows.map(({ createdAt: _c, updatedAt: _u, ...p }) => p); // eslint-disable-line @typescript-eslint/no-unused-vars
 }
 
 export async function getCategories(): Promise<string[]> {

@@ -36,12 +36,25 @@ export function WorkList({ label, heading, intro, projects }: Props) {
           >
             <article className={styles.article}>
               <div className={styles.frame}>
-                <div
-                  className={styles.image}
-                  style={{ backgroundImage: bgImage(p.thumb.url), backgroundPosition: p.thumb.position }}
-                  role="img"
-                  aria-label={p.title}
-                />
+                {p.coverIsVideo ? (
+                  <video
+                    className={styles.image}
+                    style={{ width: "calc(100% + 16px)", height: "calc(100% + 16px)", objectFit: "cover" }}
+                    src={p.thumb.url}
+                    aria-label={p.title}
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <div
+                    className={styles.image}
+                    style={{ backgroundImage: bgImage(p.thumb.url), backgroundPosition: p.thumb.position }}
+                    role="img"
+                    aria-label={p.title}
+                  />
+                )}
                 <span className={styles.kind}>{p.kind}</span>
                 {p.youtubeId && (
                   <span className={styles.video}>

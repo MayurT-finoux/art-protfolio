@@ -1,26 +1,18 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
-import {
-  PROJECTS,
-} from "@/lib/placeholder/admin";
-
-// Client-side admin state for screens not yet in the database (projects,
-// categories, nav, music, about, Instagram), seeded from placeholder data.
-// Artworks and the Home page are saved to the database (src/app/admin/actions.ts).
+// Client-side admin state: the "saved" toast and the Instagram panel (placeholder
+// until the Instagram API is connected). Content is saved to the database through
+// the server actions in src/app/admin/actions.ts.
 
 export type IgState = "ok" | "syncing" | "fail";
 
 type AdminState = {
-  projectOrder: number[];
-  projectDraft: Record<string, boolean>;
   ig: IgState;
   saved: boolean;
 };
 
 type AdminActions = {
-  setProjectDraft: (slug: string, draft: boolean) => void;
-  setProjectOrder: (order: number[]) => void;
   syncInstagram: () => void;
   save: () => void;
 };
@@ -29,8 +21,6 @@ const AdminContext = createContext<(AdminState & AdminActions) | null>(null);
 
 export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AdminState>({
-    projectOrder: PROJECTS.map((_, i) => i),
-    projectDraft: Object.fromEntries(PROJECTS.map((p) => [p.slug, p.draft])),
     ig: "ok",
     saved: false,
   });
@@ -54,13 +44,10 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       ...state,
-      setProjectDraft: (slug: string, draft: boolean) =>
-        setState((s) => ({ ...s, projectDraft: { ...s.projectDraft, [slug]: draft } })),
-      setProjectOrder: (projectOrder: number[]) => patch({ projectOrder }),
       syncInstagram,
       save,
     }),
-    [state, patch, syncInstagram, save],
+    [state, syncInstagram, save],
   );
 
   return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;

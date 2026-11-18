@@ -1,6 +1,6 @@
-// Placeholder projects for the Work page and project pages, copied from the v6 design
+// Work page + project page shapes and copy, from the v6 design
 // (design/design_handoff_yurix_site/designs/WorkPage.dc.html).
-// Shaped like the handoff data model's `Project` so it can move to the database later.
+// Projects themselves come from the database (src/lib/content/work.ts).
 
 export type ProjectImage = {
   url: string;
@@ -10,7 +10,7 @@ export type ProjectImage = {
 
 export type ProcessStep = ProjectImage & {
   label: string;
-  /** CSS filter used on the placeholder images (sketchy early steps) */
+  /** CSS filter on the image ("none" for real images) */
   filter: string;
 };
 
@@ -37,8 +37,14 @@ export type Project = {
   story: string[];
   process: ProcessStep[];
   finals: FinalPiece[];
+  /** cover is an MP4 loop instead of an image */
+  coverIsVideo?: boolean;
   youtubeId?: string;
   behanceUrl?: string;
+  /** Behance block text (falls back to the page copy) */
+  behanceText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   order: number;
   status: "draft" | "live";
 };
@@ -63,9 +69,3 @@ export const projectPage = {
   next: "next project",
 };
 
-// Sample projects removed at Yurix's request (2026-10-19).
-export const PROJECTS: Project[] = [];
-
-/** Live projects in CMS order. */
-export const liveProjects = () =>
-  PROJECTS.filter((p) => p.status === "live").sort((a, b) => a.order - b.order);

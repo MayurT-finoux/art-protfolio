@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { slugify, type Project } from "@/lib/placeholder/admin";
+import { saveProject } from "@/app/admin/actions";
+import type { ProjectData } from "@/lib/content/types";
+import { slugify } from "@/lib/placeholder/admin";
 import { AdminPage } from "../AdminPage/AdminPage";
-import { useAdmin } from "../AdminProvider/AdminProvider";
 import { SlugSeoFields, type SeoValues } from "../SlugSeoFields/SlugSeoFields";
 import { FilePicker, progressLabel } from "../ui/FilePicker";
 import { SortableList } from "../ui/Sortable";
@@ -17,9 +19,18 @@ type Final = { id: string; src: string };
 let nextId = 0;
 const uid = () => `n${nextId++}`;
 
-/** `project` null = new project. */
-export function ProjectEditor({ project }: { project: Project | null }) {
-  const { projectDraft, setProjectDraft } = useAdmin();
+const BEHANCE = "https://www.behance.net/gallery/";
+
+/** Video ID from a pasted YouTube link (youtu.be/ID, watch?v=ID, /shorts/ID) or the ID itself. */
+function youtubeIdFrom(value: string) {
+  const v = value.trim();
+  const m = v.match(/(?:youtu\.be\/|[?&]v=|\/(?:shorts|embed|live)\/)([\w-]{6,20})/);
+  return m ? m[1] : v.replace(/^https?:\/\/\S*\//, "");
+}
+
+/** `project` null = new project. Saved to the projects table. */
+export function ProjectEditor({ project }: { project: ProjectData | null }) {
+  const router = useRouter();
   const p = project;
 
   const [title, setTitle] = useState(p?.title ?? "");
@@ -29,32 +40,46 @@ export function ProjectEditor({ project }: { project: Project | null }) {
   const [role, setRole] = useState(p?.role ?? "");
   const [tools, setTools] = useState(p?.tools ?? "");
   const [teaser, setTeaser] = useState(p?.teaser ?? "");
-  const [story, setStory] = useState<Item[]>(() =>
-    p
-      ? [
-          `${p.teaser} It started as a sketch on the back of a receipt and slowly grew legs.`,
-          "Everything was drawn by hand, frame by frame. The wobble is on purpose — it's how you know a person made it.",
-        ].map((text, j) => ({ id: `s${j}`, text }))
-      : [],
-  );
-  const [steps, setSteps] = useState<Step[]>(() =>
-    p ? ["sketches", "animatic", "colour script", "clean-up"].map((label, j) => ({ id: `p${j}`, label, src: "" })) : [],
-  );
-  const [finals, setFinals] = useState<Final[]>(() =>
-    p ? [0, 3, 5].map((o, j) => ({ id: `f${j}`, src: "" })) : [],
-  );
+  const [story, setStory] = useState<Item[]>(() => (p?.story ?? []).map((text, j) => ({ id: `s${j}`, text })));
+  const [steps, setSteps] = useState<Step[]>(() => (p?.process ?? []).map((s, j) => ({ id: `p${j}`, label: s.label, src: s.url })));
+  const [finals, setFinals] = useState<Final[]>(() => (p?.finals ?? []).map((src, j) => ({ id: `f${j}`, src })));
   const [youtubeOn, setYoutubeOn] = useState(!!p?.youtubeId);
   const [youtubeId, setYoutubeId] = useState(p?.youtubeId || "");
-  const [behanceOn, setBehanceOn] = useState(p?.behance ?? false);
-  const [behanceSlug, setBehanceSlug] = useState(p?.slug ?? "");
-  const [behanceText, setBehanceText] = useState("the full case study, every frame");
-  const [seo, setSeo] = useState<SeoValues>({ slug: p?.slug ?? "", seoTitle: p ? `${p.title} — Yurix` : "", seoDescription: "" });
-  const [localDraft, setLocalDraft] = useState(true);
+  const [behanceOn, setBehanceOn] = useState(!!p?.behanceUrl);
+  const [behanceSlug, setBehanceSlug] = useState(p?.behanceUrl?.replace(/^https?:\/\/(www\.)?behance\.net\/gallery\//, "") ?? "");
+  const [behanceText, setBehanceText] = useState(p?.behanceText || "the full case study, every frame");
+  const [seo, setSeo] = useState<SeoValues>({ slug: p?.slug ?? "", seoTitle: p?.seoTitle ?? "", seoDescription: p?.seoDescription ?? "" });
+  const [draft, setDraft] = useState(p ? p.status === "draft" : true);
+  const [cover, setCover] = useState(p?.coverUrl ?? "");
+  const [coverIsVideo, setCoverIsVideo] = useState(p?.coverIsVideo ?? false);
 
-  const draft = p ? projectDraft[p.slug] : localDraft;
-  const setDraft = (d: boolean) => (p ? setProjectDraft(p.slug, d) : setLocalDraft(d));
-  const [cover, setCover] = useState(() => p?.image ?? "");
-  const [coverIsVideo, setCoverIsVideo] = useState(false);
+  const save = async () => {
+    const result = await saveProject({
+      id: p?.id,
+      slug: seo.slug,
+      title,
+      kind,
+      year,
+      client,
+      role,
+      tools,
+      teaser,
+      coverUrl: cover,
+      coverIsVideo: !!cover && coverIsVideo,
+      story: story.map((s) => s.text.trim()).filter(Boolean),
+      process: steps.map((s) => ({ label: s.label, url: s.src })).filter((s) => s.url),
+      finals: finals.map((f) => f.src).filter(Boolean),
+      youtubeId: youtubeOn && youtubeId.trim() ? youtubeIdFrom(youtubeId) : null,
+      behanceUrl: behanceOn && behanceSlug.trim() ? BEHANCE + behanceSlug.trim().replace(/^https?:\/\/(www\.)?behance\.net\/gallery\//, "") : null,
+      behanceText: behanceText.trim(),
+      status: draft ? "draft" : "live",
+      seoTitle: seo.seoTitle,
+      seoDescription: seo.seoDescription,
+    });
+    if (!result.ok) return result.error;
+    if (result.slug !== p?.slug) router.replace(`/admin/projects/${result.slug}`);
+    else router.refresh();
+  };
   const folder = `projects/${p?.slug ?? (slugify(title) || "untitled")}`;
 
   const outline: [string, string, string][] = [
@@ -69,7 +94,12 @@ export function ProjectEditor({ project }: { project: Project | null }) {
   ];
 
   return (
-    <AdminPage title={title || "new project"} back={{ href: "/admin/projects", label: "Projects" }} status={{ draft, onChange: setDraft }}>
+    <AdminPage
+      title={title || "new project"}
+      back={{ href: "/admin/projects", label: "Projects" }}
+      status={{ draft, onChange: setDraft }}
+      onSave={save}
+    >
       <div data-component="ProjectEditor" className={styles.editor}>
         <nav className={styles.outline}>
           <span className={styles.outlineTitle}>ProjectPage</span>

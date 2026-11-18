@@ -5,25 +5,6 @@
 export const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-export type Project = {
-  slug: string;
-  title: string;
-  kind: string;
-  year: string;
-  client: string;
-  role: string;
-  tools: string;
-  /** cover image URL */
-  image: string;
-  teaser: string;
-  youtubeId: string;
-  behance: boolean;
-  draft: boolean;
-};
-
-export const PROJECTS: Project[] = [];
-export const MAX_PROJECTS = 12;
-
 export const ADMIN_USER = { name: "Yurix", email: "hey@yurix.art", initial: "y" };
 
 export const FOOTER_PAGES = ["Home", "Work", "Gallery", "Shop", "About", "Contact"];

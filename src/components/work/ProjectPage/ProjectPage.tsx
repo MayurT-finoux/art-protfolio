@@ -54,7 +54,21 @@ export function ProjectPage({ project: p, n, next, copy }: Props) {
       </div>
 
       <div className={styles.cover}>
-        <div className={styles.coverImage} style={bg(p.cover.url, p.cover.position)} role="img" aria-label={p.title} />
+        {p.coverIsVideo ? (
+          // MP4 loop cover (admin: "image or MP4 loop").
+          <video
+            className={styles.coverImage}
+            style={{ width: "calc(100% + 20px)", height: "calc(100% + 20px)", objectFit: "cover" }}
+            src={p.cover.url}
+            aria-label={p.title}
+            muted
+            autoPlay
+            loop
+            playsInline
+          />
+        ) : (
+          <div className={styles.coverImage} style={bg(p.cover.url, p.cover.position)} role="img" aria-label={p.title} />
+        )}
       </div>
 
       <div className={styles.metaMobile}>{metaRows}</div>

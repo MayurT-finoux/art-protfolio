@@ -6,10 +6,10 @@ import { and, count, eq, ne, sql } from "drizzle-orm";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { db } from "@/db";
-import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
+import { artworkImages, artworks, categories, projects, siteContent } from "@/db/schema";
 import { requireAdmin } from "@/lib/adminSession";
 import { CONTENT_TAG } from "@/lib/content/queries";
-import { MAX_FEATURED } from "@/lib/content/types";
+import { MAX_FEATURED, MAX_PROJECTS } from "@/lib/content/types";
 import { slugify } from "@/lib/placeholder/admin";
 
 const url = z.string().trim().url().max(2000);
@@ -59,15 +59,15 @@ async function writeContent(key: string, data: object) {
   updateTag(CONTENT_TAG);
 }
 
-/** Slug from the given value or the title, made unique. */
-async function uniqueSlug(wanted: string, title: string, id?: number) {
+/** Slug from the given value or the title, made unique in its table. */
+async function uniqueSlug(wanted: string, title: string, id?: number, table: typeof artworks | typeof projects = artworks) {
   const base = slugify(wanted) || slugify(title) || "untitled";
   for (let n = 1; ; n++) {
     const candidate = n === 1 ? base : `${base}-${n}`;
     const clash = await db()
-      .select({ id: artworks.id })
-      .from(artworks)
-      .where(id ? and(eq(artworks.slug, candidate), ne(artworks.id, id)) : eq(artworks.slug, candidate));
+      .select({ id: table.id })
+      .from(table)
+      .where(id ? and(eq(table.slug, candidate), ne(table.id, id)) : eq(table.slug, candidate));
     if (!clash.length) return candidate;
   }
 }
@@ -367,6 +367,76 @@ export async function saveAbout(raw: z.input<typeof aboutInput>): Promise<Result
   try {
     await requireAdmin();
     await writeContent("about", aboutInput.parse(raw));
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+const projectInput = z.object({
+  id: z.number().int().positive().optional(),
+  slug: text(120),
+  title: text(200).min(1, "Add a title."),
+  kind: text(80),
+  year: text(10),
+  client: text(120),
+  role: text(120),
+  tools: text(200),
+  teaser: text(300),
+  coverUrl: z.union([url, z.literal("")]),
+  coverIsVideo: z.boolean(),
+  story: z.array(text(3000)).max(20),
+  process: z.array(z.object({ label: text(60), url })).max(12),
+  finals: z.array(url).max(20),
+  youtubeId: z
+    .string()
+    .trim()
+    .regex(/^[\w-]{6,20}$/, "That YouTube link doesn't look right.")
+    .nullable(),
+  behanceUrl: url.nullable(),
+  behanceText: text(300),
+  status: z.enum(["draft", "live"]),
+  seoTitle: text(200),
+  seoDescription: text(400),
+});
+
+/** Create (no id; added last) or update a project. */
+export async function saveProject(raw: z.input<typeof projectInput>): Promise<Result<{ slug: string }>> {
+  try {
+    await requireAdmin();
+    const { id, ...input } = projectInput.parse(raw);
+    const slug = await uniqueSlug(input.slug, input.title, id, projects);
+    const values = {
+      ...input,
+      slug,
+      seoTitle: input.seoTitle || null,
+      seoDescription: input.seoDescription || null,
+      updatedAt: new Date(),
+    };
+    if (id) {
+      await db().update(projects).set(values).where(eq(projects.id, id));
+    } else {
+      const [{ n }] = await db().select({ n: count() }).from(projects);
+      if (n >= MAX_PROJECTS) return { ok: false, error: `Work holds ${MAX_PROJECTS} projects — remove one first.` };
+      await db().insert(projects).values({ ...values, position: n });
+    }
+    updateTag(CONTENT_TAG);
+    return { ok: true, slug };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+/** Work order: project ids, first = wide card. */
+export async function saveProjectOrder(raw: number[]): Promise<Result> {
+  try {
+    await requireAdmin();
+    const ids = z.array(z.number().int().positive()).max(100).parse(raw);
+    if (ids.length) {
+      const [first, ...rest] = ids.map((id, position) => db().update(projects).set({ position }).where(eq(projects.id, id)));
+      await db().batch([first, ...rest]);
+    }
+    updateTag(CONTENT_TAG);
     return { ok: true };
   } catch (error) {
     return fail(error);

@@ -1,5 +1,5 @@
-// Drizzle schema. First tables: what the Home page and the artwork admin need.
-// Projects, nav, music, about etc. follow when their admin screens are wired.
+// Drizzle schema. Artworks + projects have their own tables; page settings
+// (home, footer, nav, music, microcopy, about) are site_content documents.
 import { bigint, boolean, index, integer, jsonb, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export type ArtworkLinks = { instagram?: string; behance?: string; youtube?: string };
@@ -55,6 +55,37 @@ export const artworkImages = pgTable(
   },
   (t) => [index("artwork_images_artwork_idx").on(t.artworkId, t.position)],
 );
+
+export type ProjectStep = { label: string; url: string };
+
+/** Work page projects (admin "Projects"), in `position` order. */
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  kind: text("kind").notNull().default(""),
+  year: text("year").notNull().default(""),
+  client: text("client").notNull().default(""),
+  role: text("role").notNull().default(""),
+  tools: text("tools").notNull().default(""),
+  /** One line on the Work card. */
+  teaser: text("teaser").notNull().default(""),
+  coverUrl: text("cover_url").notNull().default(""),
+  coverIsVideo: boolean("cover_is_video").notNull().default(false),
+  story: jsonb("story").$type<string[]>().notNull().default([]),
+  process: jsonb("process").$type<ProjectStep[]>().notNull().default([]),
+  /** Final piece image URLs; the first runs wide. */
+  finals: jsonb("finals").$type<string[]>().notNull().default([]),
+  youtubeId: text("youtube_id"),
+  behanceUrl: text("behance_url"),
+  behanceText: text("behance_text").notNull().default(""),
+  position: integer("position").notNull().default(0),
+  status: text("status", { enum: ["draft", "live"] }).notNull().default("draft"),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
 
 /** Page content stored as one JSON document per page ("home", later "about", …). */
 export const siteContent = pgTable("site_content", {
