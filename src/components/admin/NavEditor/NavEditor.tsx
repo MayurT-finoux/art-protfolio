@@ -1,16 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { useAdmin } from "../AdminProvider/AdminProvider";
+import { saveNav } from "@/app/admin/actions";
+import type { NavContent } from "@/lib/content/types";
+import { AdminPage } from "../AdminPage/AdminPage";
 import { arrayMove, SortableList } from "../ui/Sortable";
 import { DragHandle, Field, ReorderButtons, TextInput, Toggle } from "../ui/AdminUI";
 import styles from "./NavEditor.module.css";
 
-export function NavEditor() {
-  const { nav, setNav } = useAdmin();
-  const [wordmark, setWordmark] = useState("yurix");
+// Saved as site_content "nav"; MainNav and the mobile menu read it.
+export function NavEditor({ initial }: { initial: NavContent }) {
+  const [nav, setNav] = useState(initial.items);
+  const [wordmark, setWordmark] = useState(initial.menuWordmark);
+
+  const save = async () => {
+    const result = await saveNav({ items: nav, menuWordmark: wordmark });
+    if (!result.ok) return result.error;
+  };
 
   return (
+    <AdminPage title="Navigation" onSave={save}>
     <div data-component="NavEditor" className={styles.editor}>
       <span className={styles.intro}>MainNav on desktop and the full-screen menu on mobile. Hidden items stay in the footer.</span>
       <SortableList
@@ -48,5 +57,6 @@ export function NavEditor() {
         </Field>
       </div>
     </div>
+    </AdminPage>
   );
 }

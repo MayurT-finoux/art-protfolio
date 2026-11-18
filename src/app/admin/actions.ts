@@ -50,6 +50,15 @@ const fail = (error: unknown): { ok: false; error: string } => ({
   error: error instanceof z.ZodError ? error.issues[0]?.message ?? "Invalid data." : (error as Error).message,
 });
 
+/** Saves one site_content document and refreshes the site. */
+async function writeContent(key: string, data: object) {
+  await db()
+    .insert(siteContent)
+    .values({ key, data })
+    .onConflictDoUpdate({ target: siteContent.key, set: { data, updatedAt: new Date() } });
+  updateTag(CONTENT_TAG);
+}
+
 /** Slug from the given value or the title, made unique. */
 async function uniqueSlug(wanted: string, title: string, id?: number) {
   const base = slugify(wanted) || slugify(title) || "untitled";
@@ -177,11 +186,7 @@ export async function saveHome(raw: z.infer<typeof homeInput>): Promise<Result> 
   try {
     await requireAdmin();
     const data = homeInput.parse(raw);
-    await db()
-      .insert(siteContent)
-      .values({ key: "home", data })
-      .onConflictDoUpdate({ target: siteContent.key, set: { data, updatedAt: new Date() } });
-    updateTag(CONTENT_TAG);
+    await writeContent("home", data);
     return { ok: true };
   } catch (error) {
     return fail(error);
@@ -211,11 +216,7 @@ export async function saveFooter(raw: z.input<typeof footerInput>): Promise<Resu
   try {
     await requireAdmin();
     const data = footerInput.parse(raw);
-    await db()
-      .insert(siteContent)
-      .values({ key: "footer", data })
-      .onConflictDoUpdate({ target: siteContent.key, set: { data, updatedAt: new Date() } });
-    updateTag(CONTENT_TAG);
+    await writeContent("footer", data);
     return { ok: true };
   } catch (error) {
     return fail(error);
@@ -238,6 +239,30 @@ export async function saveCategories(raw: string[]): Promise<Result> {
       db().insert(categories).values(names.map((name, position) => ({ name, position }))),
     ]);
     updateTag(CONTENT_TAG);
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+/** Site path ("/work") or full URL. */
+const linkHref = z
+  .string()
+  .trim()
+  .max(300)
+  .refine((v) => v.startsWith("/") || /^https?:\/\//i.test(v), "Links start with / (a page) or https://.");
+
+const navInput = z.object({
+  items: z
+    .array(z.object({ id: text(60).min(1), label: text(30).min(1, "Every link needs a label."), href: linkHref, visible: z.boolean() }))
+    .max(12),
+  menuWordmark: text(40),
+});
+
+export async function saveNav(raw: z.input<typeof navInput>): Promise<Result> {
+  try {
+    await requireAdmin();
+    await writeContent("nav", navInput.parse(raw));
     return { ok: true };
   } catch (error) {
     return fail(error);

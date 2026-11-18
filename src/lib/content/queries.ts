@@ -4,26 +4,45 @@ import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, hasDatabase } from "@/db";
 import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
-import { DEFAULT_CATEGORIES, DEFAULT_FOOTER, DEFAULT_HOME, type ArtworkData, type FooterContent, type HomeContent } from "./types";
+import {
+  DEFAULT_CATEGORIES,
+  DEFAULT_FOOTER,
+  DEFAULT_HOME,
+  DEFAULT_NAV,
+  type ArtworkData,
+  type FooterContent,
+  type HomeContent,
+  type NavContent,
+} from "./types";
 
 export const CONTENT_TAG = "content";
+
+/** One site_content document over its defaults (defaults alone without a database). */
+async function readContent<T extends object>(key: string, defaults: T): Promise<T> {
+  if (!hasDatabase()) return defaults;
+  const [row] = await db().select().from(siteContent).where(eq(siteContent.key, key));
+  return { ...defaults, ...((row?.data as Partial<T>) ?? {}) };
+}
 
 export async function getHomeContent(): Promise<HomeContent> {
   "use cache";
   cacheTag(CONTENT_TAG);
   cacheLife("hours");
-  if (!hasDatabase()) return DEFAULT_HOME;
-  const [row] = await db().select().from(siteContent).where(eq(siteContent.key, "home"));
-  return { ...DEFAULT_HOME, ...((row?.data as Partial<HomeContent>) ?? {}) };
+  return readContent("home", DEFAULT_HOME);
 }
 
 export async function getFooterContent(): Promise<FooterContent> {
   "use cache";
   cacheTag(CONTENT_TAG);
   cacheLife("hours");
-  if (!hasDatabase()) return DEFAULT_FOOTER;
-  const [row] = await db().select().from(siteContent).where(eq(siteContent.key, "footer"));
-  return { ...DEFAULT_FOOTER, ...((row?.data as Partial<FooterContent>) ?? {}) };
+  return readContent("footer", DEFAULT_FOOTER);
+}
+
+export async function getNavContent(): Promise<NavContent> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  return readContent("nav", DEFAULT_NAV);
 }
 
 /** All artworks, newest first, with their images in order. */

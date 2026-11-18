@@ -1,6 +1,6 @@
 // Content shapes shared by the site, the admin and the database layer.
 // Relative .ts imports: also used by scripts/db-seed.mts (plain Node).
-import { aboutSection, freshWork, hero, selectedWork, site, social } from "../placeholder/home.ts";
+import { aboutSection, freshWork, hero, nav, selectedWork, site, social } from "../placeholder/home.ts";
 
 /** Home page content, stored as site_content["home"]. */
 export type HomeContent = {
@@ -113,3 +113,17 @@ export const instagramHandle = (url: string) => {
   const handle = url.match(/instagram\.com\/([^/?#]+)/i)?.[1];
   return handle ? `@${handle}` : "";
 };
+
+/** One MainNav / mobile menu link. Hidden links stay in the footer. */
+export type NavRow = { id: string; label: string; href: string; visible: boolean };
+
+/** Admin "Navigation", stored as site_content["nav"]. */
+export type NavContent = { items: NavRow[]; menuWordmark: string };
+
+export const DEFAULT_NAV: NavContent = {
+  items: nav.map((n) => ({ id: n.label, label: n.label, href: n.href, visible: true })),
+  menuWordmark: site.wordmark,
+};
+
+/** Visible nav links, as the site uses them. */
+export const navLinks = (n: NavContent) => n.items.filter((i) => i.visible).map(({ label, href }) => ({ label, href }));

@@ -24,15 +24,6 @@ export type Project = {
 export const PROJECTS: Project[] = [];
 export const MAX_PROJECTS = 12;
 
-export type NavRow = { id: string; label: string; href: string; visible: boolean };
-export const NAV: NavRow[] = [
-  { id: "work", label: "work", href: "/work", visible: true },
-  { id: "gallery", label: "gallery", href: "/gallery", visible: true },
-  { id: "shop", label: "shop", href: "/shop", visible: true },
-  { id: "about", label: "about", href: "/about", visible: true },
-  { id: "contact", label: "contact", href: "/contact", visible: true },
-];
-
 export type Track = { name: string; file: string; duration: string; /** uploaded file (R2) */ url?: string };
 export const TRACKS: Track[] = [
   { name: "lullaby for a cat (loop)", file: "lullaby-cat.mp3", duration: "1:42" },

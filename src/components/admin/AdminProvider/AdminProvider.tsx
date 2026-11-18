@@ -3,12 +3,10 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import {
   ABOUT_LISTS,
-  NAV,
   PROJECTS,
   TRACKS,
   type AboutListKey,
   type ListItem,
-  type NavRow,
   type Track,
 } from "@/lib/placeholder/admin";
 
@@ -22,7 +20,6 @@ export type AboutLayout = "Sketchbook" | "Editorial";
 type AdminState = {
   projectOrder: number[];
   projectDraft: Record<string, boolean>;
-  nav: NavRow[];
   tracks: Track[];
   musicOn: boolean;
   aboutLists: Record<AboutListKey, ListItem[]>;
@@ -35,7 +32,6 @@ type AdminState = {
 type AdminActions = {
   setProjectDraft: (slug: string, draft: boolean) => void;
   setProjectOrder: (order: number[]) => void;
-  setNav: (nav: NavRow[]) => void;
   setTracks: (tracks: Track[]) => void;
   setMusicOn: (on: boolean) => void;
   setAboutList: (key: AboutListKey, items: ListItem[]) => void;
@@ -51,7 +47,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AdminState>({
     projectOrder: PROJECTS.map((_, i) => i),
     projectDraft: Object.fromEntries(PROJECTS.map((p) => [p.slug, p.draft])),
-    nav: NAV,
     tracks: TRACKS,
     musicOn: true,
     aboutLists: ABOUT_LISTS,
@@ -83,7 +78,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       setProjectDraft: (slug: string, draft: boolean) =>
         setState((s) => ({ ...s, projectDraft: { ...s.projectDraft, [slug]: draft } })),
       setProjectOrder: (projectOrder: number[]) => patch({ projectOrder }),
-      setNav: (nav: NavRow[]) => patch({ nav }),
       setTracks: (tracks: Track[]) => patch({ tracks }),
       setMusicOn: (musicOn: boolean) => patch({ musicOn }),
       setAboutList: (key: AboutListKey, items: ListItem[]) =>
