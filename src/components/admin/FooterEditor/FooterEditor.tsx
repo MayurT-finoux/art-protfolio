@@ -5,7 +5,6 @@ import { saveFooter } from "@/app/admin/actions";
 import { instagramHandle, type FooterContent } from "@/lib/content/types";
 import { FOOTER_PAGES } from "@/lib/placeholder/admin";
 import { AdminPage } from "../AdminPage/AdminPage";
-import { useAdmin } from "../AdminProvider/AdminProvider";
 import { Field, FieldLabel, Panel, PanelTitle, StatusDot, TextInput } from "../ui/AdminUI";
 import styles from "./FooterEditor.module.css";
 
@@ -26,10 +25,9 @@ const SOCIAL: { key: "instagram" | "behance" | "youtube"; name: string; placehol
 /** Shown without "https://", like the design ("instagram.com/yurix.draws"). */
 const bare = (url: string) => url.replace(/^https?:\/\//i, "");
 
-// Footer fields + social links are saved (site_content "footer"); the Instagram
-// connection panel stays a placeholder until the Instagram API is connected.
+// Footer fields + social links are saved (site_content "footer"). The Instagram
+// panel says "not connected" until the Instagram API is connected (later phase).
 export function FooterEditor({ initial }: { initial: FooterContent }) {
-  const { ig, syncInstagram } = useAdmin();
   const [c, setC] = useState<FooterContent>({
     ...initial,
     instagram: bare(initial.instagram),
@@ -37,7 +35,6 @@ export function FooterEditor({ initial }: { initial: FooterContent }) {
     youtube: bare(initial.youtube),
   });
 
-  const failed = ig === "fail";
   const handle = instagramHandle(`https://${c.instagram}`) || "not connected";
 
   const save = async () => {
@@ -70,25 +67,16 @@ export function FooterEditor({ initial }: { initial: FooterContent }) {
         <Panel gap={14}>
           <div className={styles.igHead}>
             <PanelTitle>Instagram</PanelTitle>
-            <StatusDot color={failed ? "var(--error)" : "var(--ok)"} mono>
-              {failed ? "sync failed" : "connected"}
+            <StatusDot color="var(--text-disabled)" mono>
+              not connected
             </StatusDot>
           </div>
           <div className={styles.igAccount}>
             <span className={styles.avatar}>y</span>
             <span className={styles.igText}>
               <span className={styles.handle}>{handle}</span>
-              <span className={styles.sync}>
-                {failed
-                  ? "couldn't reach Instagram · site still shows the last 3 posts"
-                  : ig === "syncing"
-                    ? "syncing…"
-                    : "last synced 12 min ago"}
-              </span>
+              <span className={styles.sync}>post sync comes with the Instagram connection</span>
             </span>
-            <button type="button" className={styles.syncButton} onClick={syncInstagram}>
-              {failed ? "retry" : "sync now"}
-            </button>
           </div>
           <span className={styles.note}>Newest 3 posts fill the Home Fresh strip. If a sync fails, the site keeps the last posts it got.</span>
         </Panel>

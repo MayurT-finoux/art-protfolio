@@ -135,3 +135,35 @@ export function featuredArtworks(all: ArtworkData[]) {
 export function featuredOrder(all: ArtworkData[]) {
   return all.filter((a) => a.featured).sort((a, b) => (a.featuredOrder ?? 99) - (b.featuredOrder ?? 99));
 }
+
+const PAGE_EDITS: Record<string, { title: string; where: string; href: string }> = {
+  home: { title: "Home page", where: "Home", href: "/admin/home" },
+  about: { title: "About page", where: "Page", href: "/admin/about" },
+  footer: { title: "Footer & social", where: "Site", href: "/admin/footer" },
+  nav: { title: "Navigation", where: "Site", href: "/admin/nav" },
+  music: { title: "Music playlist", where: "Site", href: "/admin/music" },
+  microcopy: { title: "Microcopy", where: "Site", href: "/admin/microcopy" },
+};
+
+export type RecentEdit = { title: string; where: string; href: string; at: string };
+
+/** Newest saves across artworks, projects and page settings (Dashboard). */
+export async function getRecentEdits(limit = 4): Promise<RecentEdit[]> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  if (!hasDatabase()) return [];
+  const [arts, projs, pages] = await Promise.all([
+    db().select({ title: artworks.title, slug: artworks.slug, at: artworks.updatedAt }).from(artworks).orderBy(desc(artworks.updatedAt)).limit(limit),
+    db().select({ title: projects.title, slug: projects.slug, at: projects.updatedAt }).from(projects).orderBy(desc(projects.updatedAt)).limit(limit),
+    db().select({ key: siteContent.key, at: siteContent.updatedAt }).from(siteContent),
+  ]);
+  return [
+    ...arts.map((a) => ({ title: a.title, where: "Artwork", href: `/admin/artworks/${a.slug}`, at: a.at })),
+    ...projs.map((p) => ({ title: p.title, where: "Project", href: `/admin/projects/${p.slug}`, at: p.at })),
+    ...pages.flatMap((p) => (PAGE_EDITS[p.key] ? [{ ...PAGE_EDITS[p.key], at: p.at }] : [])),
+  ]
+    .sort((a, b) => b.at.getTime() - a.at.getTime())
+    .slice(0, limit)
+    .map((e) => ({ ...e, at: e.at.toISOString() }));
+}

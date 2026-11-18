@@ -2,21 +2,8 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { aboutSection, freshWork, infoCards, type FreshItem, type InfoCard, type SelectedArtwork } from "@/lib/placeholder/home";
 import { CONTENT_TAG, featuredArtworks, getArtworks, getHomeContent } from "./queries";
+import { timeAgo } from "@/lib/timeAgo";
 import { coverRatio } from "./types";
-
-const DAY = 24 * 60 * 60 * 1000;
-
-/** "2 days ago", "1 week ago" — refreshed at least hourly with the cache. */
-function ago(iso: string, now: number) {
-  const days = Math.max(0, Math.floor((now - Date.parse(iso)) / DAY));
-  if (days === 0) return "today";
-  if (days === 1) return "yesterday";
-  if (days < 7) return `${days} days ago`;
-  const weeks = Math.floor(days / 7);
-  if (weeks < 5) return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
-  const months = Math.floor(days / 30);
-  return months <= 1 ? "1 month ago" : `${months} months ago`;
-}
 
 export async function getHomePageData() {
   "use cache";
@@ -44,7 +31,7 @@ export async function getHomePageData() {
   newest.forEach((a, i) => {
     fresh.push({
       title: a.title,
-      when: ago(a.createdAt, now),
+      when: timeAgo(a.createdAt, now),
       image: a.images[0].url,
       position: a.images[0].focus,
       isNew: i === 0,

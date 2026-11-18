@@ -1,12 +1,12 @@
 import { AdminPage } from "@/components/admin/AdminPage/AdminPage";
 import { Dashboard } from "@/components/admin/Dashboard/Dashboard";
-import { featuredOrder, getArtworks } from "@/lib/content/queries";
+import { featuredOrder, getArtworks, getProjects, getRecentEdits } from "@/lib/content/queries";
 
 export default async function DashboardPage() {
-  const artworks = await getArtworks();
+  const [artworks, projects, recent] = await Promise.all([getArtworks(), getProjects(), getRecentEdits()]);
   return (
     <AdminPage title="Dashboard">
-      <Dashboard artworks={artworks} featured={featuredOrder(artworks)} />
+      <Dashboard artworks={artworks} projects={projects} featured={featuredOrder(artworks)} recent={recent} />
     </AdminPage>
   );
 }

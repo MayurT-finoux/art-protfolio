@@ -2,20 +2,11 @@
 
 import Link from "next/link";
 import { Suspense } from "react";
-import { INSTAGRAM_POSTS } from "@/lib/placeholder/admin";
-import { MAX_FEATURED, type ArtworkData } from "@/lib/content/types";
+import type { RecentEdit } from "@/lib/content/queries";
+import { MAX_FEATURED, type ArtworkData, type ProjectData } from "@/lib/content/types";
+import { timeAgo } from "@/lib/timeAgo";
 import { ButtonLink, Panel, PanelTitle, StatusDot, Thumb } from "../ui/AdminUI";
 import styles from "./Dashboard.module.css";
-
-// Project drafts appear here once projects are in the database.
-const PROJECT_DRAFTS: { title: string; meta: string; image: string; href: string }[] = [];
-
-const RECENT = [
-  { title: "clay ghost", where: "Artwork", when: "10 min ago", href: "/admin/artworks/clay-ghost" },
-  { title: "moth lullaby", where: "Project", when: "yesterday", href: "/admin/projects/moth-lullaby" },
-  { title: "HeroIntro", where: "Home", when: "2 days ago", href: "/admin/home" },
-  { title: "Music playlist", where: "Site", when: "last week", href: "/admin/music" },
-];
 
 const today = () =>
   new Date()
@@ -28,8 +19,23 @@ function Today() {
   return <span className={styles.date}>{today()}</span>;
 }
 
-/** `featured`: featured artworks in Home order. */
-export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; featured: ArtworkData[] }) {
+const ago = (at: string) => timeAgo(at, Date.now());
+
+// Like Today: relative times are worked out in the browser.
+function When({ at }: { at: string }) {
+  return <span className={styles.when}>{ago(at)}</span>;
+}
+
+type Props = {
+  artworks: ArtworkData[];
+  projects: ProjectData[];
+  /** Featured artworks in Home order. */
+  featured: ArtworkData[];
+  /** Newest saves (artworks, projects, page settings). */
+  recent: RecentEdit[];
+};
+
+export function Dashboard({ artworks, projects, featured, recent }: Props) {
   const drafts = [
     ...artworks
       .filter((a) => a.status === "draft")
@@ -39,7 +45,14 @@ export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; fea
         image: a.images[0]?.url ?? "",
         href: `/admin/artworks/${a.slug}`,
       })),
-    ...PROJECT_DRAFTS,
+    ...projects
+      .filter((p) => p.status === "draft")
+      .map((p) => ({
+        title: p.title,
+        meta: ["Project", p.kind, p.year].filter(Boolean).join(" · "),
+        image: p.coverIsVideo ? "" : p.coverUrl,
+        href: `/admin/projects/${p.slug}`,
+      })),
   ];
 
   return (
@@ -95,18 +108,15 @@ export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; fea
         <Panel gap={14}>
           <div className={styles.panelHead}>
             <PanelTitle>Instagram</PanelTitle>
-            <StatusDot color="var(--ok)" mono>
-              connected
+            <StatusDot color="var(--text-disabled)" mono>
+              not connected
             </StatusDot>
           </div>
-          <div className={styles.igGrid}>
-            {INSTAGRAM_POSTS.map((url) => (
-              <Thumb key={url} src={url} className={styles.igPost} />
-            ))}
-          </div>
-          <span className={styles.muted}>@yurix.draws · last synced 12 min ago · newest 3 show in Fresh</span>
+          <span className={styles.muted}>
+            Instagram isn&apos;t connected yet. Once it is, the newest 3 posts show in Fresh next to your newest artworks.
+          </span>
           <ButtonLink href="/admin/footer" size="sm" className={styles.alignStart}>
-            sync now
+            Footer &amp; social →
           </ButtonLink>
         </Panel>
       </div>
@@ -114,8 +124,9 @@ export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; fea
       <div className={styles.row2}>
         <Panel gap={6}>
           <PanelTitle className={styles.listTitle}>Drafts</PanelTitle>
+          {drafts.length === 0 && <span className={styles.muted}>No drafts.</span>}
           {drafts.map((d) => (
-            <Link key={d.title} href={d.href} className={styles.draftRow}>
+            <Link key={d.href} href={d.href} className={styles.draftRow}>
               <Thumb src={d.image} className={styles.draftThumb} />
               <span className={styles.rowText}>
                 <span className={styles.rowTitle}>{d.title}</span>
@@ -128,13 +139,16 @@ export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; fea
 
         <Panel gap={6}>
           <PanelTitle className={styles.listTitle}>Recently edited</PanelTitle>
-          {RECENT.map((r) => (
-            <Link key={r.title} href={r.href} className={styles.recentRow}>
+          {recent.length === 0 && <span className={styles.muted}>Nothing saved yet.</span>}
+          {recent.map((r) => (
+            <Link key={r.href} href={r.href} className={styles.recentRow}>
               <span className={styles.rowText}>
                 <span className={styles.rowTitle}>{r.title}</span>
                 <span className={styles.rowMeta}>{r.where}</span>
               </span>
-              <span className={styles.when}>{r.when}</span>
+              <Suspense fallback={<span className={styles.when} />}>
+                <When at={r.at} />
+              </Suspense>
             </Link>
           ))}
         </Panel>
