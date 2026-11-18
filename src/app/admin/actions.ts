@@ -283,3 +283,22 @@ export async function saveMusic(raw: z.input<typeof musicInput>): Promise<Result
     return fail(error);
   }
 }
+
+const microcopyInput = z.object({
+  scrollHint: text(80),
+  scrollHintMobile: text(40),
+  emptyCategory: text(120),
+  cursorPlay: text(20),
+  cursorView: text(20),
+  cursorOpen: text(20),
+});
+
+export async function saveMicrocopy(raw: z.input<typeof microcopyInput>): Promise<Result> {
+  try {
+    await requireAdmin();
+    await writeContent("microcopy", microcopyInput.parse(raw));
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}

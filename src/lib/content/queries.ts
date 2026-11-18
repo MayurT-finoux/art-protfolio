@@ -8,11 +8,13 @@ import {
   DEFAULT_CATEGORIES,
   DEFAULT_FOOTER,
   DEFAULT_HOME,
+  DEFAULT_MICROCOPY,
   DEFAULT_MUSIC,
   DEFAULT_NAV,
   type ArtworkData,
   type FooterContent,
   type HomeContent,
+  type MicrocopyContent,
   type MusicContent,
   type NavContent,
 } from "./types";
@@ -52,6 +54,13 @@ export async function getMusicContent(): Promise<MusicContent> {
   cacheTag(CONTENT_TAG);
   cacheLife("hours");
   return readContent("music", DEFAULT_MUSIC);
+}
+
+export async function getMicrocopy(): Promise<MicrocopyContent> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  return readContent("microcopy", DEFAULT_MICROCOPY);
 }
 
 /** All artworks, newest first, with their images in order. */

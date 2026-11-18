@@ -7,10 +7,10 @@ import { GalleryGrid } from "../GalleryGrid/GalleryGrid";
 import type { GalleryChip, GalleryItem } from "./types";
 import styles from "./GalleryPage.module.css";
 
-type Props = { items: GalleryItem[]; chips: GalleryChip[] };
+type Props = { items: GalleryItem[]; chips: GalleryChip[]; emptyText: string };
 
 // Filter + lightbox state for the Gallery. The lightbox steps through the current filter.
-export function GalleryBrowser({ items, chips }: Props) {
+export function GalleryBrowser({ items, chips, emptyText }: Props) {
   const [filter, setFilter] = useState("All");
   const [open, setOpen] = useState<{ id: number; view: number } | null>(null);
 
@@ -31,7 +31,7 @@ export function GalleryBrowser({ items, chips }: Props) {
     <>
       <GalleryFilters chips={chips} active={filter} onPick={setFilter} />
       <GalleryGrid key={filter} items={list} onOpen={(id) => setOpen({ id, view: 0 })} />
-      {list.length === 0 && <div className={styles.empty}>nothing here yet. soon.</div>}
+      {list.length === 0 && <div className={styles.empty}>{emptyText}</div>}
       {art && open && (
         <ArtworkLightbox
           art={art}

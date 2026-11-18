@@ -2,9 +2,9 @@ import { GalleryBrowser } from "./GalleryBrowser";
 import type { GalleryChip, GalleryItem } from "./types";
 import styles from "./GalleryPage.module.css";
 
-type Props = { items: GalleryItem[]; chips: GalleryChip[] };
+type Props = { items: GalleryItem[]; chips: GalleryChip[]; emptyText: string };
 
-export function GalleryPage({ items, chips }: Props) {
+export function GalleryPage({ items, chips, emptyText }: Props) {
   const total = String(items.length);
 
   return (
@@ -20,7 +20,7 @@ export function GalleryPage({ items, chips }: Props) {
           Paintings, pixels, loops and things made with glue. Tap anything to see it up close.
         </p>
       </header>
-      <GalleryBrowser items={items} chips={chips} />
+      <GalleryBrowser items={items} chips={chips} emptyText={emptyText} />
     </section>
   );
 }

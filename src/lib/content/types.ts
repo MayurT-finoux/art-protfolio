@@ -138,3 +138,23 @@ export const DEFAULT_MUSIC: MusicContent = { on: true, tracks: [] };
 
 /** Track name the MusicPlayer shows, or null when the player is switched off. */
 export const playerTrack = (m: MusicContent) => (m.on ? (m.tracks[0]?.name ?? music.track) : null);
+
+/** Admin "Microcopy" (little lines across the site), stored as site_content["microcopy"]. */
+export type MicrocopyContent = {
+  scrollHint: string;
+  scrollHintMobile: string;
+  emptyCategory: string;
+  /** Cursor labels: kept for the design's custom cursor, which is switched off (2026-10-11). */
+  cursorPlay: string;
+  cursorView: string;
+  cursorOpen: string;
+};
+
+export const DEFAULT_MICROCOPY: MicrocopyContent = {
+  scrollHint: hero.scrollHint,
+  scrollHintMobile: hero.scrollHintMobile,
+  emptyCategory: "nothing here yet. soon.",
+  cursorPlay: "play",
+  cursorView: "view",
+  cursorOpen: "open",
+};

@@ -1,6 +1,6 @@
 import { GalleryPage } from "@/components/gallery/GalleryPage/GalleryPage";
 import type { GalleryChip, GalleryItem } from "@/components/gallery/GalleryPage/types";
-import { getArtworks, getCategories } from "@/lib/content/queries";
+import { getArtworks, getCategories, getMicrocopy } from "@/lib/content/queries";
 import { coverRatio } from "@/lib/content/types";
 
 const LINKS = [
@@ -10,7 +10,7 @@ const LINKS = [
 ] as const;
 
 export default async function Gallery() {
-  const [artworks, categories] = await Promise.all([getArtworks(), getCategories()]);
+  const [artworks, categories, copy] = await Promise.all([getArtworks(), getCategories(), getMicrocopy()]);
 
   // Live pieces with at least one image, newest first (getArtworks order).
   const items: GalleryItem[] = artworks
@@ -36,5 +36,5 @@ export default async function Gallery() {
       .filter((c) => c.count > 0),
   ];
 
-  return <GalleryPage items={items} chips={chips} />;
+  return <GalleryPage items={items} chips={chips} emptyText={copy.emptyCategory} />;
 }

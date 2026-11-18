@@ -1,10 +1,6 @@
-import { AdminPage } from "@/components/admin/AdminPage/AdminPage";
 import { MicrocopyEditor } from "@/components/admin/MicrocopyEditor/MicrocopyEditor";
+import { getMicrocopy } from "@/lib/content/queries";
 
-export default function MicrocopyPage() {
-  return (
-    <AdminPage title="Microcopy">
-      <MicrocopyEditor />
-    </AdminPage>
-  );
+export default async function MicrocopyPage() {
+  return <MicrocopyEditor initial={await getMicrocopy()} />;
 }

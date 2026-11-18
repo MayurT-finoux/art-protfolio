@@ -6,12 +6,16 @@ import { HeroScroll } from "@/components/home/HeroScroll/HeroScroll";
 import { InfoCards } from "@/components/home/InfoCards/InfoCards";
 import { SelectedWork } from "@/components/home/SelectedWork/SelectedWork";
 import { getHomePageData } from "@/lib/content/home";
-import { getFooterContent } from "@/lib/content/queries";
-import { freshWork, hero, infoCards, selectedWork } from "@/lib/placeholder/home";
+import { getFooterContent, getMicrocopy } from "@/lib/content/queries";
+import { freshWork, infoCards, selectedWork } from "@/lib/placeholder/home";
 import styles from "./page.module.css";
 
 export default async function HomePage() {
-  const [{ content: c, selected, fresh, aboutButtons }, footer] = await Promise.all([getHomePageData(), getFooterContent()]);
+  const [{ content: c, selected, fresh, aboutButtons }, footer, copy] = await Promise.all([
+    getHomePageData(),
+    getFooterContent(),
+    getMicrocopy(),
+  ]);
 
   return (
     <div data-home className={styles.home}>
@@ -20,8 +24,8 @@ export default async function HomePage() {
         label={c.heroLabel}
         heading={c.heroHeading}
         intro={c.heroIntro}
-        scrollHint={hero.scrollHint}
-        scrollHintMobile={hero.scrollHintMobile}
+        scrollHint={copy.scrollHint}
+        scrollHintMobile={copy.scrollHintMobile}
       />
       <HeroScroll />
 

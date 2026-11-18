@@ -86,24 +86,5 @@ export const ABOUT_LISTS: Record<AboutListKey, ListItem[]> = {
 export const ADMIN_USER = { name: "Yurix", email: "hey@yurix.art", initial: "y" };
 
 export const FOOTER_PAGES = ["Home", "Work", "Gallery", "Shop", "About", "Contact"];
-export const MICROCOPY = [
-  {
-    name: "Little lines",
-    fields: [
-      { key: "scrollHint", label: "scroll hint", where: "Home hero, under the intro", value: "scroll · it gets dreamy" },
-      { key: "scrollHintMobile", label: "scroll hint · mobile", where: "Home hero on phones", value: "scroll" },
-      { key: "emptyCategory", label: "empty category", where: "Gallery, when a filter has nothing", value: "nothing here yet. soon." },
-    ],
-  },
-  {
-    name: "Cursor labels",
-    fields: [
-      { key: "cursorPlay", label: "play", where: "over animation cards and videos", value: "play" },
-      { key: "cursorView", label: "view", where: "over artwork cards", value: "view" },
-      { key: "cursorOpen", label: "open", where: "over project cards", value: "open" },
-    ],
-  },
-];
-
 /** Instagram post image URLs (until the Instagram connection is built). */
 export const INSTAGRAM_POSTS: string[] = [];
