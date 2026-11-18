@@ -2,21 +2,7 @@
 // (design/design_handoff_yurix_site/designs/Admin.dc.html).
 // Replaced by database queries when the admin is wired up.
 
-const wm = (file: string, width = 400) =>
-  `https://commons.wikimedia.org/wiki/Special:FilePath/${file}?width=${width}`;
-
-const FILES = {
-  klimt: "Gustav_Klimt_016.jpg",
-  pearl: "Girl_with_a_Pearl_Earring.jpg",
-  starry: "Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
-  scream: "The_Scream.jpg",
-  kand: "Vassily_Kandinsky,_1913_-_Composition_7.jpg",
-  wave: "Tsunami_by_hokusai_19th_century.jpg",
-  venus: "Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
-  monet: "Claude_Monet,_Impression,_soleil_levant.jpg",
-};
-export type ImageKey = keyof typeof FILES;
-const KEYS = Object.keys(FILES) as ImageKey[];
+export type ImageKey = "klimt" | "pearl" | "starry" | "scream" | "kand" | "wave" | "venus" | "monet";
 
 /**
  * Placeholder image URL by key. Returns "" — the placeholder paintings were
@@ -24,66 +10,9 @@ const KEYS = Object.keys(FILES) as ImageKey[];
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const img = (_key: ImageKey, _width = 400, _offset = 0) => "";
-/** The original Wikimedia placeholder (kept for reference / tests). */
-export const wikimediaImg = (key: ImageKey, width = 400, offset = 0) =>
-  wm(FILES[KEYS[(KEYS.indexOf(key) + offset) % KEYS.length]], width);
 
 export const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-
-export const CATEGORIES = ["Traditional", "Digital", "Animation", "Handmade"] as const;
-export type LinkName = "Instagram" | "Behance" | "YouTube";
-
-export type Artwork = {
-  slug: string;
-  title: string;
-  category: string;
-  year: string;
-  imageKey: ImageKey;
-  position: string;
-  pin: string;
-  materials: string[];
-  links: LinkName[];
-  /** image labels; the first image is the card cover */
-  views: string[];
-  draft: boolean;
-};
-
-const art = (
-  title: string, category: string, year: string, imageKey: ImageKey, position: string, pin: string,
-  materials: string[], links: LinkName[], views: string[], draft = false,
-): Artwork => ({ slug: slugify(title), title, category, year, imageKey, position, pin, materials, links, views, draft });
-
-export const ARTWORKS: Artwork[] = [
-  art("monsoon window", "Traditional", "2026", "venus", "center", "4/5", ["Watercolour", "Cold-press paper"], ["Instagram"], ["front"]),
-  art("frog choir", "Digital", "2026", "kand", "left center", "1/1", ["Procreate", "iPad Pro"], ["Instagram", "Behance"], ["final"]),
-  art("moth lullaby loop", "Animation", "2026", "klimt", "center", "2/3", ["Procreate Dreams", "24 frames"], ["YouTube", "Instagram"], ["loop"]),
-  art("clay ghost", "Handmade", "2026", "pearl", "center 30%", "3/4", ["Air-dry clay", "Acrylic", "Varnish"], ["Instagram"], ["front", "side", "detail"]),
-  art("night shift", "Digital", "2025", "starry", "right center", "4/3", ["Procreate"], [], ["final"]),
-  art("static hearts", "Traditional", "2025", "scream", "center 35%", "9/14", ["Gouache", "Ink"], ["Behance"], ["before", "after"]),
-  art("neon auto ride", "Animation", "2025", "starry", "center", "1/1", ["Procreate Dreams", "After Effects"], ["YouTube"], ["loop"]),
-  art("sticker sheet 03", "Handmade", "2025", "kand", "center", "4/5", ["Risograph", "Vinyl", "Die-cut"], ["Instagram"], ["sheet", "close-up"]),
-  art("pigeon study", "Traditional", "2025", "wave", "left center", "3/4", ["Graphite", "Charcoal"], [], ["front"]),
-  art("slow static loop", "Animation", "2025", "wave", "center", "16/10", ["TVPaint", "8 fps"], ["YouTube", "Behance"], ["loop"]),
-  art("chai break", "Digital", "2025", "klimt", "center bottom", "2/3", ["Procreate"], ["Instagram"], ["final"]),
-  art("paper moon", "Handmade", "2024", "monet", "center", "1/1", ["Cut paper", "Glue", "Thread"], [], ["front", "angle"], true),
-  art("bus stop", "Traditional", "2024", "pearl", "center top", "4/5", ["Oil on canvas"], ["Behance"], ["front"]),
-  art("tiny gods", "Animation", "2024", "monet", "center", "3/4", ["TVPaint"], ["YouTube"], ["loop"]),
-  art("rooftop", "Digital", "2024", "venus", "right center", "5/4", ["Procreate", "Photoshop"], [], ["final"]),
-  art("embroidered cat", "Handmade", "2024", "scream", "center", "1/1", ["Embroidery floss", "Linen"], ["Instagram"], ["before", "after"]),
-];
-
-/** Placeholder description per category. */
-export const DESCRIPTIONS: Record<string, string> = {
-  Traditional: "Painted at the window during the first week of rain. The paper buckled; I kept it.",
-  Digital: "Drawn on the iPad on a slow Sunday. Started as a doodle in a meeting.",
-  Animation: "A short loop made frame by frame. Plays muted on the card, full version on YouTube.",
-  Handmade: "A small object made by hand. Shown from a few sides so you can see the bumps.",
-};
-
-/** Featured artworks (indexes into ARTWORKS), in Home order. Max 8. */
-export const FEATURED = [0, 2, 1, 3, 6, 5, 9];
-export const MAX_FEATURED = 8;
 
 export type Project = {
   slug: string;
@@ -99,13 +28,6 @@ export type Project = {
   behance: boolean;
   draft: boolean;
 };
-
-// Builder kept for when projects move to the database.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const proj = (
-  title: string, kind: string, year: string, client: string, role: string, tools: string, imageKey: ImageKey,
-  teaser: string, youtubeId: string, behance: boolean, draft = false,
-): Project => ({ slug: slugify(title), title, kind, year, client, role, tools, imageKey, teaser, youtubeId, behance, draft });
 
 export const PROJECTS: Project[] = [];
 export const MAX_PROJECTS = 12;
@@ -126,7 +48,7 @@ export const TRACKS: Track[] = [
   { name: "monsoon tape 02", file: "monsoon-02.mp3", duration: "3:05" },
 ];
 
-export const CATEGORY_ROWS = [...CATEGORIES, "Comics", "Graffiti"];
+export const CATEGORY_ROWS = ["Traditional", "Digital", "Animation", "Handmade", "Comics", "Graffiti"];
 
 export type ListItem = { a: string; b: string; soon?: boolean };
 export type AboutListKey = "mediums" | "process" | "tools" | "skills" | "timeline" | "clients" | "facts" | "social";
@@ -189,20 +111,7 @@ export const ABOUT_LISTS: Record<AboutListKey, ListItem[]> = {
 
 export const ADMIN_USER = { name: "Yurix", email: "hey@yurix.art", initial: "y" };
 
-export const FOOTER_FIELDS = [
-  { key: "wordmark", label: "wordmark", value: "yurix" },
-  { key: "sayHi", label: "say hi label", value: "say hi" },
-  { key: "location", label: "location", value: "Mumbai, IN" },
-  { key: "email", label: "email", value: "hey@yurix.art" },
-  { key: "copyright", label: "copyright", value: "© 2026 Yurix. Drawn by hand." },
-];
 export const FOOTER_PAGES = ["Home", "Work", "Gallery", "Shop", "About", "Contact"];
-export const SOCIALS = [
-  { name: "Instagram", url: "instagram.com/yurix.draws" },
-  { name: "Behance", url: "behance.net/yurix" },
-  { name: "YouTube", url: "youtube.com/@yurix" },
-];
-
 export const MICROCOPY = [
   {
     name: "Little lines",
