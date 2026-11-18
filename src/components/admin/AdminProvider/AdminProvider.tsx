@@ -1,55 +1,29 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
-// Client-side admin state: the "saved" toast and the Instagram panel (placeholder
-// until the Instagram API is connected). Content is saved to the database through
-// the server actions in src/app/admin/actions.ts.
 
-export type IgState = "ok" | "syncing" | "fail";
+// Client-side admin state: just the "saved" toast. Content is saved to the
+// database through the server actions in src/app/admin/actions.ts.
 
-type AdminState = {
-  ig: IgState;
+type AdminContextValue = {
   saved: boolean;
-};
-
-type AdminActions = {
-  syncInstagram: () => void;
+  /** Shows the "saved" toast for 2 seconds. */
   save: () => void;
 };
 
-const AdminContext = createContext<(AdminState & AdminActions) | null>(null);
+const AdminContext = createContext<AdminContextValue | null>(null);
 
 export function AdminProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<AdminState>({
-    ig: "ok",
-    saved: false,
-  });
-  const savedTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const igTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  const patch = useCallback((p: Partial<AdminState>) => setState((s) => ({ ...s, ...p })), []);
+  const [saved, setSaved] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const save = useCallback(() => {
-    clearTimeout(savedTimer.current);
-    patch({ saved: true });
-    savedTimer.current = setTimeout(() => patch({ saved: false }), 2000);
-  }, [patch]);
+    clearTimeout(timer.current);
+    setSaved(true);
+    timer.current = setTimeout(() => setSaved(false), 2000);
+  }, []);
 
-  const syncInstagram = useCallback(() => {
-    patch({ ig: "syncing" });
-    clearTimeout(igTimer.current);
-    igTimer.current = setTimeout(() => patch({ ig: "ok" }), 900);
-  }, [patch]);
-
-  const value = useMemo(
-    () => ({
-      ...state,
-      syncInstagram,
-      save,
-    }),
-    [state, syncInstagram, save],
-  );
-
+  const value = useMemo(() => ({ saved, save }), [saved, save]);
   return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
 }
 
