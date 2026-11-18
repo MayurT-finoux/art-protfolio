@@ -59,10 +59,6 @@ export async function getArtworks(): Promise<ArtworkData[]> {
   }));
 }
 
-export async function getArtwork(slug: string): Promise<ArtworkData | null> {
-  return (await getArtworks()).find((a) => a.slug === slug) ?? null;
-}
-
 export async function getCategories(): Promise<string[]> {
   "use cache";
   cacheTag(CONTENT_TAG);

@@ -29,12 +29,12 @@ export const CONTACT_TOPICS: ContactTopic[] = [
   { key: "other", label: "other", hint: "tell me what's on your mind…" },
 ];
 
-export const BUDGET_OPTIONS = ["under ₹10k", "₹10–25k", "₹25–50k", "₹50k+", "not sure yet"];
-export const TIMING_OPTIONS = ["no rush", "within a month", "it's urgent"];
+const BUDGET_OPTIONS = ["under ₹10k", "₹10–25k", "₹25–50k", "₹50k+", "not sure yet"];
+const TIMING_OPTIONS = ["no rush", "within a month", "it's urgent"];
 
 export type Availability = "open" | "booked";
 
-export const AVAILABILITY_LABELS: Record<Availability, string> = {
+const AVAILABILITY_LABELS: Record<Availability, string> = {
   open: "open for commissions · booking november",
   booked: "booked until january · hellos still welcome",
 };

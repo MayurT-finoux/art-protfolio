@@ -45,7 +45,7 @@ export const DEFAULT_HOME: HomeContent = {
 
 export type ArtworkImageData = { url: string; label: string; width: number; height: number; focus: string };
 
-export type ArtworkStatus = "draft" | "live";
+type ArtworkStatus = "draft" | "live";
 
 /** One artwork as the admin and site use it. */
 export type ArtworkData = {

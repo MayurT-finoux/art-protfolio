@@ -26,7 +26,7 @@ export function r2() {
   return client;
 }
 
-export const r2Bucket = () => env("R2_BUCKET");
+const r2Bucket = () => env("R2_BUCKET");
 
 /** Public URL of an object, e.g. https://pub-….r2.dev/artworks/clay-ghost/abc.jpg */
 export const r2PublicUrl = (key: string) => `${env("R2_PUBLIC_URL").replace(/\/$/, "")}/${key}`;

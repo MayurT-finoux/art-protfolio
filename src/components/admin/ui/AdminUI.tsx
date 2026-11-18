@@ -47,10 +47,6 @@ export function PanelTitle({ children, className }: { children: ReactNode; class
   return <h3 className={cx(styles.panelTitle, className)}>{children}</h3>;
 }
 
-export function Note({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={cx(styles.note, className)}>{children}</span>;
-}
-
 /** DM Mono 11px uppercase field label. */
 export function FieldLabel({ children, className }: { children: ReactNode; className?: string }) {
   return <span className={cx(styles.label, className)}>{children}</span>;
