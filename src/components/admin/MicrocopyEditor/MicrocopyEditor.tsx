@@ -16,18 +16,10 @@ const GROUPS: { name: string; fields: { key: keyof MicrocopyContent; label: stri
       { key: "emptyCategory", label: "empty category", where: "Gallery, when a filter has nothing" },
     ],
   },
-  {
-    name: "Cursor labels",
-    fields: [
-      { key: "cursorPlay", label: "play", where: "over animation cards and videos" },
-      { key: "cursorView", label: "view", where: "over artwork cards" },
-      { key: "cursorOpen", label: "open", where: "over project cards" },
-    ],
-  },
 ];
 
-// Saved as site_content "microcopy". Cursor labels are stored but unused while
-// the site uses the normal system cursor.
+// Saved as site_content "microcopy". (The design's "Cursor labels" group is left
+// out: the site uses the normal system cursor — Yurix's change, 2026-10-11.)
 export function MicrocopyEditor({ initial }: { initial: MicrocopyContent }) {
   const [values, setValues] = useState(initial);
 

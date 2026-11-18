@@ -292,9 +292,6 @@ const microcopyInput = z.object({
   scrollHint: text(80),
   scrollHintMobile: text(40),
   emptyCategory: text(120),
-  cursorPlay: text(20),
-  cursorView: text(20),
-  cursorOpen: text(20),
 });
 
 export async function saveMicrocopy(raw: z.input<typeof microcopyInput>): Promise<Result> {

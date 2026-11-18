@@ -153,19 +153,12 @@ export type MicrocopyContent = {
   scrollHint: string;
   scrollHintMobile: string;
   emptyCategory: string;
-  /** Cursor labels: kept for the design's custom cursor, which is switched off (2026-10-11). */
-  cursorPlay: string;
-  cursorView: string;
-  cursorOpen: string;
 };
 
 export const DEFAULT_MICROCOPY: MicrocopyContent = {
   scrollHint: hero.scrollHint,
   scrollHintMobile: hero.scrollHintMobile,
   emptyCategory: "nothing here yet. soon.",
-  cursorPlay: "play",
-  cursorView: "view",
-  cursorOpen: "open",
 };
 
 /** One Work project as the admin uses it (projects table). */
