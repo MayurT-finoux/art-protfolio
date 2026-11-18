@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Suspense } from "react";
-import { INSTAGRAM_POSTS, img } from "@/lib/placeholder/admin";
+import { INSTAGRAM_POSTS } from "@/lib/placeholder/admin";
 import { MAX_FEATURED, type ArtworkData } from "@/lib/content/types";
 import { ButtonLink, Panel, PanelTitle, StatusDot, Thumb } from "../ui/AdminUI";
 import styles from "./Dashboard.module.css";
@@ -100,8 +100,8 @@ export function Dashboard({ artworks, featured }: { artworks: ArtworkData[]; fea
             </StatusDot>
           </div>
           <div className={styles.igGrid}>
-            {INSTAGRAM_POSTS.map((key) => (
-              <Thumb key={key} src={img(key, 300)} className={styles.igPost} />
+            {INSTAGRAM_POSTS.map((url) => (
+              <Thumb key={url} src={url} className={styles.igPost} />
             ))}
           </div>
           <span className={styles.muted}>@yurix.draws · last synced 12 min ago · newest 3 show in Fresh</span>

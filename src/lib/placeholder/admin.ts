@@ -2,15 +2,6 @@
 // (design/design_handoff_yurix_site/designs/Admin.dc.html).
 // Replaced by database queries when the admin is wired up.
 
-export type ImageKey = "klimt" | "pearl" | "starry" | "scream" | "kand" | "wave" | "venus" | "monet";
-
-/**
- * Placeholder image URL by key. Returns "" — the placeholder paintings were
- * removed at Yurix's request (2026-10-19); frames show their plain fill.
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const img = (_key: ImageKey, _width = 400, _offset = 0) => "";
-
 export const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -22,7 +13,8 @@ export type Project = {
   client: string;
   role: string;
   tools: string;
-  imageKey: ImageKey;
+  /** cover image URL */
+  image: string;
   teaser: string;
   youtubeId: string;
   behance: boolean;
@@ -131,4 +123,5 @@ export const MICROCOPY = [
   },
 ];
 
-export const INSTAGRAM_POSTS: ImageKey[] = [];
+/** Instagram post image URLs (until the Instagram connection is built). */
+export const INSTAGRAM_POSTS: string[] = [];

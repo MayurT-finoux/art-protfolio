@@ -1,6 +1,5 @@
 "use client";
 
-import { img } from "@/lib/placeholder/admin";
 import { useAdmin, type AboutLayout } from "../AdminProvider/AdminProvider";
 import { SectionAccordion, type Section } from "../SectionAccordion/SectionAccordion";
 import { FieldLabel, Toggle } from "../ui/AdminUI";
@@ -21,7 +20,7 @@ export function AboutEditor() {
         { kind: "text", label: "heading", value: "Hi, I'm Yurix — I make drawings that move." },
         { kind: "text", label: "intro", value: "Animator and illustrator. I draw, paint, animate — and customise anything that holds still long enough." },
         { kind: "text", label: "city", value: "Mumbai, IN" },
-        { kind: "file", label: "portrait loop", value: "me-loop.mp4", hint: "square · muted, loops · caption: me, roughly. (it loops)", image: img("pearl", 200), accept: "video", folder: "about" },
+        { kind: "file", label: "portrait loop", value: "me-loop.mp4", hint: "square · muted, loops · caption: me, roughly. (it loops)", image: "", accept: "video", folder: "about" },
       ],
     },
     {
@@ -90,7 +89,7 @@ export function AboutEditor() {
       name: "GuideCharacter",
       summary: "Sketchbook layout only",
       fields: [
-        { kind: "file", label: "character", value: "guide-doodle.png", hint: "transparent PNG · sits bottom-right", image: img("pearl", 200), accept: "image", folder: "about" },
+        { kind: "file", label: "character", value: "guide-doodle.png", hint: "transparent PNG · sits bottom-right", image: "", accept: "image", folder: "about" },
         { kind: "text", label: "line per section", value: "hi! I'm the doodle version. scroll, I'll show you around ↓ · …10 lines" },
       ],
     },

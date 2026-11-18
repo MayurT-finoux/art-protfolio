@@ -1,6 +1,6 @@
 "use client";
 
-import { MAX_PROJECTS, PROJECTS, img } from "@/lib/placeholder/admin";
+import { MAX_PROJECTS, PROJECTS } from "@/lib/placeholder/admin";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { arrayMove, SortableList } from "../ui/Sortable";
 import { ButtonLink, DragHandle, ReorderButtons, Thumb } from "../ui/AdminUI";
@@ -37,7 +37,7 @@ export function ProjectList() {
             <div className={styles.row}>
               <DragHandle {...handleProps} />
               <span className={styles.n}>{String(k + 1).padStart(2, "0")}</span>
-              <Thumb src={img(p.imageKey, 240)} position="center" className={styles.thumb}>
+              <Thumb src="" position="center" className={styles.thumb}>
                 {k === 0 && <span className={styles.wide}>wide</span>}
               </Thumb>
               <span className={styles.titleCell}>

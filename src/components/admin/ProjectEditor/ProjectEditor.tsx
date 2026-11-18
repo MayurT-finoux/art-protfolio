@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { img, slugify, type Project } from "@/lib/placeholder/admin";
+import { slugify, type Project } from "@/lib/placeholder/admin";
 import { AdminPage } from "../AdminPage/AdminPage";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { SlugSeoFields, type SeoValues } from "../SlugSeoFields/SlugSeoFields";
@@ -21,7 +21,6 @@ const uid = () => `n${nextId++}`;
 export function ProjectEditor({ project }: { project: Project | null }) {
   const { projectDraft, setProjectDraft } = useAdmin();
   const p = project;
-  const image = (offset: number, width: number) => (p ? img(p.imageKey, width, offset) : "");
 
   const [title, setTitle] = useState(p?.title ?? "");
   const [kind, setKind] = useState(p?.kind ?? "");
@@ -39,10 +38,10 @@ export function ProjectEditor({ project }: { project: Project | null }) {
       : [],
   );
   const [steps, setSteps] = useState<Step[]>(() =>
-    p ? ["sketches", "animatic", "colour script", "clean-up"].map((label, j) => ({ id: `p${j}`, label, src: image(j + 1, 300) })) : [],
+    p ? ["sketches", "animatic", "colour script", "clean-up"].map((label, j) => ({ id: `p${j}`, label, src: "" })) : [],
   );
   const [finals, setFinals] = useState<Final[]>(() =>
-    p ? [0, 3, 5].map((o, j) => ({ id: `f${j}`, src: image(o, j === 0 ? 1000 : 500) })) : [],
+    p ? [0, 3, 5].map((o, j) => ({ id: `f${j}`, src: "" })) : [],
   );
   const [youtubeOn, setYoutubeOn] = useState(!!p?.youtubeId);
   const [youtubeId, setYoutubeId] = useState(p?.youtubeId || "");
@@ -54,7 +53,7 @@ export function ProjectEditor({ project }: { project: Project | null }) {
 
   const draft = p ? projectDraft[p.slug] : localDraft;
   const setDraft = (d: boolean) => (p ? setProjectDraft(p.slug, d) : setLocalDraft(d));
-  const [cover, setCover] = useState(() => image(0, 1200));
+  const [cover, setCover] = useState(() => p?.image ?? "");
   const [coverIsVideo, setCoverIsVideo] = useState(false);
   const folder = `projects/${p?.slug ?? (slugify(title) || "untitled")}`;
 

@@ -5,7 +5,6 @@
 // can move to the database later. Images are the designs' Wikimedia
 // placeholders (the image slots in the design are empty drop boxes).
 
-import { img } from "@/lib/placeholder/admin";
 
 export type AboutLayout = "sketchbook" | "editorial";
 
@@ -122,7 +121,7 @@ export const ABOUT_CONTENT: AboutContent = {
   city: "Mumbai, IN",
   makes: "drawings, paintings, loops, objects",
   portraitVideo: null,
-  portraitImage: img("pearl", 900),
+  portraitImage: "",
   portraitCaption: "me, roughly. (it loops)",
   storyQuote: "I started in the margins. I never really left.",
   storyParagraphs: [
@@ -132,23 +131,23 @@ export const ABOUT_CONTENT: AboutContent = {
     { lead: "What drives me:", text: "making small, slightly wonky things that make people smile — and proving that hand-drawn still beats perfect." },
   ],
   storySketches: [
-    { image: img("starry", 600), position: "center", caption: "sketchbook, age 12", ratio: "4/5", width: "62%" },
-    { image: img("scream", 600), position: "center 30%", caption: "the famous ball", ratio: "1/1", width: "48%" },
-    { image: img("wave", 600), position: "center", caption: "still doing this", ratio: "5/4", width: "56%" },
+    { image: "", position: "center", caption: "sketchbook, age 12", ratio: "4/5", width: "62%" },
+    { image: "", position: "center 30%", caption: "the famous ball", ratio: "1/1", width: "48%" },
+    { image: "", position: "center", caption: "still doing this", ratio: "5/4", width: "56%" },
   ],
   mediums: [
-    medium("Traditional", "drawing & painting", "Watercolour, gouache, ink — and a lot of paper towels.", img("venus", 700), "center"),
-    medium("Digital", "illustration", "Procreate on the iPad, mostly from the sofa.", img("kand", 700), "left center"),
-    medium("Animation", "2D frame by frame", "Every frame drawn by hand. The wobble is on purpose.", img("klimt", 700), "center", true),
-    medium("Handmade", "custom objects", "Skateboards, headphones, metro cards, clay — if it holds still, I'll paint it.", img("pearl", 700), "center 30%"),
+    medium("Traditional", "drawing & painting", "Watercolour, gouache, ink — and a lot of paper towels.", "", "center"),
+    medium("Digital", "illustration", "Procreate on the iPad, mostly from the sofa.", "", "left center"),
+    medium("Animation", "2D frame by frame", "Every frame drawn by hand. The wobble is on purpose.", "", "center", true),
+    medium("Handmade", "custom objects", "Skateboards, headphones, metro cards, clay — if it holds still, I'll paint it.", "", "center 30%"),
     soon("Graffiti", "walls are on the list."),
     soon("Comics", "panels are being inked."),
   ],
   process: [
-    { title: "sketch", line: "Loose, fast, lots of bad ones. That's the point.", image: img("monet", 600), position: "center" },
-    { title: "line art", line: "Clean lines — still a little wonky, on purpose.", image: img("kand", 600), position: "left center" },
-    { title: "colour", line: "Flat colours first, then light, then mood.", image: img("klimt", 600), position: "center" },
-    { title: "animation", line: "Frame by frame in Procreate Dreams until it breathes.", image: img("venus", 600), position: "center" },
+    { title: "sketch", line: "Loose, fast, lots of bad ones. That's the point.", image: "", position: "center" },
+    { title: "line art", line: "Clean lines — still a little wonky, on purpose.", image: "", position: "left center" },
+    { title: "colour", line: "Flat colours first, then light, then mood.", image: "", position: "center" },
+    { title: "animation", line: "Frame by frame in Procreate Dreams until it breathes.", image: "", position: "center" },
   ],
   tools: [
     { name: "Procreate", for: "sketching & illustration" },
@@ -179,7 +178,7 @@ export const ABOUT_CONTENT: AboutContent = {
     { q: "on my desk", a: "one cat, nine brushes, zero clean mugs" },
     { q: "inspired by", a: "Ghibli skies, rickshaw art, Mumbai in monsoon" },
   ],
-  deskImage: img("monet", 1000),
+  deskImage: "",
   deskCaption: "where it all happens (tidied for the photo)",
   // Shares data with Footer & social. Behance / YouTube / Patreon URLs are not known yet.
   social: [
@@ -193,7 +192,7 @@ export const ABOUT_CONTENT: AboutContent = {
   ctaText: "Characters, covers, music videos, editorial — or a pair of headphones that needs a face. Quote in a day.",
   ctaButtons: [{ label: "say hi →", href: "/contact", cursor: "say hi" }],
   ctaNote: "goes to the contact page",
-  guideImage: img("pearl", 240),
+  guideImage: "",
   guideLines: [
     "hi! I'm the doodle version. scroll, I'll show you around ↓",
     "this is where it all started.",
