@@ -44,6 +44,7 @@ On Vercel the same keys are set as environment variables.
 | `npm run db:migrate` | Apply migrations |
 | `npm run db:studio` | Open Drizzle Studio |
 | `npm run db:seed` | Fill a fresh database with categories + Home text |
+| `npm run db:samples` | Add temporary sample artworks + projects (`-- --remove` deletes them) |
 | `npm run r2:check` | Test Cloudflare R2 (upload, public read, delete) |
 | `npm run admin:create` | Create the admin account or set a new password |
 
@@ -59,6 +60,11 @@ On Vercel the same keys are set as environment variables.
 
 Reads are cached (`"use cache"` + tag `content`); every admin save refreshes the tag.
 Still placeholder: Instagram (not connected), music playback, Shop, 404 game, loader.
+
+**Temporary sample content** (for checking the site): 16 artworks + 6 projects in the database
+(`npm run db:samples`) and sample images in the default Home/About content
+(`src/lib/placeholder/images.ts`). When the real work is in: `npm run db:samples -- --remove`
+and set `SAMPLE_IMAGES_ON = false`.
 
 ## Docs
 

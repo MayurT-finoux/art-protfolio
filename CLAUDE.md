@@ -26,7 +26,7 @@ The design files from Claude Design are the finalized design and the **single so
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
 - Email: Resend (`src/lib/email.ts`; contact notifications + password reset; logs instead of sending without `RESEND_API_KEY`)
-- Hosting: **Vercel** (production branch `phase-1`; R2 keys in Vercel env vars).
+- Hosting: **Vercel** (R2 keys in Vercel env vars). Branches: `main` stays untouched until development is done; `pre-prod` = phase-1 + phase-2 (current integration branch); Vercel production branch is still `phase-1` until switched to `pre-prod` in Vercel.
 - Do NOT use Neon Auth, Neon Functions, or Neon Object Storage (so no `neon.ts` / `neon deploy`).
 
 ## Key features (details are in the design files)
@@ -115,6 +115,7 @@ Component folders and files are named exactly as the design's `data-component`.
 - `npm run db:check` — test the database connection (both URLs)
 - `npm run db:generate` / `db:migrate` / `db:studio` — drizzle-kit (uses `DATABASE_URL_UNPOOLED`)
 - `npm run r2:check` — test Cloudflare R2 (upload, public read, delete)
+- `npm run db:samples` — add TEMPORARY sample artworks + projects with placeholder images (`-- --remove` deletes exactly those)
 - `npm run db:seed` — fill a fresh database with categories + Home text (no sample artworks)
 - `npm run admin:create` — create the admin account, or set a new password for it (asks in the terminal)
 
@@ -173,3 +174,4 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-11-18 — Real 404s: `[slug]` routes use `ensureStatic = "navigation"` and read params at the top (not inside `<Suspense>`), so `notFound()` happens before streaming.
 - 2026-11-18 — Dashboard shows real drafts and "recently edited"; Instagram panels say "not connected" until the API is built. Sidebar shows the admin account from the database.
 - 2026-11-18 — `npm audit`: remaining findings are dev tools only (picomatch ReDoS via ESLint, no fix released yet; esbuild via drizzle-kit, fix = downgrade). Re-check later.
+- 2026-11-18 — Yurix's answers: **B5** — instead of hiding empty sections, show temporary sample content everywhere (reverses the 2026-10-19 "everything empty"): `npm run db:samples` added 16 sample artworks (7 featured, 1 draft) + 6 live projects to the production DB and Home stills; default Home/About content uses sample images from `src/lib/placeholder/images.ts` (Wikimedia public-domain paintings, `SAMPLE_IMAGES_ON`); Fresh shows 3 sample Instagram posts. Remove later with `npm run db:samples -- --remove` + `SAMPLE_IMAGES_ON = false`. **B7** — music player left as is. **B8** — new branch `pre-prod` (phase-1 + phase-2); `main` unchanged until development is complete.

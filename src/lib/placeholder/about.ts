@@ -2,7 +2,9 @@
 // (design/design_handoff_yurix_site/designs/About Sketchbook.dc.html and
 // About Editorial.dc.html). Both layouts share this content; only the
 // presentation differs. Saved changes live in site_content["about"]
-// (admin "About page"); this is the fallback. No placeholder images.
+// (admin "About page"); this is the fallback. Images are temporary samples (images.ts).
+
+import { sampleImage } from "./images.ts";
 
 
 export type AboutLayout = "sketchbook" | "editorial";
@@ -117,7 +119,7 @@ export const ABOUT_CONTENT: AboutContent = {
   city: "Mumbai, IN",
   makes: "drawings, paintings, loops, objects",
   portraitVideo: null,
-  portraitImage: "",
+  portraitImage: sampleImage("pearl", 900),
   portraitCaption: "me, roughly. (it loops)",
   storyQuote: "I started in the margins. I never really left.",
   storyParagraphs: [
@@ -127,9 +129,9 @@ export const ABOUT_CONTENT: AboutContent = {
     { lead: "What drives me:", text: "making small, slightly wonky things that make people smile — and proving that hand-drawn still beats perfect." },
   ],
   storySketches: [
-    { image: "", position: "center", caption: "sketchbook, age 12", ratio: "4/5", width: "62%" },
-    { image: "", position: "center 30%", caption: "the famous ball", ratio: "1/1", width: "48%" },
-    { image: "", position: "center", caption: "still doing this", ratio: "5/4", width: "56%" },
+    { image: sampleImage("starry", 600), position: "center", caption: "sketchbook, age 12", ratio: "4/5", width: "62%" },
+    { image: sampleImage("scream", 600), position: "center 30%", caption: "the famous ball", ratio: "1/1", width: "48%" },
+    { image: sampleImage("wave", 600), position: "center", caption: "still doing this", ratio: "5/4", width: "56%" },
   ],
   mediums: [
     medium("Traditional", "drawing & painting", "Watercolour, gouache, ink — and a lot of paper towels.", "", "center"),
@@ -140,10 +142,10 @@ export const ABOUT_CONTENT: AboutContent = {
     soon("Comics", "panels are being inked."),
   ],
   process: [
-    { title: "sketch", line: "Loose, fast, lots of bad ones. That's the point.", image: "", position: "center" },
-    { title: "line art", line: "Clean lines — still a little wonky, on purpose.", image: "", position: "left center" },
-    { title: "colour", line: "Flat colours first, then light, then mood.", image: "", position: "center" },
-    { title: "animation", line: "Frame by frame in Procreate Dreams until it breathes.", image: "", position: "center" },
+    { title: "sketch", line: "Loose, fast, lots of bad ones. That's the point.", image: sampleImage("monet", 600), position: "center" },
+    { title: "line art", line: "Clean lines — still a little wonky, on purpose.", image: sampleImage("kand", 600), position: "left center" },
+    { title: "colour", line: "Flat colours first, then light, then mood.", image: sampleImage("klimt", 600), position: "center" },
+    { title: "animation", line: "Frame by frame in Procreate Dreams until it breathes.", image: sampleImage("venus", 600), position: "center" },
   ],
   tools: [
     { name: "Procreate", for: "sketching & illustration" },
@@ -174,7 +176,7 @@ export const ABOUT_CONTENT: AboutContent = {
     { q: "on my desk", a: "one cat, nine brushes, zero clean mugs" },
     { q: "inspired by", a: "Ghibli skies, rickshaw art, Mumbai in monsoon" },
   ],
-  deskImage: "",
+  deskImage: sampleImage("monet", 1000),
   deskCaption: "where it all happens (tidied for the photo)",
   // Shares data with Footer & social. Behance / YouTube / Patreon URLs are not known yet.
   social: [
@@ -188,7 +190,7 @@ export const ABOUT_CONTENT: AboutContent = {
   ctaText: "Characters, covers, music videos, editorial — or a pair of headphones that needs a face. Quote in a day.",
   ctaButtons: [{ label: "say hi →", href: "/contact", cursor: "say hi" }],
   ctaNote: "goes to the contact page",
-  guideImage: "",
+  guideImage: sampleImage("pearl", 240),
   guideLines: [
     "hi! I'm the doodle version. scroll, I'll show you around ↓",
     "this is where it all started.",

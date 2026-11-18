@@ -1,6 +1,6 @@
 # Phase 2 — Clean up, fix bugs, small changes
 
-Status: **A + B done on branch `phase-2`** (one commit per item) · B5, B7, B8 and C still waiting for your call · 2026-11-18
+Status: **A + B done** (one commit per item) on `phase-2`, merged into `pre-prod` · C (your small changes) still to come · 2026-11-18
 
 Phase 1 (everything so far: setup, Home, admin, R2, database, Gallery/Work/About, Contact, deploy) built the
 structure. Phase 2 makes it tidy and correct: remove what isn't needed, fix what's broken, then your small changes.
@@ -57,7 +57,9 @@ structure. Phase 2 makes it tidy and correct: remove what isn't needed, fix what
 | B6 | Unknown slugs return HTTP 404 (checked with `next start`) |
 | B9 | README + CLAUDE.md updated |
 | B10 | `npm audit fix` (dev tools); remaining: picomatch (no fix yet), esbuild via drizzle-kit (downgrade only) |
-| B5, B7, B8 | Not changed — waiting for your call |
+| B5 | Your call: temporary sample content everywhere (`npm run db:samples`; remove with `-- --remove`) |
+| B7 | Your call: left as is |
+| B8 | Your call: new branch `pre-prod` = phase-1 + phase-2; `main` untouched until development is done |
 
 ## C. Your small changes
 _To be listed — tell me what you'd like changed._

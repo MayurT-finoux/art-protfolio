@@ -3,7 +3,10 @@
 // Shaped like the handoff data model so it can be swapped for database
 // queries in Phase 4. No sample images or artworks: the placeholder
 // paintings were removed at Yurix's request (2026-10-19) — real images
-// come from the admin (database + R2).
+// come from the admin (database + R2). Until then the stills and the
+// Instagram posts are temporary samples (images.ts).
+
+import { sampleImage } from "./images.ts";
 
 export type NavItem = { label: string; href: string };
 
@@ -75,7 +78,7 @@ export const music = {
 export const hero = {
   /** Loop MP4 from the CMS; none yet, so the still is shown. */
   video: null as string | null,
-  still: "",
+  still: sampleImage("starry", 1920),
   label: "2D animator & illustrator · mumbai",
   heading: "Hi, I'm Yurix",
   intro: "I'm an animator and illustrator making hand-drawn loops, characters and music videos.",
@@ -98,13 +101,18 @@ export const freshWork = {
   heading: "fresh",
   followButton: `follow @${site.instagramHandle} ↗`,
   followHref: igUrl,
-  items: [] as FreshItem[],
+  // Sample Instagram posts until the Instagram API is connected.
+  items: [
+    { title: "wip: frog choir", when: "on instagram", image: sampleImage("kand", 600), position: "center", instagram: true, href: igUrl },
+    { title: "desk, 2am", when: "on instagram", image: sampleImage("monet", 600), position: "center", instagram: true, href: igUrl },
+    { title: "sketchbook page", when: "on instagram", image: sampleImage("scream", 600), position: "center 30%", instagram: true, href: igUrl },
+  ].filter((p) => p.image) as FreshItem[],
 };
 
 export const aboutSection = {
   /** Window loop MP4 from the CMS; none yet, so the still is shown. */
   video: null as string | null,
-  still: "",
+  still: sampleImage("klimt", 900),
   windowLabel: "me_at_work.mp4",
   label: "about me",
   paragraphs: [
