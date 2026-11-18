@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ARTWORKS } from "@/lib/placeholder/admin";
 import { useAdmin } from "../AdminProvider/AdminProvider";
 import { arrayMove, SortableList } from "../ui/Sortable";
 import { AddRow, DragHandle, ReorderButtons, StatusDot } from "../ui/AdminUI";
 import styles from "./CategoryManager.module.css";
 
-export function CategoryManager() {
+/** `counts`: pieces per category (all / live) from the database. */
+export function CategoryManager({ counts }: { counts: Record<string, { all: number; live: number }> }) {
   const { categories, setCategories } = useAdmin();
   const [adding, setAdding] = useState<string | null>(null);
 
@@ -30,7 +30,8 @@ export function CategoryManager() {
           onReorder={setCategories}
           className={styles.rows}
           renderItem={(name, i, handleProps) => {
-            const n = ARTWORKS.filter((a) => a.category === name).length;
+            const n = counts[name]?.all ?? 0;
+            const live = counts[name]?.live ?? 0;
             return (
               <div className={styles.row}>
                 <DragHandle {...handleProps} />
@@ -38,8 +39,8 @@ export function CategoryManager() {
                 <span className={styles.count}>
                   {n} {n === 1 ? "piece" : "pieces"}
                 </span>
-                <StatusDot color={n ? "var(--ok)" : "var(--text-disabled)"} className={styles.state}>
-                  {n ? "showing in filters" : "hidden until it has a piece"}
+                <StatusDot color={live ? "var(--ok)" : "var(--text-disabled)"} className={styles.state}>
+                  {live ? "showing in filters" : "hidden until it has a piece"}
                 </StatusDot>
                 <ReorderButtons index={i} length={categories.length} onMove={(from, to) => setCategories(arrayMove(categories, from, to))} />
               </div>
