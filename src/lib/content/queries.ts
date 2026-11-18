@@ -3,7 +3,7 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, hasDatabase } from "@/db";
-import { artworkImages, artworks, categories, projects, siteContent } from "@/db/schema";
+import { artworkImages, artworks, categories, projects, siteContent, user } from "@/db/schema";
 import { ABOUT_CONTENT, type AboutContent } from "@/lib/placeholder/about";
 import {
   DEFAULT_CATEGORIES,
@@ -166,4 +166,16 @@ export async function getRecentEdits(limit = 4): Promise<RecentEdit[]> {
     .sort((a, b) => b.at.getTime() - a.at.getTime())
     .slice(0, limit)
     .map((e) => ({ ...e, at: e.at.toISOString() }));
+}
+
+export type AdminUser = { name: string; email: string };
+
+/** The admin account (Better Auth user table), for the sidebar. null = none / no database. */
+export async function getAdminUser(): Promise<AdminUser | null> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("days");
+  if (!hasDatabase()) return null;
+  const [row] = await db().select({ name: user.name, email: user.email }).from(user).orderBy(asc(user.createdAt)).limit(1);
+  return row ?? null;
 }

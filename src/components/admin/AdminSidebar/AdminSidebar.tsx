@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ADMIN_USER } from "@/lib/placeholder/admin";
+import type { AdminUser } from "@/lib/content/queries";
 import { SoonTag } from "../ui/AdminUI";
 import styles from "./AdminSidebar.module.css";
 
@@ -11,7 +11,8 @@ type Item = { label: string; href?: string; count?: number };
 /** Sidebar counts, from the database. */
 export type SidebarCounts = { artworks: number; projects: number; categories: number };
 
-export function AdminSidebar({ counts }: { counts: SidebarCounts }) {
+/** `user`: the admin account; hidden when there is none. */
+export function AdminSidebar({ counts, user }: { counts: SidebarCounts; user: AdminUser | null }) {
   const pathname = usePathname();
 
   const groups: { name: string; items: Item[] }[] = [
@@ -75,14 +76,15 @@ export function AdminSidebar({ counts }: { counts: SidebarCounts }) {
         </div>
       ))}
 
-      <div className={styles.user}>
-        <span className={styles.avatar}>{ADMIN_USER.initial}</span>
-        <div className={styles.userText}>
-          <span className={styles.userName}>{ADMIN_USER.name}</span>
-          <span className={styles.userEmail}>{ADMIN_USER.email}</span>
+      {user && (
+        <div className={styles.user}>
+          <span className={styles.avatar}>{(user.name || user.email).charAt(0).toLowerCase()}</span>
+          <div className={styles.userText}>
+            <span className={styles.userName}>{user.name}</span>
+            <span className={styles.userEmail}>{user.email}</span>
+          </div>
         </div>
-
-      </div>
+      )}
     </aside>
   );
 }
