@@ -26,7 +26,7 @@ The design files from Claude Design are the finalized design and the **single so
 - Admin forms: React Hook Form + Zod; drag-and-drop: dnd-kit; rich text: Tiptap
 - Animation: GSAP + ScrollTrigger + Lenis
 - Email: Resend (`src/lib/email.ts`; contact notifications + password reset; logs instead of sending without `RESEND_API_KEY`)
-- Hosting: **Vercel** (production branch `phase-1`; R2 keys in Vercel env vars). `netlify.toml` kept but unused.
+- Hosting: **Vercel** (production branch `phase-1`; R2 keys in Vercel env vars).
 - Do NOT use Neon Auth, Neon Functions, or Neon Object Storage (so no `neon.ts` / `neon deploy`).
 
 ## Key features (details are in the design files)
@@ -61,7 +61,7 @@ Each phase has its own folder: `docs/phase-1/` (Phase 1 notes, the old Phase1–
 
 ## Design files
 
-Only **v6** is in scope: `design/Artist Portfolio v6.dc.html` (identical to `design/design_handoff_yurix_site/designs/Overview Canvas.dc.html`) and the handoff page files it shows.
+Only **v6** is in scope: `design/design_handoff_yurix_site/designs/Overview Canvas.dc.html` and the handoff page files it shows. (The old copies in the `design/` root were deleted on 2026-11-18; git history keeps them.)
 
 - `design/design_handoff_yurix_site/README.md` — **read first**: tokens, behaviour, data model.
 - `design/design_handoff_yurix_site/designs/`:
@@ -75,7 +75,7 @@ Only **v6** is in scope: `design/Artist Portfolio v6.dc.html` (identical to `des
   - `ShopStudioTable.dc.html`, `404 Sketchbook.dc.html` + `RunnerGame Sketchbook.dc.html` — not built yet
 - Exact values live in inline `style="…"` attributes; component names in `data-component="…"`.
 - To view: `npx serve design/design_handoff_yurix_site/designs` and open `Overview Canvas.dc.html`.
-- **Not used**: HomeCollage, v3, v4, v5, v7, the "Directions" boards, `404 *`/`RunnerGame *` (until the 404 phase), and the Nocturne design system (`design/_ds/`, `design/nocturne.css`).
+- **Not used**: `HomeCollage` and `Artist Portfolio v7` (in the handoff folder), and `404 *`/`RunnerGame *` until the 404 phase.
 
 ## Project structure
 
@@ -95,9 +95,10 @@ src/
   components/admin/ui/  shared admin controls (AdminUI: Panel, Field, TextInput, Toggle, Chip…; Sortable: dnd-kit)
   styles/tokens.css     design tokens
   db/index.ts           Drizzle client (DATABASE_URL, pooled)
-  db/schema.ts          Drizzle schema (categories, artworks, artwork_images, site_content)
-  lib/content/          cached reads (queries.ts, home.ts), shared types, seed data
-  app/admin/actions.ts  server actions (save/feature/delete artwork, save Home, save Footer & social)
+  db/schema.ts          Drizzle schema (categories, artworks, artwork_images, projects, site_content, contact_messages, auth tables)
+  lib/content/          cached reads (queries.ts; home.ts, about.ts, work.ts page data), shared types (types.ts)
+  lib/placeholder/      default content + copy from the design (fallback when nothing is saved)
+  app/admin/actions.ts  server actions: artworks, projects, categories + site_content saves (home, footer, nav, music, microcopy, about)
   lib/
 ```
 
@@ -165,3 +166,10 @@ Component folders and files are named exactly as the design's `data-component`.
 - 2026-11-04 — At Yurix's request: **admin sign-in removed** — /admin opens directly. `ADMIN_LOGIN_ENABLED = false` makes `requireAdmin()` / `isAdmin()` pass; removed `src/proxy.ts`, `/admin/login`, `/admin/reset-password`, `AdminLogin`, sidebar sign-out (restore from git commit fb47038 + set the flag to true). Auth tables, `src/lib/auth.ts`, `/api/auth` and `npm run admin:create` are kept; the admin account (mayurt.finoux@gmail.com) stays in the DB. ⚠️ Anyone can edit content/upload until it's back on.
 - 2026-11-04 — Security: Next.js 16.4.0 → **16.4.5** (critical RCE advisories; builds were blocked) + zod patched via `npm audit fix`. Remaining: 4 moderate advisories in drizzle-kit's esbuild (dev tool only; the suggested fix is a downgrade).
 - 2026-10-08 — Connection test runs on Node 24's built-in TypeScript support (`node --env-file`), no `tsx`/`dotenv`.
+- 2026-11-18 — **Phase 2** (branch `phase-2`, plan in `docs/phase-2/PLAN.md`): clean-up (unused placeholder data/exports, `img()`, `netlify.toml`, design-root copies, unused Neon skills; Phase 1 notes moved to `docs/phase-1/`) and bug fixes, one commit each.
+- 2026-11-18 — Every admin screen now saves to the database: Categories (`categories`), Projects (new `projects` table, migration 0002), Navigation / Music / Microcopy / About page (`site_content` "nav", "music", "microcopy", "about"), Home About buttons + InfoCards (in "home"). The site reads them. Music: the player shows the first track's name and hides when switched off (playback still later). Microcopy cursor labels are stored but unused (normal cursor).
+- 2026-11-18 — About page from the admin: medium cards take cover + count from live artworks in the same-named category (a "soon" medium goes live once it has a piece); SocialLinks use the Footer & social URLs. Story paragraphs are edited as one list (lead / text) instead of the design's two fixed fields, because the page has four.
+- 2026-11-18 — Project covers can be an MP4 loop (as the admin says); Work card + project page play it muted.
+- 2026-11-18 — Real 404s: `[slug]` routes use `ensureStatic = "navigation"` and read params at the top (not inside `<Suspense>`), so `notFound()` happens before streaming.
+- 2026-11-18 — Dashboard shows real drafts and "recently edited"; Instagram panels say "not connected" until the API is built. Sidebar shows the admin account from the database.
+- 2026-11-18 — `npm audit`: remaining findings are dev tools only (picomatch ReDoS via ESLint, no fix released yet; esbuild via drizzle-kit, fix = downgrade). Re-check later.

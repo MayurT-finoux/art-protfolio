@@ -1,6 +1,6 @@
 # Phase 2 — Clean up, fix bugs, small changes
 
-Status: **plan, waiting for approval** (nothing changed yet) · 2026-11-18
+Status: **A + B done on branch `phase-2`** (one commit per item) · B5, B7, B8 and C still waiting for your call · 2026-11-18
 
 Phase 1 (everything so far: setup, Home, admin, R2, database, Gallery/Work/About, Contact, deploy) built the
 structure. Phase 2 makes it tidy and correct: remove what isn't needed, fix what's broken, then your small changes.
@@ -39,6 +39,26 @@ structure. Phase 2 makes it tidy and correct: remove what isn't needed, fix what
 
 **+ any bugs you've found** — send them and I'll add them here.
 
+## Progress (2026-11-18)
+
+| # | Result |
+|---|---|
+| A1–A3 | Unused placeholder data, `img()`, dead exports removed |
+| A4 | `netlify.toml` deleted |
+| A5 | `docs/phases/` → `docs/phase-1/` |
+| A6 | Design-root copies + dropped explorations deleted (handoff folder kept) |
+| A7 | neon-auth / -functions / -object-storage / -ai-gateway skills removed |
+| A8 | Sign-in kept (switched off); `admin:create` message fixed |
+| A9 | `useImageReady` simplified; AdminProvider now only the "saved" toast |
+| B1 | Categories counts from the database |
+| B2 | **Connected**: Categories, Navigation, Music, Microcopy, Home About buttons + InfoCards, About page, Projects (new `projects` table) |
+| B3 | Dashboard: real drafts + recently edited; Instagram "not connected" (also in Footer & social) |
+| B4 | Sidebar shows the admin account from the database |
+| B6 | Unknown slugs return HTTP 404 (checked with `next start`) |
+| B9 | README + CLAUDE.md updated |
+| B10 | `npm audit fix` (dev tools); remaining: picomatch (no fix yet), esbuild via drizzle-kit (downgrade only) |
+| B5, B7, B8 | Not changed — waiting for your call |
+
 ## C. Your small changes
 _To be listed — tell me what you'd like changed._
 
@@ -48,8 +68,8 @@ _To be listed — tell me what you'd like changed._
 3. Push to the branch you choose (B8). CLAUDE.md decisions log updated.
 
 ## Done when
-- [ ] No unused files/exports left (audit re-run is clean)
-- [ ] All approved bugs fixed and checked
+- [x] No unused files/exports left (audit re-run is clean)
+- [x] All approved bugs fixed and checked
 - [ ] Small changes done
-- [ ] README + CLAUDE.md current
+- [x] README + CLAUDE.md current
 - [ ] `npm run lint`, `npx tsc --noEmit`, `npm run build` pass; pushed
