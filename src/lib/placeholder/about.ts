@@ -180,7 +180,7 @@ export const ABOUT_CONTENT: AboutContent = {
   deskCaption: "where it all happens (tidied for the photo)",
   // Shares data with Footer & social. Behance / YouTube / Patreon URLs are not known yet.
   social: [
-    { name: "Instagram", handle: "@yurix.draws", line: "WIPs, doodles and the odd reel. Almost daily.", href: "https://www.instagram.com/yurix.draws/" },
+    { name: "Instagram", handle: "@yurriiix", line: "WIPs, doodles and the odd reel. Almost daily.", href: "https://www.instagram.com/yurriiix/" },
     { name: "Behance", handle: "behance.net/yurix", line: "Full case studies, from first sketch to final.", href: "#" },
     { name: "YouTube", handle: "@yurix", line: "Finished animations and process timelapses.", href: "#" },
     { name: "Patreon", handle: "patreon.com/yurix", line: "Brushes, timelapses and early looks for supporters.", href: "#" },

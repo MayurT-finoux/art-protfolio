@@ -23,7 +23,7 @@ const { artworks, artworkImages, projects, siteContent } = schema;
 const remove = process.argv.includes("--remove");
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-const IG = "https://www.instagram.com/yurix.draws/";
+const IG = "https://www.instagram.com/yurriiix/";
 const DESCRIPTIONS: Record<string, string> = {
   Traditional: "Painted at the window during the first week of rain. The paper buckled; I kept it.",
   Digital: "Drawn on the iPad on a slow Sunday. Started as a doodle in a meeting.",

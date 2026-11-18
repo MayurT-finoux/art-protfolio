@@ -22,7 +22,7 @@ const SOCIAL: { key: "instagram" | "behance" | "youtube"; name: string; placehol
   { key: "youtube", name: "YouTube", placeholder: "youtube.com/@yourname" },
 ];
 
-/** Shown without "https://", like the design ("instagram.com/yurix.draws"). */
+/** Shown without "https://", like the design ("instagram.com/yurriiix"). */
 const bare = (url: string) => url.replace(/^https?:\/\//i, "");
 
 // Footer fields + social links are saved (site_content "footer"). The Instagram

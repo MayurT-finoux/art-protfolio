@@ -44,7 +44,7 @@ export const site = {
   email: "hey@yurix.art",
   sayHiLabel: "say hi",
   copyright: "© 2026 · all artwork mine, no tracing pls",
-  instagramHandle: "yurix.draws",
+  instagramHandle: "yurriiix",
 };
 
 export const nav: NavItem[] = [

@@ -117,7 +117,7 @@ export const footerSocial = (f: FooterContent) =>
     { label: "YouTube", href: f.youtube },
   ].filter((l) => l.href);
 
-/** "@yurix.draws" from an Instagram profile URL. */
+/** "@yurriiix" from an Instagram profile URL. */
 export const instagramHandle = (url: string) => {
   const handle = url.match(/instagram\.com\/([^/?#]+)/i)?.[1];
   return handle ? `@${handle}` : "";

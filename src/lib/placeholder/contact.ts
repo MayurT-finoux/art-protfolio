@@ -1,7 +1,7 @@
 // Placeholder content for the Contact page, copied from the design
 // (design/design_handoff_yurix_site/designs/ContactPage.dc.html).
 // Rates and availability dates are placeholders (see the handoff README).
-// Email and Instagram come from the Home `site` settings (hey@yurix.art, @yurix.draws).
+// Email and Instagram come from the Home `site` settings (hey@yurix.art, @yurriiix).
 import { site, social } from "./home";
 
 export type ContactTopicKey = "commission" | "animation" | "custom" | "order" | "collab" | "hi" | "other";
