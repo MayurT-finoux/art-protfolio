@@ -162,6 +162,13 @@ export async function deleteArtwork(id: number): Promise<Result> {
   }
 }
 
+/** Site path ("/work") or full URL. */
+const linkHref = z
+  .string()
+  .trim()
+  .max(300)
+  .refine((v) => v.startsWith("/") || /^https?:\/\//i.test(v), "Links start with / (a page) or https://.");
+
 const homeInput = z.object({
   heroVideo: url.nullable(),
   heroStill: z.union([url, z.literal("")]),
@@ -180,6 +187,10 @@ const homeInput = z.object({
   aboutLabel: text(80),
   aboutParagraph1: text(1200),
   aboutParagraph2: text(1200),
+  aboutButtons: z.array(z.object({ label: text(60).min(1), href: linkHref })).length(2),
+  infoCards: z
+    .array(z.object({ label: text(40).min(1), title: text(80).min(1), text: text(200), href: linkHref }))
+    .length(3),
 });
 
 export async function saveHome(raw: z.infer<typeof homeInput>): Promise<Result> {
@@ -244,13 +255,6 @@ export async function saveCategories(raw: string[]): Promise<Result> {
     return fail(error);
   }
 }
-
-/** Site path ("/work") or full URL. */
-const linkHref = z
-  .string()
-  .trim()
-  .max(300)
-  .refine((v) => v.startsWith("/") || /^https?:\/\//i.test(v), "Links start with / (a page) or https://.");
 
 const navInput = z.object({
   items: z

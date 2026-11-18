@@ -1,6 +1,6 @@
 // Content shapes shared by the site, the admin and the database layer.
 // Relative .ts imports: also used by scripts/db-seed.mts (plain Node).
-import { aboutSection, freshWork, hero, music, nav, selectedWork, site, social } from "../placeholder/home.ts";
+import { aboutSection, freshWork, hero, infoCards, music, nav, selectedWork, site, social } from "../placeholder/home.ts";
 
 /** Home page content, stored as site_content["home"]. */
 export type HomeContent = {
@@ -21,7 +21,14 @@ export type HomeContent = {
   aboutLabel: string;
   aboutParagraph1: string;
   aboutParagraph2: string;
+  /** "more about me →" + "say hi" buttons under the About section. */
+  aboutButtons: HomeLink[];
+  /** Shop · About · Contact cards. */
+  infoCards: HomeInfoCard[];
 };
+
+export type HomeLink = { label: string; href: string };
+export type HomeInfoCard = { label: string; title: string; text: string; href: string };
 
 export const DEFAULT_HOME: HomeContent = {
   heroVideo: hero.video,
@@ -41,6 +48,8 @@ export const DEFAULT_HOME: HomeContent = {
   aboutLabel: aboutSection.label,
   aboutParagraph1: aboutSection.paragraphs[0],
   aboutParagraph2: aboutSection.paragraphs[1],
+  aboutButtons: aboutSection.buttons.map(({ label, href }) => ({ label, href })),
+  infoCards: infoCards.map(({ label, title, text, href }) => ({ label, title, text, href })),
 };
 
 export type ArtworkImageData = { url: string; label: string; width: number; height: number; focus: string };

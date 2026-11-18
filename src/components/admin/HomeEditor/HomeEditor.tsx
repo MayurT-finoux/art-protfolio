@@ -2,21 +2,44 @@
 
 import { useState } from "react";
 import { saveHome } from "@/app/admin/actions";
-import type { HomeContent } from "@/lib/content/types";
-import { aboutSection, infoCards } from "@/lib/placeholder/home";
+import type { HomeContent, HomeInfoCard, HomeLink } from "@/lib/content/types";
 import { AdminPage } from "../AdminPage/AdminPage";
 import { SectionAccordion, type Section } from "../SectionAccordion/SectionAccordion";
 import styles from "./HomeEditor.module.css";
 
-// Field structure from the design. Saved fields have a `name`; the About buttons
-// and InfoCards are not saved yet (they keep the design's content).
+const SEP = " · ";
+
+/** "more about me → /about": the last word is the link. */
+const buttonText = (b: HomeLink) => `${b.label} ${b.href}`;
+function parseButton(value: string, n: number): HomeLink {
+  const m = value.trim().match(/^(.*\S)\s+(\S+)$/);
+  if (!m) throw new Error(`Button ${n}: write the label, then the link (e.g. "say hi /contact").`);
+  return { label: m[1], href: m[2] };
+}
+
+/** "Shop · Prints & originals · Riso editions… · /shop" */
+const cardText = (c: HomeInfoCard) => [c.label, c.title, c.text, c.href].join(SEP);
+function parseCard(value: string, name: string): HomeInfoCard {
+  const parts = value.split("·").map((p) => p.trim());
+  if (parts.length < 4) throw new Error(`${name} card: write label · title · text · link.`);
+  return { label: parts[0], title: parts[1], text: parts.slice(2, -1).join(SEP), href: parts[parts.length - 1] };
+}
+
+const CARD_NAMES = ["Shop", "About", "Contact"];
+
+// Field structure from the design. Fields with a `name` are saved (site_content "home");
+// About buttons and InfoCards are one line each, as designed, and split on save.
 export function HomeEditor({ initial, featuredCount }: { initial: HomeContent; featuredCount: number }) {
   const [c, setC] = useState<HomeContent>(initial);
-  const set = (name: string, value: string) => setC((prev) => ({ ...prev, [name]: value }));
+  const [buttons, setButtons] = useState(() => initial.aboutButtons.map(buttonText));
+  const [cards, setCards] = useState(() => initial.infoCards.map(cardText));
 
-  const card = (i: number) => {
-    const ic = infoCards[i];
-    return `${ic.label} · ${ic.title} · ${ic.text} · ${ic.href}`;
+  const set = (name: string, value: string) => {
+    const [, list, i] = name.match(/^(button|card):(\d)$/) ?? [];
+    const update = (prev: string[]) => prev.map((v, j) => (j === Number(i) ? value : v));
+    if (list === "button") setButtons(update);
+    else if (list === "card") setCards(update);
+    else setC((prev) => ({ ...prev, [name]: value }));
   };
 
   const sections: Section[] = [
@@ -65,23 +88,33 @@ export function HomeEditor({ initial, featuredCount }: { initial: HomeContent; f
         { kind: "text", name: "aboutLabel", label: "label", value: c.aboutLabel },
         { kind: "text", name: "aboutParagraph1", label: "paragraph 1", value: c.aboutParagraph1 },
         { kind: "text", name: "aboutParagraph2", label: "paragraph 2", value: c.aboutParagraph2 },
-        { kind: "text", label: "button 1 · link", value: `${aboutSection.buttons[0].label} ${aboutSection.buttons[0].href}` },
-        { kind: "text", label: "button 2 · link", value: `${aboutSection.buttons[1].label} → ${aboutSection.buttons[1].href}` },
+        { kind: "text", name: "button:0", label: "button 1 · link", value: buttons[0] },
+        { kind: "text", name: "button:1", label: "button 2 · link", value: buttons[1] },
       ],
     },
     {
       name: "InfoCards",
       summary: "Shop · About · Contact",
       fields: [
-        { kind: "text", label: "shop card · label / title / text / link", value: card(0) },
-        { kind: "text", label: "about card", value: card(1) },
-        { kind: "text", label: "contact card", value: card(2) },
+        { kind: "text", name: "card:0", label: "shop card · label / title / text / link", value: cards[0] },
+        { kind: "text", name: "card:1", label: "about card", value: cards[1] },
+        { kind: "text", name: "card:2", label: "contact card", value: cards[2] },
       ],
     },
   ];
 
   const save = async () => {
-    const result = await saveHome(c);
+    let data: HomeContent;
+    try {
+      data = {
+        ...c,
+        aboutButtons: buttons.map((b, i) => parseButton(b, i + 1)),
+        infoCards: cards.map((v, i) => parseCard(v, CARD_NAMES[i])),
+      };
+    } catch (e) {
+      return (e as Error).message;
+    }
+    const result = await saveHome(data);
     if (!result.ok) return result.error;
   };
 

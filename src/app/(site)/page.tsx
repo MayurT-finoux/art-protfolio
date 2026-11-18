@@ -7,11 +7,11 @@ import { InfoCards } from "@/components/home/InfoCards/InfoCards";
 import { SelectedWork } from "@/components/home/SelectedWork/SelectedWork";
 import { getHomePageData } from "@/lib/content/home";
 import { getFooterContent, getMicrocopy } from "@/lib/content/queries";
-import { freshWork, infoCards, selectedWork } from "@/lib/placeholder/home";
+import { freshWork, selectedWork } from "@/lib/placeholder/home";
 import styles from "./page.module.css";
 
 export default async function HomePage() {
-  const [{ content: c, selected, fresh, aboutButtons }, footer, copy] = await Promise.all([
+  const [{ content: c, selected, fresh, aboutButtons, infoCards }, footer, copy] = await Promise.all([
     getHomePageData(),
     getFooterContent(),
     getMicrocopy(),

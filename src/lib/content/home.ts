@@ -1,6 +1,6 @@
 // Home page data, assembled from the database (cached; refreshed on admin save).
 import { cacheLife, cacheTag } from "next/cache";
-import { aboutSection, freshWork, type FreshItem, type SelectedArtwork } from "@/lib/placeholder/home";
+import { aboutSection, freshWork, infoCards, type FreshItem, type InfoCard, type SelectedArtwork } from "@/lib/placeholder/home";
 import { CONTENT_TAG, featuredArtworks, getArtworks, getHomeContent } from "./queries";
 import { coverRatio } from "./types";
 
@@ -52,5 +52,9 @@ export async function getHomePageData() {
     if (instagram[i]) fresh.push(instagram[i]);
   });
 
-  return { content, selected, fresh, aboutButtons: aboutSection.buttons };
+  // Saved links + text; the (unused) cursor labels stay from the design.
+  const aboutButtons = content.aboutButtons.map((b, i) => ({ ...b, cursor: aboutSection.buttons[i]?.cursor ?? "" }));
+  const cards: InfoCard[] = content.infoCards.map((c, i) => ({ ...c, cursor: infoCards[i]?.cursor ?? "" }));
+
+  return { content, selected, fresh, aboutButtons, infoCards: cards };
 }
