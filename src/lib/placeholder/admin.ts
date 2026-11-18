@@ -24,13 +24,6 @@ export type Project = {
 export const PROJECTS: Project[] = [];
 export const MAX_PROJECTS = 12;
 
-export type Track = { name: string; file: string; duration: string; /** uploaded file (R2) */ url?: string };
-export const TRACKS: Track[] = [
-  { name: "lullaby for a cat (loop)", file: "lullaby-cat.mp3", duration: "1:42" },
-  { name: "rooftop hum", file: "rooftop-hum.mp3", duration: "2:10" },
-  { name: "monsoon tape 02", file: "monsoon-02.mp3", duration: "3:05" },
-];
-
 export type ListItem = { a: string; b: string; soon?: boolean };
 export type AboutListKey = "mediums" | "process" | "tools" | "skills" | "timeline" | "clients" | "facts" | "social";
 

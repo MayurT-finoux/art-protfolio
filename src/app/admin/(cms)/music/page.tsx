@@ -1,10 +1,6 @@
-import { AdminPage } from "@/components/admin/AdminPage/AdminPage";
 import { MusicPlaylist } from "@/components/admin/MusicPlaylist/MusicPlaylist";
+import { getMusicContent } from "@/lib/content/queries";
 
-export default function MusicPage() {
-  return (
-    <AdminPage title="Music playlist">
-      <MusicPlaylist />
-    </AdminPage>
-  );
+export default async function MusicPage() {
+  return <MusicPlaylist initial={await getMusicContent()} />;
 }

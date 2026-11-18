@@ -13,7 +13,7 @@ type Props = {
   wordmark: string;
   email: string;
   instagram?: SocialLink;
-  track: string;
+  track: string | null;
   onClose: () => void;
 };
 
@@ -71,7 +71,7 @@ export function MobileMenu({ items, activeHref, wordmark, email, instagram, trac
             </a>
           )}
         </div>
-        <MusicPlayer track={track} />
+        {track && <MusicPlayer track={track} />}
       </div>
     </div>
   );

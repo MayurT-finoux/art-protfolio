@@ -12,7 +12,8 @@ type Props = {
   wordmark: string;
   email: string;
   instagram?: SocialLink;
-  track: string;
+  /** null = music player switched off in the admin */
+  track: string | null;
 };
 
 // Items fade and drop in as the Home hero completes (--p, see globals.css).

@@ -4,10 +4,8 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 import {
   ABOUT_LISTS,
   PROJECTS,
-  TRACKS,
   type AboutListKey,
   type ListItem,
-  type Track,
 } from "@/lib/placeholder/admin";
 
 // Client-side admin state for screens not yet in the database (projects,
@@ -20,8 +18,6 @@ export type AboutLayout = "Sketchbook" | "Editorial";
 type AdminState = {
   projectOrder: number[];
   projectDraft: Record<string, boolean>;
-  tracks: Track[];
-  musicOn: boolean;
   aboutLists: Record<AboutListKey, ListItem[]>;
   aboutLayout: AboutLayout;
   freelance: boolean;
@@ -32,8 +28,6 @@ type AdminState = {
 type AdminActions = {
   setProjectDraft: (slug: string, draft: boolean) => void;
   setProjectOrder: (order: number[]) => void;
-  setTracks: (tracks: Track[]) => void;
-  setMusicOn: (on: boolean) => void;
   setAboutList: (key: AboutListKey, items: ListItem[]) => void;
   setAboutLayout: (layout: AboutLayout) => void;
   setFreelance: (on: boolean) => void;
@@ -47,8 +41,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AdminState>({
     projectOrder: PROJECTS.map((_, i) => i),
     projectDraft: Object.fromEntries(PROJECTS.map((p) => [p.slug, p.draft])),
-    tracks: TRACKS,
-    musicOn: true,
     aboutLists: ABOUT_LISTS,
     aboutLayout: "Sketchbook",
     freelance: true,
@@ -78,8 +70,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       setProjectDraft: (slug: string, draft: boolean) =>
         setState((s) => ({ ...s, projectDraft: { ...s.projectDraft, [slug]: draft } })),
       setProjectOrder: (projectOrder: number[]) => patch({ projectOrder }),
-      setTracks: (tracks: Track[]) => patch({ tracks }),
-      setMusicOn: (musicOn: boolean) => patch({ musicOn }),
       setAboutList: (key: AboutListKey, items: ListItem[]) =>
         setState((s) => ({ ...s, aboutLists: { ...s.aboutLists, [key]: items } })),
       setAboutLayout: (aboutLayout: AboutLayout) => patch({ aboutLayout }),

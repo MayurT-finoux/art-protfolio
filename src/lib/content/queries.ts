@@ -8,10 +8,12 @@ import {
   DEFAULT_CATEGORIES,
   DEFAULT_FOOTER,
   DEFAULT_HOME,
+  DEFAULT_MUSIC,
   DEFAULT_NAV,
   type ArtworkData,
   type FooterContent,
   type HomeContent,
+  type MusicContent,
   type NavContent,
 } from "./types";
 
@@ -43,6 +45,13 @@ export async function getNavContent(): Promise<NavContent> {
   cacheTag(CONTENT_TAG);
   cacheLife("hours");
   return readContent("nav", DEFAULT_NAV);
+}
+
+export async function getMusicContent(): Promise<MusicContent> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  return readContent("music", DEFAULT_MUSIC);
 }
 
 /** All artworks, newest first, with their images in order. */

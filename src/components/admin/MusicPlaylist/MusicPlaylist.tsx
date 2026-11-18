@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAdmin } from "../AdminProvider/AdminProvider";
+import { saveMusic } from "@/app/admin/actions";
+import type { MusicContent } from "@/lib/content/types";
+import { AdminPage } from "../AdminPage/AdminPage";
 import { arrayMove, SortableList } from "../ui/Sortable";
 import { AddRow, DragHandle, ReorderButtons, Toggle } from "../ui/AdminUI";
 import { FilePicker, progressLabel } from "../ui/FilePicker";
@@ -26,10 +28,17 @@ function readDuration(file: File) {
   });
 }
 
-// Playlist editor. Preview plays uploaded tracks; the placeholder tracks have no file yet.
-export function MusicPlaylist() {
-  const { tracks, setTracks, musicOn, setMusicOn } = useAdmin();
+// Playlist editor, saved as site_content "music". The site player shows the
+// first track's name (or is hidden when off); playback on the site comes later.
+export function MusicPlaylist({ initial }: { initial: MusicContent }) {
+  const [tracks, setTracks] = useState(initial.tracks);
+  const [musicOn, setMusicOn] = useState(initial.on);
   const [playing, setPlaying] = useState(-1);
+
+  const save = async () => {
+    const result = await saveMusic({ on: musicOn, tracks });
+    if (!result.ok) return result.error;
+  };
 
   // Play / stop the previewed track.
   useEffect(() => {
@@ -47,6 +56,7 @@ export function MusicPlaylist() {
   };
 
   return (
+    <AdminPage title="Music playlist" onSave={save}>
     <div data-component="MusicPlaylist" className={styles.playlist}>
       <div className={styles.player}>
         <div className={styles.playerText}>
@@ -61,7 +71,7 @@ export function MusicPlaylist() {
       <div className={styles.rows}>
         <SortableList
           items={tracks}
-          getId={(t) => t.file}
+          getId={(t) => t.url}
           onReorder={reorder}
           className={styles.rows}
           renderItem={(t, i, handleProps) => {
@@ -96,5 +106,6 @@ export function MusicPlaylist() {
         </FilePicker>
       </div>
     </div>
+    </AdminPage>
   );
 }

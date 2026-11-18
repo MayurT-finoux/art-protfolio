@@ -268,3 +268,18 @@ export async function saveNav(raw: z.input<typeof navInput>): Promise<Result> {
     return fail(error);
   }
 }
+
+const musicInput = z.object({
+  on: z.boolean(),
+  tracks: z.array(z.object({ name: text(120).min(1), file: text(200), duration: text(10), url })).max(30),
+});
+
+export async function saveMusic(raw: z.input<typeof musicInput>): Promise<Result> {
+  try {
+    await requireAdmin();
+    await writeContent("music", musicInput.parse(raw));
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}

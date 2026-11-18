@@ -1,6 +1,6 @@
 // Content shapes shared by the site, the admin and the database layer.
 // Relative .ts imports: also used by scripts/db-seed.mts (plain Node).
-import { aboutSection, freshWork, hero, nav, selectedWork, site, social } from "../placeholder/home.ts";
+import { aboutSection, freshWork, hero, music, nav, selectedWork, site, social } from "../placeholder/home.ts";
 
 /** Home page content, stored as site_content["home"]. */
 export type HomeContent = {
@@ -127,3 +127,14 @@ export const DEFAULT_NAV: NavContent = {
 
 /** Visible nav links, as the site uses them. */
 export const navLinks = (n: NavContent) => n.items.filter((i) => i.visible).map(({ label, href }) => ({ label, href }));
+
+/** One playlist track (uploaded to R2). */
+export type Track = { name: string; file: string; duration: string; url: string };
+
+/** Admin "Music", stored as site_content["music"]. */
+export type MusicContent = { on: boolean; tracks: Track[] };
+
+export const DEFAULT_MUSIC: MusicContent = { on: true, tracks: [] };
+
+/** Track name the MusicPlayer shows, or null when the player is switched off. */
+export const playerTrack = (m: MusicContent) => (m.on ? (m.tracks[0]?.name ?? music.track) : null);
