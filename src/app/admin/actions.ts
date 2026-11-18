@@ -306,3 +306,69 @@ export async function saveMicrocopy(raw: z.input<typeof microcopyInput>): Promis
     return fail(error);
   }
 }
+
+const s = (max: number) => text(max);
+const aboutButton = z.object({ label: s(60).min(1), href: linkHref, cursor: s(30) });
+
+const aboutInput = z.object({
+  layout: z.enum(["sketchbook", "editorial"]),
+  openForFreelance: z.boolean(),
+  heroLabel: s(160),
+  heroRole: s(160),
+  heroGreeting: s(80).min(1),
+  heroHeading: s(160),
+  heroHeadingAccent: s(60),
+  heroIntro: s(800),
+  city: s(80),
+  makes: s(160),
+  portraitVideo: url.nullable(),
+  portraitImage: z.union([url, z.literal("")]),
+  portraitCaption: s(160),
+  storyQuote: s(300),
+  storyParagraphs: z.array(z.object({ lead: s(200), text: s(1200), doodle: z.boolean().optional() })).max(10),
+  storySketches: z
+    .array(z.object({ image: z.union([url, z.literal("")]), position: s(40), caption: s(120), ratio: s(10), width: s(10) }))
+    .max(6),
+  mediums: z
+    .array(
+      z.object({
+        name: s(60).min(1),
+        what: s(80),
+        line: s(200),
+        soon: z.boolean(),
+        image: z.union([url, z.literal("")]),
+        position: s(40),
+        count: z.number().int().min(0),
+        href: s(300),
+        animated: z.boolean(),
+      }),
+    )
+    .max(12),
+  process: z.array(z.object({ title: s(60).min(1), line: s(200), image: z.union([url, z.literal("")]), position: s(40) })).max(10),
+  tools: z.array(z.object({ name: s(80).min(1), for: s(120) })).max(20),
+  skills: z.array(s(80).min(1)).max(30),
+  timeline: z.array(z.object({ year: s(10), title: s(120).min(1), line: s(200) })).max(30),
+  clients: z.array(z.object({ name: s(80).min(1), kind: s(80), href: s(300) })).max(40),
+  clientsCta: aboutButton,
+  facts: z.array(z.object({ q: s(120).min(1), a: s(200) })).max(20),
+  deskImage: z.union([url, z.literal("")]),
+  deskCaption: s(160),
+  social: z.array(z.object({ name: s(40).min(1), handle: s(80), line: s(200), href: s(300) })).max(10),
+  ctaHeading: s(120),
+  ctaHeadingAccent: s(60),
+  ctaText: s(600),
+  ctaButtons: z.array(aboutButton).min(1).max(2),
+  ctaNote: s(160),
+  guideImage: z.union([url, z.literal("")]),
+  guideLines: z.array(s(200)).max(20),
+});
+
+export async function saveAbout(raw: z.input<typeof aboutInput>): Promise<Result> {
+  try {
+    await requireAdmin();
+    await writeContent("about", aboutInput.parse(raw));
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}

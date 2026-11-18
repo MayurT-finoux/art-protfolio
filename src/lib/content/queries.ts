@@ -4,6 +4,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, hasDatabase } from "@/db";
 import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
+import { ABOUT_CONTENT, type AboutContent } from "@/lib/placeholder/about";
 import {
   DEFAULT_CATEGORIES,
   DEFAULT_FOOTER,
@@ -61,6 +62,13 @@ export async function getMicrocopy(): Promise<MicrocopyContent> {
   cacheTag(CONTENT_TAG);
   cacheLife("hours");
   return readContent("microcopy", DEFAULT_MICROCOPY);
+}
+
+export async function getAboutContent(): Promise<AboutContent> {
+  "use cache";
+  cacheTag(CONTENT_TAG);
+  cacheLife("hours");
+  return readContent("about", ABOUT_CONTENT);
 }
 
 /** All artworks, newest first, with their images in order. */

@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { AboutListKey, ListItem } from "@/lib/placeholder/admin";
 import type { UploadKind } from "@/lib/uploads";
-import { useAdmin } from "../AdminProvider/AdminProvider";
 import { FieldLabel, SoonTag, TextArea, Thumb } from "../ui/AdminUI";
 import { FilePicker, progressLabel } from "../ui/FilePicker";
 import styles from "./SectionAccordion.module.css";
 
+/** One list row: two values, a "soon" tag, and the original record (`keep`) it came from. */
+export type ListItem<T = unknown> = { a: string; b: string; soon?: boolean; keep?: T };
+
 /**
- * Fields with a `name` are controlled by the editor through `onChange(name, value)`
- * (HomeEditor saves them); fields without one keep their own state (AboutEditor, for now).
+ * Fields with a `name` are controlled by the editor through `onChange(name, value)`;
+ * fields without one keep their own state. Lists are controlled through their own `onChange`.
  */
 export type SectionField =
   | { kind: "text"; label: string; value: string; name?: string }
@@ -30,7 +31,7 @@ export type SectionField =
       url?: string | null;
     }
   | { kind: "auto"; label: string; value: string; cta: string; href: string }
-  | { kind: "list"; label: string; list: AboutListKey; addLabel: string; blank: ListItem };
+  | { kind: "list"; label: string; items: ListItem[]; onChange: (items: ListItem[]) => void; addLabel: string; blank: ListItem };
 
 export type Section = { name: string; summary: string; fields: SectionField[] };
 
@@ -105,7 +106,7 @@ function FieldControl({ field, onChange }: { field: SectionField; onChange: OnCh
         </div>
       );
     case "list":
-      return <ListField list={field.list} addLabel={field.addLabel} blank={field.blank} />;
+      return <ListField items={field.items} set={field.onChange} addLabel={field.addLabel} blank={field.blank} />;
   }
 }
 
@@ -151,10 +152,17 @@ function TextField({ initial, label }: { initial: string; label: string }) {
 }
 
 /** Rows of two values with ↑ ↓ ×, and a "+ add …" row. */
-function ListField({ list, addLabel, blank }: { list: AboutListKey; addLabel: string; blank: ListItem }) {
-  const { aboutLists, setAboutList } = useAdmin();
-  const items = aboutLists[list];
-  const set = (next: ListItem[]) => setAboutList(list, next);
+function ListField({
+  items,
+  set,
+  addLabel,
+  blank,
+}: {
+  items: ListItem[];
+  set: (items: ListItem[]) => void;
+  addLabel: string;
+  blank: ListItem;
+}) {
   const move = (i: number, d: number) => {
     const j = i + d;
     if (j < 0 || j >= items.length) return;

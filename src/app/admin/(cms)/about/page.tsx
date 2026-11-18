@@ -1,10 +1,6 @@
-import { AdminPage } from "@/components/admin/AdminPage/AdminPage";
 import { AboutEditor } from "@/components/admin/AboutEditor/AboutEditor";
+import { getAboutContent } from "@/lib/content/queries";
 
-export default function AboutEditorPage() {
-  return (
-    <AdminPage title="About page">
-      <AboutEditor />
-    </AdminPage>
-  );
+export default async function AboutEditorPage() {
+  return <AboutEditor initial={await getAboutContent()} />;
 }

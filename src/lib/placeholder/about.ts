@@ -1,18 +1,12 @@
-// Placeholder content for the About page, copied from the v6 designs
+// Default content for the About page, copied from the v6 designs
 // (design/design_handoff_yurix_site/designs/About Sketchbook.dc.html and
 // About Editorial.dc.html). Both layouts share this content; only the
-// presentation differs. Shaped like the handoff `AboutContent` model so it
-// can move to the database later. Images are the designs' Wikimedia
-// placeholders (the image slots in the design are empty drop boxes).
+// presentation differs. Saved changes live in site_content["about"]
+// (admin "About page"); this is the fallback. No placeholder images.
 
 
 export type AboutLayout = "sketchbook" | "editorial";
 
-/** Which layout is live (picked in the admin; Sketchbook is the default). */
-export const ABOUT_LAYOUT: AboutLayout = "sketchbook";
-
-/** Drives the "open for freelance" badge in AboutHero. */
-export const OPEN_FOR_FREELANCE = true;
 
 export type AboutStoryParagraph = { lead: string; text: string; /** squiggle under it (Sketchbook) */ doodle?: boolean };
 export type AboutSketch = { image: string; position: string; caption: string; ratio: string; /** desktop width in the polaroid stack */ width: string };
@@ -109,8 +103,10 @@ const soon = (name: string, line: string): AboutMedium => ({
 });
 
 export const ABOUT_CONTENT: AboutContent = {
-  layout: ABOUT_LAYOUT,
-  openForFreelance: OPEN_FOR_FREELANCE,
+  /** Which layout is live (picked in the admin; Sketchbook is the default). */
+  layout: "sketchbook",
+  /** Drives the "open for freelance" badge in AboutHero. */
+  openForFreelance: true,
   heroLabel: "about · the person behind the wobbly lines",
   heroRole: "Yurix · animator & illustrator",
   heroGreeting: "Hi, I'm Yurix",

@@ -2,10 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import {
-  ABOUT_LISTS,
   PROJECTS,
-  type AboutListKey,
-  type ListItem,
 } from "@/lib/placeholder/admin";
 
 // Client-side admin state for screens not yet in the database (projects,
@@ -13,14 +10,10 @@ import {
 // Artworks and the Home page are saved to the database (src/app/admin/actions.ts).
 
 export type IgState = "ok" | "syncing" | "fail";
-export type AboutLayout = "Sketchbook" | "Editorial";
 
 type AdminState = {
   projectOrder: number[];
   projectDraft: Record<string, boolean>;
-  aboutLists: Record<AboutListKey, ListItem[]>;
-  aboutLayout: AboutLayout;
-  freelance: boolean;
   ig: IgState;
   saved: boolean;
 };
@@ -28,9 +21,6 @@ type AdminState = {
 type AdminActions = {
   setProjectDraft: (slug: string, draft: boolean) => void;
   setProjectOrder: (order: number[]) => void;
-  setAboutList: (key: AboutListKey, items: ListItem[]) => void;
-  setAboutLayout: (layout: AboutLayout) => void;
-  setFreelance: (on: boolean) => void;
   syncInstagram: () => void;
   save: () => void;
 };
@@ -41,9 +31,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AdminState>({
     projectOrder: PROJECTS.map((_, i) => i),
     projectDraft: Object.fromEntries(PROJECTS.map((p) => [p.slug, p.draft])),
-    aboutLists: ABOUT_LISTS,
-    aboutLayout: "Sketchbook",
-    freelance: true,
     ig: "ok",
     saved: false,
   });
@@ -70,10 +57,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       setProjectDraft: (slug: string, draft: boolean) =>
         setState((s) => ({ ...s, projectDraft: { ...s.projectDraft, [slug]: draft } })),
       setProjectOrder: (projectOrder: number[]) => patch({ projectOrder }),
-      setAboutList: (key: AboutListKey, items: ListItem[]) =>
-        setState((s) => ({ ...s, aboutLists: { ...s.aboutLists, [key]: items } })),
-      setAboutLayout: (aboutLayout: AboutLayout) => patch({ aboutLayout }),
-      setFreelance: (freelance: boolean) => patch({ freelance }),
       syncInstagram,
       save,
     }),
