@@ -3,7 +3,6 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import {
   ABOUT_LISTS,
-  CATEGORY_ROWS,
   NAV,
   PROJECTS,
   TRACKS,
@@ -23,7 +22,6 @@ export type AboutLayout = "Sketchbook" | "Editorial";
 type AdminState = {
   projectOrder: number[];
   projectDraft: Record<string, boolean>;
-  categories: string[];
   nav: NavRow[];
   tracks: Track[];
   musicOn: boolean;
@@ -37,7 +35,6 @@ type AdminState = {
 type AdminActions = {
   setProjectDraft: (slug: string, draft: boolean) => void;
   setProjectOrder: (order: number[]) => void;
-  setCategories: (categories: string[]) => void;
   setNav: (nav: NavRow[]) => void;
   setTracks: (tracks: Track[]) => void;
   setMusicOn: (on: boolean) => void;
@@ -54,7 +51,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AdminState>({
     projectOrder: PROJECTS.map((_, i) => i),
     projectDraft: Object.fromEntries(PROJECTS.map((p) => [p.slug, p.draft])),
-    categories: CATEGORY_ROWS,
     nav: NAV,
     tracks: TRACKS,
     musicOn: true,
@@ -87,7 +83,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       setProjectDraft: (slug: string, draft: boolean) =>
         setState((s) => ({ ...s, projectDraft: { ...s.projectDraft, [slug]: draft } })),
       setProjectOrder: (projectOrder: number[]) => patch({ projectOrder }),
-      setCategories: (categories: string[]) => patch({ categories }),
       setNav: (nav: NavRow[]) => patch({ nav }),
       setTracks: (tracks: Track[]) => patch({ tracks }),
       setMusicOn: (musicOn: boolean) => patch({ musicOn }),

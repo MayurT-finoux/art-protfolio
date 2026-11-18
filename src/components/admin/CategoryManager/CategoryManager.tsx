@@ -1,23 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { useAdmin } from "../AdminProvider/AdminProvider";
+import { saveCategories } from "@/app/admin/actions";
+import { AdminPage } from "../AdminPage/AdminPage";
 import { arrayMove, SortableList } from "../ui/Sortable";
 import { AddRow, DragHandle, ReorderButtons, StatusDot } from "../ui/AdminUI";
 import styles from "./CategoryManager.module.css";
 
-/** `counts`: pieces per category (all / live) from the database. */
-export function CategoryManager({ counts }: { counts: Record<string, { all: number; live: number }> }) {
-  const { categories, setCategories } = useAdmin();
+type Props = {
+  /** Categories in order, from the database. */
+  initial: string[];
+  /** Pieces per category (all / live), from the database. */
+  counts: Record<string, { all: number; live: number }>;
+};
+
+// Order + new categories are saved to the categories table (Gallery filter order).
+export function CategoryManager({ initial, counts }: Props) {
+  const [categories, setCategories] = useState(initial);
   const [adding, setAdding] = useState<string | null>(null);
 
   const add = () => {
     const name = adding?.trim();
-    if (name && !categories.includes(name)) setCategories([...categories, name]);
+    if (name && !categories.some((c) => c.toLowerCase() === name.toLowerCase())) setCategories([...categories, name]);
     setAdding(null);
   };
 
+  const save = async () => {
+    const result = await saveCategories(categories);
+    if (!result.ok) return result.error;
+  };
+
   return (
+    <AdminPage title="Categories" onSave={save}>
     <div data-component="CategoryManager" className={styles.manager}>
       <span className={styles.intro}>
         These become the GalleryFilters chips. &quot;All&quot; and the counts are automatic. A category with no live pieces stays
@@ -66,5 +80,6 @@ export function CategoryManager({ counts }: { counts: Record<string, { all: numb
         )}
       </div>
     </div>
+    </AdminPage>
   );
 }

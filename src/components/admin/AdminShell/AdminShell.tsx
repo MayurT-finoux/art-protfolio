@@ -1,15 +1,15 @@
 "use client";
 
 import { AdminProvider, useAdmin } from "../AdminProvider/AdminProvider";
-import { AdminSidebar } from "../AdminSidebar/AdminSidebar";
+import { AdminSidebar, type SidebarCounts } from "../AdminSidebar/AdminSidebar";
 import styles from "./AdminShell.module.css";
 
 // Sidebar | main. Each screen renders its own <AdminPage> (header + scroll area).
-export function AdminShell({ artworkCount, children }: { artworkCount: number; children: React.ReactNode }) {
+export function AdminShell({ counts, children }: { counts: SidebarCounts; children: React.ReactNode }) {
   return (
     <AdminProvider>
       <div data-component="AdminShell" className={styles.shell}>
-        <AdminSidebar artworkCount={artworkCount} />
+        <AdminSidebar counts={counts} />
         <main className={styles.main}>{children}</main>
         <SavedToast />
       </div>

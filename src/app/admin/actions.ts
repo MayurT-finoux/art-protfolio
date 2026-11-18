@@ -6,7 +6,7 @@ import { and, count, eq, ne, sql } from "drizzle-orm";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { db } from "@/db";
-import { artworkImages, artworks, siteContent } from "@/db/schema";
+import { artworkImages, artworks, categories, siteContent } from "@/db/schema";
 import { requireAdmin } from "@/lib/adminSession";
 import { CONTENT_TAG } from "@/lib/content/queries";
 import { MAX_FEATURED } from "@/lib/content/types";
@@ -215,6 +215,28 @@ export async function saveFooter(raw: z.input<typeof footerInput>): Promise<Resu
       .insert(siteContent)
       .values({ key: "footer", data })
       .onConflictDoUpdate({ target: siteContent.key, set: { data, updatedAt: new Date() } });
+    updateTag(CONTENT_TAG);
+    return { ok: true };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+const categoriesInput = z
+  .array(text(40).min(1, "A category needs a name."))
+  .min(1, "Keep at least one category.")
+  .max(30)
+  .refine((names) => new Set(names.map((n) => n.toLowerCase())).size === names.length, "Two categories have the same name.");
+
+/** Saves the Gallery categories in this order (adds new ones). */
+export async function saveCategories(raw: string[]): Promise<Result> {
+  try {
+    await requireAdmin();
+    const names = categoriesInput.parse(raw);
+    await db().batch([
+      db().delete(categories),
+      db().insert(categories).values(names.map((name, position) => ({ name, position }))),
+    ]);
     updateTag(CONTENT_TAG);
     return { ok: true };
   } catch (error) {

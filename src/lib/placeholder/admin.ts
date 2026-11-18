@@ -40,8 +40,6 @@ export const TRACKS: Track[] = [
   { name: "monsoon tape 02", file: "monsoon-02.mp3", duration: "3:05" },
 ];
 
-export const CATEGORY_ROWS = ["Traditional", "Digital", "Animation", "Handmade", "Comics", "Graffiti"];
-
 export type ListItem = { a: string; b: string; soon?: boolean };
 export type AboutListKey = "mediums" | "process" | "tools" | "skills" | "timeline" | "clients" | "facts" | "social";
 
