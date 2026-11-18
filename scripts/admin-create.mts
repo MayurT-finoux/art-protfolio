@@ -58,6 +58,6 @@ if (existing) {
   }
   const created = await ctx.internalAdapter.createUser({ email, name: "Yurix", emailVerified: true }, { method: "admin" });
   await ctx.internalAdapter.linkAccount({ userId: created.id, providerId: "credential", accountId: created.id, password: hash });
-  console.log(`\n✓ Admin account created for ${email}. Sign in at /admin/login.`);
+  console.log(`\n✓ Admin account created for ${email}. (Sign-in is switched off for now: see src/lib/adminSession.ts.)`);
 }
 process.exit(0);
