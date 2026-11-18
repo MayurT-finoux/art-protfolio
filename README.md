@@ -30,5 +30,5 @@ npm run dev                  # http://localhost:3000
 ## Docs
 
 - [CLAUDE.md](CLAUDE.md) — project brief, rules, decisions log
-- [docs/phases/](docs/phases/) — plan for each phase
+- [docs/phase-1/](docs/phase-1/) — plan for each phase
 - [design/design_handoff_yurix_site/README.md](design/design_handoff_yurix_site/README.md) — design handoff (source of truth)

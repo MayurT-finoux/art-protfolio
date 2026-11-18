@@ -16,7 +16,7 @@ structure. Phase 2 makes it tidy and correct: remove what isn't needed, fix what
 | A2 | `img()` placeholder helper (always returns "") + its calls | Images were removed; frames already show their fill | none |
 | A3 | Unused exports/types (e.g. `getArtwork`, `r2Bucket`, `Note`, `ArtworkStatus`, `wikimediaImg`, unused `contact.ts` constants) | Dead code found by the audit | none |
 | A4 | `netlify.toml` | Hosting is Vercel | none |
-| A5 | Old notes `docs/phases/Phase1–8.md` → move to `docs/phase-1/` (kept as history) | Clear "Phase 1 / Phase 2" folders matching how you number phases | none |
+| A5 | Old notes `docs/phases/Phase1–8.md` → moved to `docs/phase-1/` (kept as history) | Clear "Phase 1 / Phase 2" folders matching how you number phases | none |
 | A6 | Design folder: the old copies and dropped explorations in `design/` root (v3, v4, v5, v7, HomeCollage, Directions boards, 404 Frame, `_ds/` Nocturne, `nocturne.css`, duplicate `.dc.html` files) — the real source stays `design/design_handoff_yurix_site/` | ~1 MB of files we agreed not to use; avoids confusion | **your call** (they're your design files; git keeps them in history) |
 | A7 | Neon agent skills we don't use (`.claude/skills/neon-auth`, `neon-functions`, `neon-object-storage`, `neon-ai-gateway`) | The brief excludes those Neon products | **your call** |
 | A8 | Sign-in leftovers while login is off: `/api/auth` route, `admin:create` script message ("Sign in at /admin/login") | Login is switched off; keep or remove? | **your call** — I suggest *keep* (one-line switch back on), only fix the message |

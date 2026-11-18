@@ -9,7 +9,7 @@ The design files from Claude Design are the finalized design and the **single so
 
 - Match the design exactly: layout, spacing, typography, colors, animations, and component names. Do NOT redesign, simplify, or "improve" anything visually.
 - If something in the design is unclear or missing, ask — don't guess.
-- Work in phases. Before each phase, explain the plan in `docs/phases/PhaseN.md` and wait for approval.
+- Work in phases. Before each phase, explain the plan in `docs/phase-N/PLAN.md` and wait for approval.
 - Build public pages **one at a time, Home first**. Don't start another page until the current one is done and approved.
 - Don't install libraries outside the stack below without asking.
 - Never commit secrets. Keep all keys in `.env.local` (git-ignored). `.env.example` lists the keys with empty values.
@@ -57,7 +57,7 @@ The design files from Claude Design are the finalized design and the **single so
 9. 404 runner game
 10. SEO, performance, and deployment
 
-Each phase has a plan file in `docs/phases/PhaseN.md`.
+Each phase has its own folder: `docs/phase-1/` (Phase 1 notes, the old Phase1–8 plans) and `docs/phase-2/PLAN.md`.
 
 ## Design files
 
@@ -81,7 +81,7 @@ Only **v6** is in scope: `design/Artist Portfolio v6.dc.html` (identical to `des
 
 ```
 design/                 handoff — reference only, never imported
-docs/phases/            PhaseN.md plan per phase
+docs/phase-N/           plan per phase (phase-1 = history, phase-2 = current)
 drizzle/                generated migrations
 scripts/db-check.mts    database connection test
 src/
