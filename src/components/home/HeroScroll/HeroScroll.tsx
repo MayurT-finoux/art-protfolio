@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -25,9 +25,13 @@ const reducedQuery = "(prefers-reduced-motion: reduce)";
  *   --w     wash to white below the hero
  *   --hide  MusicPlayer hidden once p > 0.05
  * and snaps so the hero never rests half-blurred.
+ *
+ * useLayoutEffect: when Next.js hides the Home page after a navigation (Activity),
+ * the cleanup runs before the next page shows and puts <html> in the finished
+ * state, so the nav is in place on every other page.
  */
 export function HeroScroll() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
     const isMobile = () => window.matchMedia(mobileQuery).matches;
     const isReduced = () => window.matchMedia(reducedQuery).matches;
@@ -38,6 +42,8 @@ export function HeroScroll() {
     let rest: "top" | "done" = "top";
     let snapTween: gsap.core.Tween | null = null;
     let snapTimer: ReturnType<typeof setTimeout> | undefined;
+    // Finger on the screen: never snap under it.
+    let touching = false;
 
     const setP = () => {
       const R = range();
@@ -60,12 +66,22 @@ export function HeroScroll() {
       return Math.max(range(), top - navHeight());
     };
 
-    const cancelSnap = () => {
-      clearTimeout(snapTimer);
+    const stopTween = () => {
       if (snapTween) {
         snapTween.kill();
         snapTween = null;
       }
+    };
+
+    const cancelSnap = () => {
+      clearTimeout(snapTimer);
+      stopTween();
+    };
+
+    // Check for a snap once scrolling has been quiet for SNAP_DEBOUNCE_MS.
+    const scheduleSnap = () => {
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(maybeSnap, SNAP_DEBOUNCE_MS);
     };
 
     const animateTo = (target: number) => {
@@ -89,8 +105,8 @@ export function HeroScroll() {
       });
     };
 
-    const maybeSnap = () => {
-      if (snapTween) return;
+    function maybeSnap() {
+      if (snapTween || touching) return;
       const R = range();
       const y = window.scrollY;
       if (y <= 1) {
@@ -104,36 +120,56 @@ export function HeroScroll() {
       const p = y / R;
       const toDone = rest === "done" ? p >= BACK_THRESHOLD : p >= FORWARD_THRESHOLD;
       animateTo(toDone ? doneY() : 0);
-    };
+    }
 
     const trigger = ScrollTrigger.create({
       start: 0,
       end: "max",
       onUpdate: () => {
         setP();
-        if (snapTween) return;
-        clearTimeout(snapTimer);
-        snapTimer = setTimeout(maybeSnap, SNAP_DEBOUNCE_MS);
+        if (!snapTween) scheduleSnap();
       },
       onRefresh: setP,
     });
 
-    // Any wheel or touch input cancels a running snap.
-    window.addEventListener("wheel", cancelSnap, { passive: true });
-    window.addEventListener("touchstart", cancelSnap, { passive: true });
+    // New input stops a running snap, then re-arms the check. (Trackpad momentum
+    // keeps sending tiny wheel events after the fingers lift; they used to cancel
+    // the pending check without re-arming it, leaving the hero half-blurred.)
+    const onWheel = () => {
+      stopTween();
+      scheduleSnap();
+    };
+    const onTouchStart = () => {
+      touching = true;
+      cancelSnap();
+    };
+    const onTouchEnd = () => {
+      touching = false;
+      scheduleSnap();
+    };
+    window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
 
     // Page may load mid-scroll (scroll restoration).
     rest = window.scrollY >= range() - 1 ? "done" : "top";
     setP();
-    snapTimer = setTimeout(maybeSnap, SNAP_DEBOUNCE_MS);
+    scheduleSnap();
 
     return () => {
       cancelSnap();
       trigger.kill();
-      window.removeEventListener("wheel", cancelSnap);
-      window.removeEventListener("touchstart", cancelSnap);
-      for (const name of ["--p", "--w", "--hide"]) root.style.removeProperty(name);
-      delete root.dataset.player;
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
+      // Finished state (nav in, player hidden). Set inline because the hidden Home
+      // page stays in the document, so the :root:has([data-home]) rule still matches.
+      root.style.setProperty("--p", "1");
+      root.style.setProperty("--w", "1");
+      root.style.setProperty("--hide", "1");
+      root.dataset.player = "hide";
     };
   }, []);
 

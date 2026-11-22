@@ -7,6 +7,9 @@
  *   --hide  MusicPlayer hidden 0/1
  *   --blur / --move / --wash  motion settings (reduced motion: 0px / 0 / 0.84)
  * Pages without the hero show the finished state: nav in, player hidden.
+ * Next.js keeps the Home page in the document (hidden) after navigating away, so
+ * the :has() rule below can still match there; HeroScroll's cleanup then sets the
+ * finished values inline on <html>, which win over it.
  */
 :root {
   --p: 1;

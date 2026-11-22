@@ -42,7 +42,7 @@ Decisions with dates live in the decisions log in [CLAUDE.md](../CLAUDE.md); pha
 | 8 | `/gallery/{slug}` | Follow the design — in [Phase 3 plan](phase-3/PLAN.md) |
 | 9 | 404 page | Plain "404" page as it is now; no game for now |
 | 12 | Instagram | Handle `@yurriiix` (done). API connection later (13) |
-| 13 | Instagram API connection (posts in Fresh, sync) | Later |
+| 13 | Instagram API connection (posts in Fresh, sync) | Later — what Yurix needs to set up is listed below |
 | 14 | Shop | "In progress" page for now (done) |
 | 15 | 404 runner game + its admin screen | Not now |
 | 16 | Loader animation | Later |
@@ -52,3 +52,11 @@ Decisions with dates live in the decisions log in [CLAUDE.md](../CLAUDE.md); pha
 | 21 | Microcopy cursor labels | Removed (done) |
 | 22 | `npm audit` warnings | Fixed: 0 vulnerabilities (done) |
 | — | Phase 2: B5 sample content, B7 player as is, B8 `pre-prod` branch (`main` untouched until development is done) | Done |
+
+## Instagram connection — what's needed (asked 2026-11-22)
+
+1. @yurriiix must be a **Professional account** (Creator or Business): Instagram → Settings → Account type.
+2. A **Meta developer account** (developers.facebook.com, log in with Facebook) → *Create app* (type *Business*) → add the **Instagram** product → *API setup with Instagram login*.
+3. In that setup: *Add account* → log in as @yurriiix → it gets a role on the app (works in development mode for your own account; no app review needed).
+4. Send through `.env.local`, never in chat: **Instagram app ID**, **Instagram app secret**, and the **access token** generated there (long-lived, 60 days).
+5. I build: token stored server-side in the database, refreshed by a daily Vercel Cron job; newest posts fetched (`graph.instagram.com/me/media`) and cached; images copied to R2 (Instagram's image links expire); Fresh + admin Instagram panels show real posts and sync status.
