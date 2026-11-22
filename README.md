@@ -70,6 +70,7 @@ and set `SAMPLE_IMAGES_ON = false`.
 
 - [CLAUDE.md](CLAUDE.md) — project brief, rules, decisions log
 - [docs/phase-1/](docs/phase-1/) — Phase 1 notes (the first build)
+- [docs/DESIGN-REFERENCE.md](docs/DESIGN-REFERENCE.md) — which design file each page/section came from and how it works (for design changes)
 - [docs/NOTES.md](docs/NOTES.md) — all open points, temporary things and decisions-for-later in one list
 - [docs/phase-2/PLAN.md](docs/phase-2/PLAN.md) — Phase 2: clean-up and bug fixes
 - [docs/phase-3/PLAN.md](docs/phase-3/PLAN.md) — Phase 3: animation polish, SEO + performance, gallery links, media domain
